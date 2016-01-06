@@ -1,0 +1,14 @@
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} Polly_app</title>
+    {% else %}
+    <title>Welcome to Polly_app</title>
+    {% endif %}
+  </head>
+  <body>
+    <div> <a href="/index"> My Events </a></div>
+    <hr>
+    {% block content %}{% endblock %}
+  </body>
+</html>

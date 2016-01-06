@@ -1,0 +1,41 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{event.name}}</h1>
+
+<h2> Existing Dates </h2>
+{%for eventdate in eventdates%}
+<p> {{eventdate.date}} {{eventdate.location}} </p>
+{% endfor %}
+
+<h2> New Date </h2>
+
+<form action="" method="post" name="login">
+    {{ form.hidden_tag() }}
+    <p>
+        Date (dd-mm-yyyy):<br>
+        {{ form.date(size=80) }}
+        {% for error in form.date.errors %}
+          <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+	 <p>
+        Time (HH:MM):<br>
+        {{ form.time(size=80) }}
+        {% for error in form.time.errors %}
+          <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+	<p>
+        Location:<br>
+        {{ form.location(size=80) }}
+        {% for error in form.location.errors %}
+          <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p><input type="submit" value="Submit"></p>
+</form>
+
+<li> <a href= "{{url_for("invites", event_id = event.id)}}"> Invite people</a> </li>
+{% endblock %}

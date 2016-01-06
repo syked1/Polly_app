@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1> {{ event.name }} </h1>
+	<h2> Event Dates </h2>
+	{%for eventdate in eventdates%}
+	
+	<p> {{eventdate.date}}  {{eventdate.location}} {%if eventdate.confirmed == True%}  Confirmed {%endif%}    </p> 
+	<li> <a href= "{{url_for("confirm_date", eventdate_id = eventdate.id)}}">  Confirm Date </a>  </li>	
+	
+	{%for invitee in invitees%}
+	
+	{%if invitee.eventdate.id == eventdate.id%} 
+	
+	<p> {{invitee.user.firstname}} {{invitee.user.surname}}  {{invitee.status}}  </p>  
+	
+	{%endif%}
+	{%endfor%}
+	
+	{%endfor%}
+	
+
+	
+	
+	<li> <a href="/logout">Logout</a> </li>
+
+{% endblock %}

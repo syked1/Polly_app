@@ -1,0 +1,25 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{event.name}}</h1>
+
+<h2> Existing Dates </h2>
+{%for eventdate in eventdates%}
+<p> {{eventdate.date}} {{eventdate.location}} </p>
+{% endfor %}
+
+<h2> Invite People </h2>
+<form action="" method="post" name="login">
+    {{ form.hidden_tag() }}
+    <p>
+        Pick People:<br>
+        {{ form.invites(size=80) }}
+        {% for error in form.invites.errors %}
+          <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p><input type="submit" value="Submit"></p>
+</form>
+
+{% endblock %}

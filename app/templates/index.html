@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Hi {{ user.firstname }} {{user.surname}}!</h1>
+	<li> <a href="/new_event">Create New Event</a> </li>
+	<li> <a href="/logout">Logout</a> </li>
+	<div>	
+	
+	<h2> Upcoming Events </h2>
+	{%for event in events%}
+	{%if event.admin_id == current_user.id%}
+	<li> <a href= "{{url_for("event_details", event_id = event.id)}}">  {{event.name}} (admin) </a>  
+	{%else%}
+	<li> <a href= "{{url_for("event_details", event_id = event.id)}}">  {{event.name}} </a>
+	{%endif%}
+	
+	{%endfor%} </div>
+{% endblock %}

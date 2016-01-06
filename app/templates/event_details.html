@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1> {{ event.name }} </h1>
+	<h2> Event Dates </h2>
+	{%for eventdate in eventdates%}
+	
+	<p> {{eventdate.date}}  {{eventdate.location}}     </p>  
+	
+	{%for invitee in invitees%}
+	
+	{%if invitee.eventdate.id == eventdate.id%} 
+	
+	<p> {{invitee.user.firstname}} {{invitee.user.surname}}  {{invitee.status}}  </p>  
+	
+	{%endif%}
+	{%endfor%}
+	
+	{%endfor%}
+	
+	<h2> Invited </h2>
+	
+	
+	<li> <a href="/logout">Logout</a> </li>
+
+{% endblock %}
