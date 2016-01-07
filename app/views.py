@@ -13,10 +13,11 @@ def index():
 	admin_events = Event.query.filter_by(admin_id = current_user.id).all()
 	events = []
 	for invite in invites:
-		if invite.eventdate.event not in events:
+		if invite.eventdate.event not in events and invite.eventdate.event.deleted == False:
 			events.append(invite.eventdate.event)
 	for admin_event in admin_events:
-		events.append(admin_event)
+		if admin_event.deleted == False:
+			events.append(admin_event)
 	return render_template("index.html",user = current_user, events = events)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -135,5 +136,17 @@ def confirm_date(eventdate_id):
 				db.session.add(ed)
 		db.session.commit()
 		return redirect(url_for("event_details", event_id = chosen_eventdate.event_id))
+	else:
+		return "you are not the admin for this event"
+
+@app.route('/delete_event/<int:event_id>', methods=['GET', 'POST'])
+@login_required
+def delete_event(event_id):
+	event_to_delete = Event.query.filter_by(id = event_id).first()
+	if current_user.id == event_to_delete.admin_id:
+		event_to_delete.deleted = True
+		db.session.add(event_to_delete)
+		db.session.commit()
+		return redirect(url_for("index"))
 	else:
 		return "you are not the admin for this event"

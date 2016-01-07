@@ -39,6 +39,7 @@ class Event(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(120), unique=False)
 	admin_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+	deleted = db.Column(db.Boolean, unique=False, default = False)
 	eventdates = db.relationship('EventDate', backref=db.backref('event', lazy='select'))  #RELATIONSHIP DECLARATION
 	def __repr__(self):
 		return '<Event %r>' % (self.name)
@@ -49,7 +50,7 @@ class EventDate(db.Model):
 	event_id = db.Column(db.Integer, db.ForeignKey("events.id"))  
 	date = db.Column(db.DateTime, unique=False)
 	location = db.Column(db.String(120), unique=False)
-	confirmed = db.Column(db.Boolean, unique=False)
+	confirmed = db.Column(db.Boolean, unique=False, default = False)
 	eventinvites = db.relationship('EventInvite', backref=db.backref('eventdate', lazy='select'))  #RELATIONSHIP DECLARATION
 	def __repr__(self):
 		return '<EventDate %r>' % (self.date)
