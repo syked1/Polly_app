@@ -1,17 +1,10 @@
 <!-- extend base layout -->
 {% extends "base.html" %}
+{%import "bootstrap/wtf.html" as wtf%}
 
 {% block content %}
-<h1>New Event</h1>
-<form action="" method="post" name="login">
-    {{ form.hidden_tag() }}
-    <p>
-        New Event Name:<br>
-        {{ form.name(size=80) }}
-        {% for error in form.name.errors %}
-          <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p><input type="submit" value="Submit"></p>
-</form>
+<div class="col-sm-4">
+	{{wtf.quick_form(form)}}
+</div>
+
 {% endblock %}

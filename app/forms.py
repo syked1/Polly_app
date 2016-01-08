@@ -8,12 +8,15 @@ class LoginForm(Form):
 	password = PasswordField("password", validators = [Required()] )
 
 class EventForm(Form):
-	name = StringField("Name", validators=[Required()])
+	name = StringField("Event Name", validators=[Required()])
+	submit = SubmitField("Pick Dates")
 
 class EventDateForm(Form):
-	date = DateField("EventDate", format = '%d-%m-%Y', validators=[Required()])
-	time = StringField("EventTime", validators=[Required()] )
-	location = StringField('location', validators = [Required()] )
+	date = DateField("Event Date (dd-mm-yy)", format = '%d-%m-%Y', validators=[Required()])
+	time = StringField("Event Time (HH:MM)", validators=[Required()] )
+	location = StringField('Location', validators = [Required()] )
+	submit = SubmitField("Save Date Option")
 	
 class InvitesForm(Form):
 	invites = SelectMultipleField("Invites", coerce = int)
+	submit = SubmitField("Send Invites")

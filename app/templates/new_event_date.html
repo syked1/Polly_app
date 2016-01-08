@@ -1,41 +1,31 @@
 <!-- extend base layout -->
 {% extends "base.html" %}
-
+{%import "bootstrap/wtf.html" as wtf%}
 {% block content %}
-<h1>{{event.name}}</h1>
 
-<h2> Existing Dates </h2>
-{%for eventdate in eventdates%}
-<p> {{eventdate.date}} {{eventdate.location}} </p>
-{% endfor %}
 
-<h2> New Date </h2>
+<div class = "container">
+	<h1>{{event.name}}</h1>
+	<div class = "row">
+		<div class="col-sm-12">
+			{{wtf.quick_form(form)}}
+		</div>
+	</div>
+	
 
-<form action="" method="post" name="login">
-    {{ form.hidden_tag() }}
-    <p>
-        Date (dd-mm-yyyy):<br>
-        {{ form.date(size=80) }}
-        {% for error in form.date.errors %}
-          <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-	 <p>
-        Time (HH:MM):<br>
-        {{ form.time(size=80) }}
-        {% for error in form.time.errors %}
-          <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-	<p>
-        Location:<br>
-        {{ form.location(size=80) }}
-        {% for error in form.location.errors %}
-          <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p><input type="submit" value="Submit"></p>
-</form>
-
-<li> <a href= "{{url_for("invites", event_id = event.id)}}"> Invite people</a> </li>
+	<div class = "row">
+		<div class = "col-sm-12"> 
+			<h3> Existing Date Options </h3>
+		</div>
+		{%for eventdate in eventdates%}
+		<div class = "col-sm-12"> {{eventdate.date.strftime("%I:%M %p")}} on {{eventdate.date.strftime("%A %d %B %Y")}} at {{eventdate.location}} </div>
+	{% endfor %}
+	</div>
+	
+		<div class = "row">
+		<div class = "col-sm-12"> 
+			<a href = "{{url_for("invites", event_id = event.id)}}" class = "btn btn-default"> Invite People</a>
+		</div>
+	</div>
+</div>
 {% endblock %}

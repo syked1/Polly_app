@@ -1,39 +1,49 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1> {{ event.name }} </h1>
-	<h2> Event Dates </h2>
+  
+ <div class = "container">
+	<div class = "row">
+		<h2> {{ event.name }} </h2>
+	</div>
 	{%for eventdate in eventdates%}
-	
-	<p> {{eventdate.date}}  {{eventdate.location}} {%if eventdate.confirmed == True%}  Confirmed {%endif%}
-	
-	{%for invitee in invitees%}
-	
-	{%if invitee.eventdate.id == eventdate.id and invitee.invited_id == current_user.id %} 
+	<div class = "row">
+		<div class = "col-sm-12">
+			<div class = "row">
+			{{eventdate.date.strftime("%I:%M %p")}} on {{eventdate.date.strftime("%A %d %B %Y")}} at {{eventdate.location}}
+			</div>
+			<div class = "row">
+			{%for invitee in invitees%}
+			{%if invitee.eventdate.id == eventdate.id and invitee.invited_id == current_user.id %} 	
+				<div class = "col-xs-6">
+					{%if invitee.status == 1%}
+					<a href="{{url_for("confirm_attending", eventinvite_id = invitee.id)}}" class="btn btn-primary btn-block ">
+						Yes
+					</a>
+					{%elif invitee.status != 1%}
+					<a href="{{url_for("confirm_attending", eventinvite_id = invitee.id)}}" class="btn btn-default btn-block ">
+						Yes
+					</a>
+					{%endif%}
+				</div>
+				<div class = "col-xs-6">
+					{%if invitee.status == -1%}
+					<a href="{{url_for("cant_make_it", eventinvite_id = invitee.id)}}" class="btn btn-primary btn-block ">
+						No
+					</a>
+					{%elif invitee.status != -1%}
+					<a href="{{url_for("cant_make_it", eventinvite_id = invitee.id)}}" class="btn btn-default btn-block ">
+						No
+					</a>
+					{%endif%}
+					
+				{%endif%}
+				{%endfor%}		
+				</div>
+			</div>
+		</div>
+	</div>
+	{%endfor%}
+</div>
 
-	
-	{{invitee.status}} </p>
-	<li> <a href= "{{url_for("confirm_attending", eventinvite_id = invitee.id)}}">  Attending </a>  </li>
-	
-	<li> <a href= "{{url_for("cant_make_it", eventinvite_id = invitee.id)}}">  Can't Make It </a>  </li>
-	 
-	{%endif%}
-	{%endfor%}
- 
-	
-	{%for invitee in invitees%}
-	
-	{%if invitee.eventdate.id == eventdate.id and invitee.invited_id != current_user.id%} 
-	
-	<p> {{invitee.user.firstname}} {{invitee.user.surname}}  {{invitee.status}}  </p>  
-	
-	{%endif%}
-	{%endfor%}
-	
-	{%endfor%}
-	
-
-	
-	
-	<li> <a href="/logout">Logout</a> </li>
 
 {% endblock %}

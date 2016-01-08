@@ -19,11 +19,11 @@ def index():
 	for admin_event in admin_events:
 		if admin_event.deleted == False:
 			admin_eventdates = EventDate.query.filter_by(event_id = admin_event.id).all()
-			events_dict[admin_event.id] = {"event":admin_event,"eventdates":admin_eventdates, "confirmed":False, "confirmed_date":None, "admin":True , "replied":True}
+			events_dict[admin_event.id] = {"event":admin_event,"eventdates":admin_eventdates, "confirmed":False, "confirmed_date":None, "admin":True , "replied":True, "attending":True}
 			for eventdate in admin_eventdates:
 				if eventdate.confirmed:
 					events_dict[admin_event.id]["confirmed"] = True
-					events_dict[admin_event.id]["confirmed_date"] = event_date.date
+					events_dict[admin_event.id]["confirmed_date"] = eventdate.date
 	for invited_event in invited_events:
 		if invited_event.deleted == False:
 			invited_eventdates = EventDate.query.filter_by(event_id = invited_event.id).all()
@@ -32,14 +32,19 @@ def index():
 				eventinvites = EventInvite.query.filter_by(eventdate_id = eventdate.id, invited_id = current_user.id)
 				if eventdate.confirmed:
 					events_dict[invited_event.id]["confirmed"] = True
-					events_dict[invited_event.id]["confirmed_date"] = event_date.date
+					events_dict[invited_event.id]["confirmed_date"] = eventdate.date
 				for invite in eventinvites:
 					if invite.status == 1:
 						events_dict[invited_event.id]["replied"] = True
 						if eventdate.confirmed:
 							events_dict[invited_event.id]["attending"] = True
+					if invite.status == -1:
+						events_dict[invited_event.id]["replied"] = True
+						if eventdate.confirmed:
+							events_dict[invited_event.id]["attending"] = False
+					
 	print events_dict
-	return render_template("index_backup.html",user = current_user, events_dict = events_dict)
+	return render_template("index.html",user = current_user, events_dict = events_dict)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -88,9 +93,10 @@ def invites(event_id):
 	form = InvitesForm()
 	possible_invites = []
 	for user in User.query.filter_by(group = current_user.group).all():
-		name = "%s %s" % (user.firstname, user.surname)
-		name_tuple = (user.id, name)
-		possible_invites.append(name_tuple)
+		if user != current_user:
+			name = "%s %s" % (user.firstname, user.surname)
+			name_tuple = (user.id, name)
+			possible_invites.append(name_tuple)
 	form.invites.choices = possible_invites
 	eventdates = EventDate.query.filter_by(event_id = event_id).all()
 	event = Event.query.filter_by(id = event_id).first()
