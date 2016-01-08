@@ -11,14 +11,35 @@ import datetime
 def index():
 	invites = EventInvite.query.filter_by(invited_id = current_user.id).all()
 	admin_events = Event.query.filter_by(admin_id = current_user.id).all()
-	events = []
+	invited_events = []
 	for invite in invites:
-		if invite.eventdate.event not in events and invite.eventdate.event.deleted == False:
-			events.append(invite.eventdate.event)
+		if invite.eventdate.event not in invited_events:
+			invited_events.append(invite.eventdate.event)
+	events_dict = {}
 	for admin_event in admin_events:
 		if admin_event.deleted == False:
-			events.append(admin_event)
-	return render_template("index.html",user = current_user, events = events)
+			admin_eventdates = EventDate.query.filter_by(event_id = admin_event.id).all()
+			events_dict[admin_event.id] = {"event":admin_event,"eventdates":admin_eventdates, "confirmed":False, "confirmed_date":None, "admin":True , "replied":True}
+			for eventdate in admin_eventdates:
+				if eventdate.confirmed:
+					events_dict[admin_event.id]["confirmed"] = True
+					events_dict[admin_event.id]["confirmed_date"] = event_date.date
+	for invited_event in invited_events:
+		if invited_event.deleted == False:
+			invited_eventdates = EventDate.query.filter_by(event_id = invited_event.id).all()
+			events_dict[invited_event.id] = {"event":invited_event,"eventdates":invited_eventdates, "confirmed":False, "confirmed_date":None, "admin":False , "replied":False, "attending":False}
+			for eventdate in invited_eventdates:
+				eventinvites = EventInvite.query.filter_by(eventdate_id = eventdate.id, invited_id = current_user.id)
+				if eventdate.confirmed:
+					events_dict[invited_event.id]["confirmed"] = True
+					events_dict[invited_event.id]["confirmed_date"] = event_date.date
+				for invite in eventinvites:
+					if invite.status == 1:
+						events_dict[invited_event.id]["replied"] = True
+						if eventdate.confirmed:
+							events_dict[invited_event.id]["attending"] = True
+	print events_dict
+	return render_template("index_backup.html",user = current_user, events_dict = events_dict)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
