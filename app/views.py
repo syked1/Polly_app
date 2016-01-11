@@ -85,7 +85,7 @@ def new_event_date(event_id):
 		return redirect(url_for('new_event_date', event_id=event_id))
 	eventdates = EventDate.query.filter_by(event_id = event_id).all()
 	event = Event.query.filter_by(id = event_id).first()
-	return render_template("new_event_date.html", title="New Event Date", form = form, event = event , eventdates = eventdates)
+	return render_template("new_event_date_test.html", title="New Event Date", form = form, event = event , eventdates = eventdates)
 
 @app.route('/invites/<int:event_id>', methods=['GET', 'POST'])
 @login_required

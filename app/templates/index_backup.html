@@ -1,0 +1,139 @@
+
+{% extends "base.html" %}
+{% block content %}
+    <h1>Hi {{ user.firstname }} {{user.surname}}!</h1>
+	<li> <a href="/new_event">Create New Event</a> </li>
+	<li> <a href="/logout">Logout</a> </li>
+	<div>	
+	
+	<h2> Upcoming Events </h2>
+	{%for key in events_dict.keys()%}
+	<p> {{events_dict[key]["event"].name}} Confirmed: {{events_dict[key]["confirmed"]}} 
+	Admin: {{events_dict[key]["confirmed"]}} Attending: {{events_dict[key]["attending"]}}
+	Replied: {{events_dict[key]["replied"]}}</p>
+	
+	
+
+	{%endfor%} </div>
+{% endblock %}
+
+{% block navbar %} 
+<div class = "navbar navbar-inverse" role = "navigation">
+	<div class = "container">
+		<div class = "navbar-header">
+			<button type = "button" class="navbar-toggle" data-toggle="collapse" data-target = ".navbar-collapse">
+				<span class = "sr-only"> Toggle navigation</span>
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+			</button>
+		<a class = "navbar-brand" href = "{{url_for("index")}}"> Polly App </a>
+		</div>
+		<div class = "navbar-collapse collapse">
+			<ul class = "nav navbar-nav">
+				<li><a href = "{{url_for("index")}}"> My Events </a></li>
+				<li><a href = "{{url_for("logout")}}"> Logout </a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>New Event</h1>
+<form action="" method="post" name="login">
+    {{ form.hidden_tag() }}
+    <p>
+        New Event Name:<br>
+        {{ form.name(size=80) }}
+        {% for error in form.name.errors %}
+          <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p><input type="submit" value="Submit"></p>
+</form>
+{% endblock %}
+
+
+{% block content %}
+<h1>{{event.name}}</h1>
+
+<h2> Existing Dates </h2>
+{%for eventdate in eventdates%}
+<p> {{eventdate.date}} {{eventdate.location}} </p>
+{% endfor %}
+
+<h2> New Date </h2>
+
+<form action="" method="post" name="login">
+    {{ form.hidden_tag() }}
+    <p>
+        Date (dd-mm-yyyy):<br>
+        {{ form.date(size=80) }}
+        {% for error in form.date.errors %}
+          <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+	 <p>
+        Time (HH:MM):<br>
+        {{ form.time(size=80) }}
+        {% for error in form.time.errors %}
+          <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+	<p>
+        Location:<br>
+        {{ form.location(size=80) }}
+        {% for error in form.location.errors %}
+          <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p><input type="submit" value="Submit"></p>
+</form>
+
+<li> <a href= "{{url_for("invites", event_id = event.id)}}"> Invite people</a> </li>
+{% endblock %}
+
+
+
+
+
+
+   <h1> {{ event.name }} </h1>
+	<h2> Event Dates </h2>
+	{%for eventdate in eventdates%}
+	
+	<p> {{eventdate.date}}  {{eventdate.location}} {%if eventdate.confirmed == True%}  Confirmed {%endif%}
+	
+	{%for invitee in invitees%}
+	
+	{%if invitee.eventdate.id == eventdate.id and invitee.invited_id == current_user.id %} 
+
+	
+	{{invitee.status}} </p>
+	<li> <a href= "{{url_for("confirm_attending", eventinvite_id = invitee.id)}}">  Attending </a>  </li>
+	
+	<li> <a href= "{{url_for("cant_make_it", eventinvite_id = invitee.id)}}">  Can't Make It </a>  </li>
+	 
+	{%endif%}
+	{%endfor%}
+ 
+	
+	{%for invitee in invitees%}
+	
+	{%if invitee.eventdate.id == eventdate.id and invitee.invited_id != current_user.id%} 
+	
+	<p> {{invitee.user.firstname}} {{invitee.user.surname}}  {{invitee.status}}  </p>  
+	
+	{%endif%}
+	{%endfor%}
+	
+	{%endfor%}
+	
+
+	
+	
+	<li> <a href="/logout">Logout</a> </li>
