@@ -14,9 +14,7 @@ class EventForm(Form):
 	submit = SubmitField("Pick Dates")
 
 class EventDateForm(Form):
-	date = DateField("Event Date")
-	#time = DateTimeField("Event Time", format = "%H:%M", validators=[Required()])
-	time = StringField("Event Time (HH:MM)", validators=[Required()] )
+	date = StringField("Event Date")
 	location = StringField('Location', validators = [Required()] )
 	submit = SubmitField("Save Date Option")
 	

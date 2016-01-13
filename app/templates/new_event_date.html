@@ -1,31 +1,51 @@
 <!-- extend base layout -->
-{% extends "base.html" %}
-{%import "bootstrap/wtf.html" as wtf%}
-{% block content %}
+{% extends "base_test.html" %}
 
+{%block content%}
 
 <div class = "container">
-	<h1>{{event.name}}</h1>
-	<div class = "row">
-		<div class="col-sm-12">
-			{{wtf.quick_form(form)}}
+	
+	<form action="" method="post">
+		{{ form.hidden_tag() }}
+		<div class = "row">
+			<div class = "col-xs-6">
+				<h3> Pick Date and Time </h3>
+				<div class="form-group">
+					<div class='input-group date' id='datetimepicker1'>
+						{{ form.date(class ="form-control") }}
+						<span class="input-group-addon">	
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
+		<div class = "row">
+			<div class = "col-xs-6">	
+				<h3> Location </h3>
+				{{form.location}}
+			</div>
+		</div>
+		<div class = "row">
+			<div class = "col-xs-6">	
+				{{form.submit}}
+			</div>
+		</div>	
+	</form>
+</div>
+
+		<script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
+
+{%for eventdate in eventdates%}
+{{eventdate.date}}
+{{eventdate.location}}
+{%endfor%}
+
 	
 
-	<div class = "row">
-		<div class = "col-sm-12"> 
-			<h3> Existing Date Options </h3>
-		</div>
-		{%for eventdate in eventdates%}
-		<div class = "col-sm-12"> {{eventdate.date.strftime("%I:%M %p")}} on {{eventdate.date.strftime("%A %d %B %Y")}} at {{eventdate.location}} </div>
-	{% endfor %}
-	</div>
-	
-		<div class = "row">
-		<div class = "col-sm-12"> 
-			<a href = "{{url_for("invites", event_id = event.id)}}" class = "btn btn-default"> Invite People</a>
-		</div>
-	</div>
-</div>
+
 {% endblock %}

@@ -77,15 +77,14 @@ def new_event():
 def new_event_date(event_id):
 	form = EventDateForm()
 	if form.validate_on_submit():
-		time = datetime.datetime.strptime(form.time.data, '%H:%M').time()
-		date = datetime.datetime.combine(form.date.data,time)
+		date = datetime.datetime.strptime(form.date.data, '%m/%d/%Y %I:%M %p')
 		eventdate = EventDate(event_id = event_id, date = date, location = form.location.data)
 		db.session.add(eventdate)
 		db.session.commit()
 		return redirect(url_for('new_event_date', event_id=event_id))
 	eventdates = EventDate.query.filter_by(event_id = event_id).all()
 	event = Event.query.filter_by(id = event_id).first()
-	return render_template("new_event_date_test.html", title="New Event Date", form = form, event = event , eventdates = eventdates)
+	return render_template("new_event_date.html", title="New Event Date", form = form, event = event , eventdates = eventdates)
 
 @app.route('/invites/<int:event_id>', methods=['GET', 'POST'])
 @login_required
