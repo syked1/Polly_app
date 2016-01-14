@@ -100,6 +100,7 @@ def invites(event_id):
 	eventdates = EventDate.query.filter_by(event_id = event_id).all()
 	event = Event.query.filter_by(id = event_id).first()
 	if form.validate_on_submit():
+		print "validated"
 		invitees = form.invites.data
 		for eventdate in eventdates:
 			eventdate_id = eventdate.id
@@ -108,7 +109,7 @@ def invites(event_id):
 				db.session.add(event_invite)
 		db.session.commit()
 		return redirect(url_for('index'))
-	return render_template("invites.html", title="Invites", event = event , form = form, eventdates = eventdates, possible_invites = possible_invites)
+	return render_template("invites_test.html", title="Invites", event = event , form = form, eventdates = eventdates, possible_invites = possible_invites)
 	
 @app.route('/event_details/<int:event_id>', methods=['GET', 'POST'])
 @login_required
