@@ -5,48 +5,63 @@
 {% block content %}
 <div class="container">
   <div class="row">
-    {%for key in events_dict.keys()%}
+    {%for a in id_date_list%}
+	
+	{%if events_dict[a[0]]["past"]==False%}
 	<div class="col-sm-4">
-	{%if events_dict[key]["replied"] == False%}
-		<a href="{{url_for("event_details", event_id = events_dict[key]["event"].id)}}" class="btn btn-default btn-block ">
-		<p> {{events_dict[key]["event"].name}}</p>
-		<p>{% if events_dict[key]["admin"]%} Admin  {%endif%}  
-		{% if events_dict[key]["eventdates"]| length > 1%} Multiple Dates 
-		{% elif events_dict[key]["eventdates"]| length == 1%} Single Date
-		{%endif%} </p>
+	{%if events_dict[a[0]]["replied"] == False%}
+		<a href="{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default btn-block ">
+		<p> {{events_dict[a[0]]["event"].name}}{% if events_dict[a[0]]["admin"]%} (Admin)  {%endif%}</p>
+		<p> {%if events_dict[a[0]]["confirmed"]%}
+				{{events_dict[a[0]]["confirmed_date"].strftime("%a %d %b")}}
+			{%else%}
+				{%for eventdate in events_dict[a[0]]["eventdates"]%}
+					{{eventdate.date.strftime("%a %d %b")}}, 
+				{%endfor%}
+			{%endif%} </p>
+		</a>
+
+	
+	{%	elif events_dict[a[0]]["replied"] == True and events_dict[a[0]]["confirmed"] == False%}
+		<a href="{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary btn-block ">
+		<p> {{events_dict[a[0]]["event"].name}}{% if events_dict[a[0]]["admin"]%} (Admin)  {%endif%}</p>
+		<p> {%if events_dict[a[0]]["confirmed"]%}
+				{{events_dict[a[0]]["confirmed_date"].strftime("%a %d %b")}}
+			{%else%}
+				{%for eventdate in events_dict[a[0]]["eventdates"]%}
+					{{eventdate.date.strftime("%a %d %b")}}, 
+				{%endfor%}
+			{%endif%} </p>
 		</a>
 	
-	{%	elif events_dict[key]["replied"] == True and events_dict[key]["confirmed"] == False%}
-		<a href="{{url_for("event_details", event_id = events_dict[key]["event"].id)}}" class="btn btn-primary btn-block ">
-		<p> {{events_dict[key]["event"].name}}</p>
-		<p>{% if events_dict[key]["admin"]%} Admin  {%endif%}  
-		{% if events_dict[key]["eventdates"]| length > 1%} Multiple Dates 
-		{% elif events_dict[key]["eventdates"]| length == 1%} Single Date
-		{%endif%} </p>
+	{%	elif events_dict[a[0]]["replied"] == True and events_dict[a[0]]["confirmed"] == True and events_dict[a[0]]["attending"] == False%}
+		<a href="{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-danger btn-block ">
+		<p> {{events_dict[a[0]]["event"].name}} {% if events_dict[a[0]]["admin"]%} (Admin)  {%endif%}</p>
+		<p> {%if events_dict[a[0]]["confirmed"]%}
+				{{events_dict[a[0]]["confirmed_date"].strftime("%a %d %b")}}
+			{%else%}
+				{%for eventdate in events_dict[a[0]]["eventdates"]%}
+					{{eventdate.date.strftime("%a %d %b")}}, 
+				{%endfor%}
+			{%endif%} </p>
 		</a>
 	
-	{%	elif events_dict[key]["replied"] == True and events_dict[key]["confirmed"] == True and events_dict[key]["attending"] == False%}
-		<a href="{{url_for("event_details", event_id = events_dict[key]["event"].id)}}" class="btn btn-danger btn-block ">
-		<p> {{events_dict[key]["event"].name}}</p>
-		<p>{% if events_dict[key]["admin"]%} Admin  {%endif%}  
-		{% if events_dict[key]["eventdates"]| length > 1%} Multiple Dates 
-		{% elif events_dict[key]["eventdates"]| length == 1%} Single Date
-		{%endif%} </p>
-		</a>
-	
-	{%	elif events_dict[key]["replied"] == True and events_dict[key]["confirmed"] == True and events_dict[key]["attending"] == True%}
-		<a href="{{url_for("event_details", event_id = events_dict[key]["event"].id)}}" class="btn btn-success btn-block ">
-		<p> {{events_dict[key]["event"].name}}</p>
-		<p>{% if events_dict[key]["admin"]%} Admin  {%endif%}  
-		{% if events_dict[key]["eventdates"]| length > 1%} Multiple Dates 
-		{% elif events_dict[key]["eventdates"]| length == 1%} Single Date
-		{%endif%} </p>
+	{%	elif events_dict[a[0]]["replied"] == True and events_dict[a[0]]["confirmed"] == True and events_dict[a[0]]["attending"] == True%}
+		<a href="{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-success btn-block ">
+		<p> {{events_dict[a[0]]["event"].name}} {% if events_dict[a[0]]["admin"]%} (Admin)  {%endif%}</p>
+		<p> {%if events_dict[a[0]]["confirmed"]%}
+				{{events_dict[a[0]]["confirmed_date"].strftime("%a %d %b")}}
+			{%else%}
+				{%for eventdate in events_dict[a[0]]["eventdates"]%}
+					{{eventdate.date.strftime("%a %d %b")}}, 
+				{%endfor%}
+			{%endif%} </p>
 		</a>
 	
 	{%endif%}
-	
-	
 	</div>
+	{%endif%}
+	
 	
 	{%endfor%}
 	

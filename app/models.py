@@ -40,6 +40,7 @@ class Event(db.Model):
 	name = db.Column(db.String(120), unique=False)
 	admin_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 	deleted = db.Column(db.Boolean, unique=False, default = False)
+	invites_sent = db.Column(db.Boolean, unique=False, default = False)
 	eventdates = db.relationship('EventDate', backref=db.backref('event', lazy='select'))  #RELATIONSHIP DECLARATION
 	def __repr__(self):
 		return '<Event %r>' % (self.name)

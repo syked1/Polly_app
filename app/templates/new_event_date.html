@@ -3,6 +3,9 @@
 
 {%block content%}
 
+
+
+
 <div class = "container">
 	
 	<form action="" method="post">
@@ -27,16 +30,29 @@
 <a href="{{url_for("invites", event_id = event.id)}}" class="btn btn-default btn-block "> Invite People </a>
 </div>
 
+<div class = "container" style = "padding-top:20px;">
+	{%for eventdate in eventdates%}
+		<div class = "row" style="padding-top:10px;">
+		<div class = "btn-group">
+			<div class = "btn-group">
+				<button type = "button" class = "btn btn-default disabled">
+					{{eventdate.date.strftime("%I%p %a %d %b")}} at {{eventdate.location}}
+				</button>
+			</div>
+			<a href = "{{url_for("delete_eventdate", eventdate_id = eventdate.id)}}" class="btn btn-danger"> Delete</a>
+		</div>
+		</div>
+	{%endfor%}
+</div>
+
+
+
 		<script type="text/javascript">
             $(function () {
                 $('#datetimepicker1').datetimepicker();
             });
         </script>
 
-{%for eventdate in eventdates%}
-{{eventdate.date}}
-{{eventdate.location}}
-{%endfor%}
 
 
 

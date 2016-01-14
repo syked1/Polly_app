@@ -12,27 +12,47 @@ def index():
 	invites = EventInvite.query.filter_by(invited_id = current_user.id).all()
 	admin_events = Event.query.filter_by(admin_id = current_user.id).all()
 	invited_events = []
+	#Make a unique list of events invited to
 	for invite in invites:
 		if invite.eventdate.event not in invited_events:
 			invited_events.append(invite.eventdate.event)
+	#Create events dictionary to be passed to the template
 	events_dict = {}
+	#Add admin events to the dictionary
 	for admin_event in admin_events:
-		if admin_event.deleted == False:
+		print admin_event.name
+		#Check if deleted and invite process completed
+		if admin_event.deleted == False and admin_event.invites_sent:
 			admin_eventdates = EventDate.query.filter_by(event_id = admin_event.id).all()
-			events_dict[admin_event.id] = {"event":admin_event,"eventdates":admin_eventdates, "confirmed":False, "confirmed_date":None, "admin":True , "replied":True, "attending":True}
+			admin_eventdates.sort(key= lambda r: r.date)
+			events_dict[admin_event.id] = {"event":admin_event,"eventdates":admin_eventdates, "confirmed":False, "confirmed_date":None, "admin":True , "replied":True, "attending":True, "past":False}
+			#Check if it's been confirmed
 			for eventdate in admin_eventdates:
 				if eventdate.confirmed:
 					events_dict[admin_event.id]["confirmed"] = True
 					events_dict[admin_event.id]["confirmed_date"] = eventdate.date
+			#Check if it's in the past
+			if events_dict[admin_event.id]["confirmed"] == True:
+				if events_dict[admin_event.id]["confirmed_date"] < datetime.datetime.now():
+					events_dict[admin_event.id]["past"] = True
+			elif events_dict[admin_event.id]["confirmed"] == False:
+				print "Eventdates list...",[a.date for a in admin_eventdates]
+				if max([a.date for a in admin_eventdates]) <  datetime.datetime.now():
+					events_dict[admin_event.id]["past"] = True
+	#Add non-admin events				
 	for invited_event in invited_events:
+		#Check it's not been deleted
 		if invited_event.deleted == False:
 			invited_eventdates = EventDate.query.filter_by(event_id = invited_event.id).all()
-			events_dict[invited_event.id] = {"event":invited_event,"eventdates":invited_eventdates, "confirmed":False, "confirmed_date":None, "admin":False , "replied":False, "attending":False}
+			invited_eventdates.sort(key= lambda r: r.date)
+			events_dict[invited_event.id] = {"event":invited_event,"eventdates":invited_eventdates, "confirmed":False, "confirmed_date":None, "admin":False , "replied":False, "attending":False, "past":False}
 			for eventdate in invited_eventdates:
 				eventinvites = EventInvite.query.filter_by(eventdate_id = eventdate.id, invited_id = current_user.id)
+				#Check if confirmed
 				if eventdate.confirmed:
 					events_dict[invited_event.id]["confirmed"] = True
 					events_dict[invited_event.id]["confirmed_date"] = eventdate.date
+				#Check if replied and whether you can make the confirmed date
 				for invite in eventinvites:
 					if invite.status == 1:
 						events_dict[invited_event.id]["replied"] = True
@@ -42,9 +62,26 @@ def index():
 						events_dict[invited_event.id]["replied"] = True
 						if eventdate.confirmed:
 							events_dict[invited_event.id]["attending"] = False
-					
-	print events_dict
-	return render_template("index.html",user = current_user, events_dict = events_dict)
+			#Check if it's in the past
+			if events_dict[invited_event.id]["confirmed"] == True:
+				if events_dict[invited_event.id]["confirmed_date"] < datetime.datetime.now():
+					events_dict[invited_event.id]["past"] = True
+			elif events_dict[invited_event.id]["confirmed"] == False:
+				if max([a.date for a in invited_eventdates]) <  datetime.datetime.now():
+					events_dict[invited_event.id]["past"] = True		
+	
+	#return list of event_id and date and sort by date
+	id_date_list = []
+	for key in events_dict:
+		if events_dict[key]["confirmed"]:
+			id_date_list.append((key,events_dict[key]["confirmed_date"]))
+		else:
+			event_dates = events_dict[key]["eventdates"]
+			id_date_list.append((key,min([a.date for a in event_dates])))
+	print id_date_list
+	id_date_list.sort(key= lambda r: r[1])
+	print id_date_list
+	return render_template("index.html",user = current_user, events_dict = events_dict, id_date_list = id_date_list)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -83,8 +120,16 @@ def new_event_date(event_id):
 		db.session.commit()
 		return redirect(url_for('new_event_date', event_id=event_id))
 	eventdates = EventDate.query.filter_by(event_id = event_id).all()
+	eventdates.sort(key=lambda r: r.date)
 	event = Event.query.filter_by(id = event_id).first()
-	return render_template("new_event_date.html", title="New Event Date", form = form, event = event , eventdates = eventdates)
+	invites_check = EventInvite.query.join(EventDate).filter_by(event_id = event_id).all()
+	if current_user.id == event.admin_id:
+		if event.invites_sent:
+			return "This event has already has invites sent"		
+		else:
+			return render_template("new_event_date.html", title="New Event Date", form = form, event = event , eventdates = eventdates)
+	else:
+		return "You are not admin for this event"
 
 @app.route('/invites/<int:event_id>', methods=['GET', 'POST'])
 @login_required
@@ -107,10 +152,18 @@ def invites(event_id):
 			for invitee in invitees:
 				event_invite = EventInvite(eventdate_id = eventdate_id , invited_id=invitee, status = 0)
 				db.session.add(event_invite)
+		event.invites_sent = True
+		db.session.add(event)
 		db.session.commit()
 		return redirect(url_for('index'))
-	return render_template("invites_test.html", title="Invites", event = event , form = form, eventdates = eventdates, possible_invites = possible_invites)
-	
+	if current_user.id == event.admin_id:
+		if event.invites_sent:
+			return "This event has already has invites set"		
+		else:
+			return render_template("invites_test.html", title="Invites", event = event , form = form, eventdates = eventdates, possible_invites = possible_invites)
+	else:
+		return "You are not admin for this event"
+
 @app.route('/event_details/<int:event_id>', methods=['GET', 'POST'])
 @login_required
 def event_details(event_id):
@@ -175,5 +228,20 @@ def delete_event(event_id):
 		db.session.add(event_to_delete)
 		db.session.commit()
 		return redirect(url_for("index"))
+	else:
+		return "you are not the admin for this event"
+		
+@app.route('/delete_eventdate/<int:eventdate_id>', methods=['GET', 'POST'])
+@login_required
+def delete_eventdate(eventdate_id):
+	eventdate_to_delete = EventDate.query.filter_by(id = eventdate_id).first()
+	print eventdate_to_delete
+	if current_user.id == eventdate_to_delete.event.admin_id:
+		if eventdate_to_delete.event.invites_sent:
+			return "Cannot delete eventdate as invites already sent"
+		else:
+			db.session.delete(eventdate_to_delete)
+			db.session.commit()
+			return redirect(url_for("new_event_date", event_id=eventdate_to_delete.event.id))
 	else:
 		return "you are not the admin for this event"
