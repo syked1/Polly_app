@@ -1,72 +1,113 @@
-{% extends "base.html" %}
+{% extends "base_test.html" %}
 
 {% block title %} Polly App {% endblock %}
 
 {% block content %}
-<div class="container">
-  <div class="row">
-    {%for a in id_date_list%}
-	
-	{%if events_dict[a[0]]["past"]==False%}
-	<div class="col-sm-4">
-	{%if events_dict[a[0]]["replied"] == False%}
-		<a href="{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default btn-block ">
-		<p> {{events_dict[a[0]]["event"].name}}{% if events_dict[a[0]]["admin"]%} (Admin)  {%endif%}</p>
-		<p> {%if events_dict[a[0]]["confirmed"]%}
-				{{events_dict[a[0]]["confirmed_date"].strftime("%a %d %b")}}
-			{%else%}
-				{%for eventdate in events_dict[a[0]]["eventdates"]%}
-					{{eventdate.date.strftime("%a %d %b")}}, 
-				{%endfor%}
-			{%endif%} </p>
-		</a>
 
-	
-	{%	elif events_dict[a[0]]["replied"] == True and events_dict[a[0]]["confirmed"] == False%}
-		<a href="{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary btn-block ">
-		<p> {{events_dict[a[0]]["event"].name}}{% if events_dict[a[0]]["admin"]%} (Admin)  {%endif%}</p>
-		<p> {%if events_dict[a[0]]["confirmed"]%}
-				{{events_dict[a[0]]["confirmed_date"].strftime("%a %d %b")}}
-			{%else%}
-				{%for eventdate in events_dict[a[0]]["eventdates"]%}
-					{{eventdate.date.strftime("%a %d %b")}}, 
-				{%endfor%}
-			{%endif%} </p>
-		</a>
-	
-	{%	elif events_dict[a[0]]["replied"] == True and events_dict[a[0]]["confirmed"] == True and events_dict[a[0]]["attending"] == False%}
-		<a href="{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-danger btn-block ">
-		<p> {{events_dict[a[0]]["event"].name}} {% if events_dict[a[0]]["admin"]%} (Admin)  {%endif%}</p>
-		<p> {%if events_dict[a[0]]["confirmed"]%}
-				{{events_dict[a[0]]["confirmed_date"].strftime("%a %d %b")}}
-			{%else%}
-				{%for eventdate in events_dict[a[0]]["eventdates"]%}
-					{{eventdate.date.strftime("%a %d %b")}}, 
-				{%endfor%}
-			{%endif%} </p>
-		</a>
-	
-	{%	elif events_dict[a[0]]["replied"] == True and events_dict[a[0]]["confirmed"] == True and events_dict[a[0]]["attending"] == True%}
-		<a href="{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-success btn-block ">
-		<p> {{events_dict[a[0]]["event"].name}} {% if events_dict[a[0]]["admin"]%} (Admin)  {%endif%}</p>
-		<p> {%if events_dict[a[0]]["confirmed"]%}
-				{{events_dict[a[0]]["confirmed_date"].strftime("%a %d %b")}}
-			{%else%}
-				{%for eventdate in events_dict[a[0]]["eventdates"]%}
-					{{eventdate.date.strftime("%a %d %b")}}, 
-				{%endfor%}
-			{%endif%} </p>
-		</a>
-	
-	{%endif%}
-	</div>
-	{%endif%}
-	
-	
+<div class = "container" style = "padding-top:20px; padding-bottom:20px">
+<h3> Need reply </h3>
+    {%for a in id_date_list%}
+		{%if events_dict[a[0]]["past"]==False%}
+			{%if events_dict[a[0]]["replied"] == False and events_dict[a[0]]["admin"] == False%}
+				{%if events_dict[a[0]]["confirmed"] == True%}
+					<div class = "row" style="padding-top:10px;">
+						<div class = "btn-group btn-group-2">
+							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
+								<p style = "text-align: center;"><big> {{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</big> <br> {{events_dict[a[0]]["confirmed_date"].strftime("%b")}} </p>
+							</a>
+							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
+								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by ...</p> 
+							</a>
+						</div>
+					</div>
+				{%elif events_dict[a[0]]["confirmed"] == False%}
+					<div class = "row" style="padding-top:10px;">
+						<div class = "btn-group btn-group-2 btn-group-justified">
+							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
+								<span class="glyphicon glyphicon-question-sign"></span>
+							</a>
+							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
+								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by ...</p> 
+							</a>
+						</div>
+					</div>
+				{%endif%}
+			{%elif events_dict[a[0]]["admin"] == True and events_dict[a[0]]["confirmed"] == False%}
+				<div class = "row" style="padding-top:10px;">
+						<div class = "btn-group">
+							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
+								<span class="glyphicon glyphicon-question-sign"></span>
+							</a>
+							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
+								<p> {{events_dict[a[0]]["event"].name}} <br>  You are the organiser </p> 
+							</a>
+						</div>
+					</div>
+			{%endif%}
+		{%endif%}
 	{%endfor%}
-	
-  </div>
 </div>
+
+<div class = "container" style = "padding-top:20px; padding-bottom:20px">
+<h3> Replied </h3>
+    {%for a in id_date_list%}
+		{%if events_dict[a[0]]["past"]==False%}
+			{%if events_dict[a[0]]["replied"] == True and events_dict[a[0]]["admin"] == False%}
+				{%if events_dict[a[0]]["confirmed"] == True%}
+					<div class = "row" style="padding-top:10px;">
+						<div class = "btn-group">
+							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
+								<p style = "text-align: middle;"><big> {{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</big> <br> {{events_dict[a[0]]["confirmed_date"].strftime("%b")}} </p>
+							</a>
+							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
+								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by ...</p> 
+							</a>
+						</div>
+					</div>
+				{%elif events_dict[a[0]]["confirmed"] == False%}
+					<div class = "row" style="padding-top:10px;">
+						<div class = "btn-group">
+							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
+								<span class="glyphicon glyphicon-question-sign"></span>
+							</a>
+							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
+								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by ...</p> 
+							</a>
+						</div>
+					</div>
+				{%endif%}
+			{%elif events_dict[a[0]]["admin"] == True and events_dict[a[0]]["confirmed"] == True%}
+				<div class = "row" style="padding-top:10px;">
+						<div class = "btn-group">
+							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
+								<p style = "text-align: middle;"><big> {{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</big> <br> {{events_dict[a[0]]["confirmed_date"].strftime("%b")}} </p>
+							</a>
+							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
+								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by ...</p> 
+							</a>
+						</div>
+					</div>
+			{%endif%}
+		{%endif%}
+	{%endfor%}
+</div>
+
+
+
+
+<script>
+    $(document).ready(function(){
+
+    var highestBox = 0;
+        $('.btn-group .btn').each(function(){  
+                if($(this).height() > highestBox){  
+                highestBox = $(this).height();  
+        }
+    });    
+    $('.btn-group .btn').height(highestBox);
+
+});
+</script>
 {% endblock %}
 
 

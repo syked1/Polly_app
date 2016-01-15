@@ -169,11 +169,13 @@ def invites(event_id):
 def event_details(event_id):
 	event = Event.query.filter_by(id = event_id).first()
 	eventdates = EventDate.query.filter_by(event_id = event_id).all()
+	eventdates.sort(key = lambda r: r.date)
 	invitees = EventInvite.query.join(EventDate).filter_by(event_id = event_id).all()
+	admin = User.query.filter_by(id = event.admin_id).first()
 	if event.admin_id == current_user.id:
-		return render_template("event_details_admin.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees)
+		return render_template("event_details_admin.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin)
 	elif current_user.id in [invitee.invited_id for invitee in invitees]:
-		return render_template("event_details_invited.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees)
+		return render_template("event_details_invited.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin)
 	else:
 		return "You are not admin or invited to " + event.name
 
