@@ -6,9 +6,9 @@
 
 <div class = "container" style = "padding-top:20px; padding-bottom:20px">
 <h3> Need reply </h3>
-    {%for a in id_date_list%}
+	{%for a in id_date_list%}
 		{%if events_dict[a[0]]["past"]==False%}
-			{%if events_dict[a[0]]["replied"] == False and events_dict[a[0]]["admin"] == False%}
+			{%if events_dict[a[0]]["replied"] == False and events_dict[a[0]]["admin"].id != current_user.id%}
 				{%if events_dict[a[0]]["confirmed"] == True%}
 					<div class = "row" style="padding-top:10px;">
 						<div class = "btn-group btn-group-2">
@@ -16,7 +16,7 @@
 								<p style = "text-align: center;"><big> {{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</big> <br> {{events_dict[a[0]]["confirmed_date"].strftime("%b")}} </p>
 							</a>
 							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
-								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by ...</p> 
+								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by {{events_dict[a[0]]["admin"].firstname}} </p> 
 							</a>
 						</div>
 					</div>
@@ -27,12 +27,12 @@
 								<span class="glyphicon glyphicon-question-sign"></span>
 							</a>
 							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
-								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by ...</p> 
+								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by {{events_dict[a[0]]["admin"].firstname}}</p> 
 							</a>
 						</div>
 					</div>
 				{%endif%}
-			{%elif events_dict[a[0]]["admin"] == True and events_dict[a[0]]["confirmed"] == False%}
+			{%elif events_dict[a[0]]["admin"].id == current_user.id and events_dict[a[0]]["confirmed"] == False%}
 				<div class = "row" style="padding-top:10px;">
 						<div class = "btn-group">
 							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
@@ -52,7 +52,7 @@
 <h3> Replied </h3>
     {%for a in id_date_list%}
 		{%if events_dict[a[0]]["past"]==False%}
-			{%if events_dict[a[0]]["replied"] == True and events_dict[a[0]]["admin"] == False%}
+			{%if events_dict[a[0]]["replied"] == True and events_dict[a[0]]["admin"].id != current_user.id%}
 				{%if events_dict[a[0]]["confirmed"] == True%}
 					<div class = "row" style="padding-top:10px;">
 						<div class = "btn-group">
@@ -60,7 +60,7 @@
 								<p style = "text-align: middle;"><big> {{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</big> <br> {{events_dict[a[0]]["confirmed_date"].strftime("%b")}} </p>
 							</a>
 							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
-								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by ...</p> 
+								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by {{events_dict[a[0]]["admin"].firstname}}</p> 
 							</a>
 						</div>
 					</div>
@@ -71,19 +71,19 @@
 								<span class="glyphicon glyphicon-question-sign"></span>
 							</a>
 							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
-								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by ...</p> 
+								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by {{events_dict[a[0]]["admin"].firstname}}</p> 
 							</a>
 						</div>
 					</div>
 				{%endif%}
-			{%elif events_dict[a[0]]["admin"] == True and events_dict[a[0]]["confirmed"] == True%}
+			{%elif events_dict[a[0]]["admin"].id == current_user.id and events_dict[a[0]]["confirmed"] == True%}
 				<div class = "row" style="padding-top:10px;">
 						<div class = "btn-group">
 							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
 								<p style = "text-align: middle;"><big> {{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</big> <br> {{events_dict[a[0]]["confirmed_date"].strftime("%b")}} </p>
 							</a>
 							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
-								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by ...</p> 
+								<p> {{events_dict[a[0]]["event"].name}} <br>  You are the organiser</p> 
 							</a>
 						</div>
 					</div>

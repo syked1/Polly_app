@@ -20,12 +20,12 @@ def index():
 	events_dict = {}
 	#Add admin events to the dictionary
 	for admin_event in admin_events:
-		print admin_event.name
+		print "This is an admin event   ", admin_event.name
 		#Check if deleted and invite process completed
 		if admin_event.deleted == False and admin_event.invites_sent:
 			admin_eventdates = EventDate.query.filter_by(event_id = admin_event.id).all()
 			admin_eventdates.sort(key= lambda r: r.date)
-			events_dict[admin_event.id] = {"event":admin_event,"eventdates":admin_eventdates, "confirmed":False, "confirmed_date":None, "admin":True , "replied":True, "attending":True, "past":False}
+			events_dict[admin_event.id] = {"event":admin_event,"eventdates":admin_eventdates, "confirmed":False, "confirmed_date":None, "admin":current_user , "replied":True, "attending":True, "past":False}
 			#Check if it's been confirmed
 			for eventdate in admin_eventdates:
 				if eventdate.confirmed:
@@ -43,9 +43,10 @@ def index():
 	for invited_event in invited_events:
 		#Check it's not been deleted
 		if invited_event.deleted == False:
+			admin = User.query.filter_by(id = invited_event.admin_id).first()
 			invited_eventdates = EventDate.query.filter_by(event_id = invited_event.id).all()
 			invited_eventdates.sort(key= lambda r: r.date)
-			events_dict[invited_event.id] = {"event":invited_event,"eventdates":invited_eventdates, "confirmed":False, "confirmed_date":None, "admin":False , "replied":False, "attending":False, "past":False}
+			events_dict[invited_event.id] = {"event":invited_event,"eventdates":invited_eventdates, "confirmed":False, "confirmed_date":None, "admin":admin , "replied":False, "attending":False, "past":False}
 			for eventdate in invited_eventdates:
 				eventinvites = EventInvite.query.filter_by(eventdate_id = eventdate.id, invited_id = current_user.id)
 				#Check if confirmed
@@ -78,9 +79,9 @@ def index():
 		else:
 			event_dates = events_dict[key]["eventdates"]
 			id_date_list.append((key,min([a.date for a in event_dates])))
-	print id_date_list
 	id_date_list.sort(key= lambda r: r[1])
-	print id_date_list
+	for key in events_dict:
+		print events_dict[key]["event"].name, "\t", events_dict[key]["admin"].firstname, events_dict[key]["admin"].id
 	return render_template("index.html",user = current_user, events_dict = events_dict, id_date_list = id_date_list)
 
 @app.route('/login', methods=['GET', 'POST'])
