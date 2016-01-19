@@ -104,7 +104,7 @@ def logout():
 def new_event():
 	form = EventForm()
 	if form.validate_on_submit():
-		event = Event(name=form.name.data, admin_id=current_user.id)
+		event = Event(name=form.name.data, admin_id=current_user.id, location = form.location.data)
 		db.session.add(event)
 		db.session.commit()
 		return redirect(url_for('new_event_date', event_id=event.id))
@@ -116,7 +116,7 @@ def new_event_date(event_id):
 	form = EventDateForm()
 	if form.validate_on_submit():
 		date = datetime.datetime.strptime(form.date.data, '%m/%d/%Y %I:%M %p')
-		eventdate = EventDate(event_id = event_id, date = date, location = form.location.data)
+		eventdate = EventDate(event_id = event_id, date = date)
 		db.session.add(eventdate)
 		db.session.commit()
 		return redirect(url_for('new_event_date', event_id=event_id))

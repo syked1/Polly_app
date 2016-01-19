@@ -19,17 +19,17 @@ def add_user(firstname,surname,email,phone,group, password):
 	db.session.commit()
 	print "added user..." +firstname + " " + surname 
 
-def add_event(name,admin_id):
-	event = models.Event(name=name, admin_id=admin_id)
+def add_event(name,admin_id,location):
+	event = models.Event(name=name, admin_id=admin_id, location = location)
 	db.session.add(event)
 	db.session.commit()
 	print "added event..." + name + " " 
 
-def add_event_date(event_id,datetime,location):
-	event_date = models.EventDate(event_id = event_id, date = datetime, location = location)
+def add_event_date(event_id,datetime):
+	event_date = models.EventDate(event_id = event_id, date = datetime)
 	db.session.add(event_date)
 	db.session.commit()
-	print "added event date..." + datetime.strftime("%B %d, %Y") + " " + location
+	print "added event date..." + datetime.strftime("%B %d, %Y") + " " 
 
 def add_event_invite(eventdate_id,invited_id):
 	event_invite = models.EventInvite(eventdate_id = eventdate_id , invited_id=invited_id, status = 0)
@@ -43,11 +43,11 @@ add_user("David","Sykes","david.sykes70@gmail.com","07827289604","Queens", "goos
 add_user("Alex","Bolland","alex.bolland@gmail.com","07866384948","Queens", "rabbit")
 add_user("Sara","Boomsma","sara.boomsma@gmail.com","07538493748","Queens", "mole")
 add_user("Matt","Amos","matt.amos@gmail.com","07536273849","Queens", "partridge")
-add_event("Polly's Birthday", 1)
-add_event("Lads night", 2)
-add_event_date(1, datetime.datetime(2016,3,26,21,30),"52 Freedom St")
-add_event_date(1, datetime.datetime(2016,3,27,21,30),"52 Freedom St")
-add_event_date(1, datetime.datetime(2016,3,29,20,30),"The Lighthouse")
+add_event("Polly's Birthday", 1, "52 Freedom St")
+add_event("Lads night", 2, "The Goat")
+add_event_date(1, datetime.datetime(2016,3,26,21,30))
+add_event_date(1, datetime.datetime(2016,3,27,21,30))
+add_event_date(1, datetime.datetime(2016,3,29,20,30))
 add_event_invite(1,2)
 add_event_invite(2,2)
 add_event_invite(2,2)
@@ -60,8 +60,8 @@ add_event_invite(3,4)
 add_event_invite(1,5)
 add_event_invite(2,5)
 add_event_invite(3,5)
-add_event_date(2, datetime.datetime(2016,2,26,19,30),"The Goat")
-add_event_date(2, datetime.datetime(2016,2,12,21,30),"The Goat")
+add_event_date(2, datetime.datetime(2016,2,26,19,30))
+add_event_date(2, datetime.datetime(2016,2,12,21,30))
 add_event_invite(4,3)
 add_event_invite(4,6)
 add_event_invite(5,3)

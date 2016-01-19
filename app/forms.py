@@ -11,11 +11,11 @@ class LoginForm(Form):
 
 class EventForm(Form):
 	name = StringField("Event Name", validators=[Required()])
+	location = StringField('Location', validators = [Required()] )
 	submit = SubmitField("Pick Dates")
 
 class EventDateForm(Form):
 	date = StringField("Event Date", validators=[Required()])
-	location = StringField('Location', validators = [Required()] )
 	submit = SubmitField("Save Date Option")
 	
 class InvitesForm(Form):

@@ -10,7 +10,7 @@
 		{%if events_dict[a[0]]["past"]==False%}
 			{%if events_dict[a[0]]["replied"] == False and events_dict[a[0]]["admin"].id != current_user.id%}
 				{%if events_dict[a[0]]["confirmed"] == True%}
-					<div class = "row" style="padding-top:10px;">
+					<div class = "" style="padding-top:10px;">
 						<div class = "btn-group btn-group-2">
 							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
 								<p style = "text-align: center;"><big> {{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</big> <br> {{events_dict[a[0]]["confirmed_date"].strftime("%b")}} </p>
