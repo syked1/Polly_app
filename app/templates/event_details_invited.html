@@ -1,7 +1,30 @@
-{% extends "base.html" %}
+{% extends "base_test.html" %}
+{%block head%}
+<link rel="stylesheet" href="{{url_for("static", filename = "event_details_invited.css")}}" /> 
+{%endblock%}
+
 {% block content %}
   
- <div class = "container">
+<div class = "container">
+	<div class = "row">
+		<div class = "col-sm-8">
+			<div class = "btn-group btn-group-justified">
+				<a class = "btn btn-justified btn-default button_eventdate" style = "width:70%">
+					<span class = "eventdate_title">Friday 19th February</span>
+					<span class = "location_details"> 09:30 PM </span>
+				</a>
+				<a href="" class="btn btn-default btn-sm" style = "width:15%">
+					<span class="glyphicon glyphicon-ok"></span>
+				<a href="" class="btn btn-default btn-sm" style = "width:15%">
+					<span class="glyphicon glyphicon-remove"></span>
+				</a>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+  <div class = "container">
 	<div class = "row">
 		<div class = "col-sm-12">
 			<h2> {{ event.name }} </h2>

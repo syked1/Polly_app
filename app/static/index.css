@@ -1,0 +1,64 @@
+body {
+  background-color: #f2f2f2;
+}
+
+.button_event {
+  height:4.5em;
+  display: block;
+  position: relative;
+  padding: .5em 5em .75em 1em;
+  border-radius: .25em;
+  margin-bottom: .5em;
+  background: #fff;
+  box-shadow:
+	/* first number is position of horizontal shadow second is position of vertical shadow 3rd is blur*/
+   /* regular bottom */
+    0 .0625em .125em rgba(0, 0, 0, .125),
+    /* inset bottom */
+    inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
+    /* category color (left) */
+    inset 1em 0 0 -.7em #5F9EA0,
+    /* date background (right) */
+    inset -5em 0 0 -.3em rgba(0, 0, 0, .05);
+}
+
+.event_title {
+  text-align: left;
+  font-weight: bold;
+  color: #000;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.event_title:after {
+  content: '';
+  display: block;
+  height: 0;
+  width: 100%;
+}
+.organiser_details {
+  display: block;
+  white-space: nowrap;
+  font-size: 0.75em;
+  color: grey;
+  text-align: left;
+}
+
+.location_details {
+  display: block;
+  white-space: nowrap;
+  font-size: 0.75em;
+  color: grey;
+  text-align: left;
+}
+
+.event_date {
+  font-weight: bold;
+  text-align:center;
+  display: block;
+  position: absolute;
+  right:1.5em;
+  top: 0.25em;
+ 
+}

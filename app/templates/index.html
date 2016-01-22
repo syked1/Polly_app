@@ -1,92 +1,114 @@
 {% extends "base_test.html" %}
 
 {% block title %} Polly App {% endblock %}
-
+{%block head%}
+<link rel="stylesheet" href="{{url_for("static", filename = "index.css")}}" /> 
+{%endblock%}
 {% block content %}
 
-<div class = "container" style = "padding-top:20px; padding-bottom:20px">
-<h3> Need reply </h3>
+ <!-- SAMPLE EVENT BUTTON
+ <div class = "container">
+	<div class = "row">
+		<div class = "col-sm-8">
+			<a class = "btn btn-justified btn-default button_event">
+				<span class = "event_title"> Party in my pants </span>
+				<span class = "location_details"> Location </span>
+				<span class = "organiser_details"> You are the organiser </span>
+				<span class = "event_date"> <p align = "center">Mar<br>21</p>  </span>
+			</a>
+		</div>
+	</div>
+</div> -->
+
+<div class = "container" style = "padding-top:0px; padding-bottom:20px">
 	{%for a in id_date_list%}
 		{%if events_dict[a[0]]["past"]==False%}
 			{%if events_dict[a[0]]["replied"] == False and events_dict[a[0]]["admin"].id != current_user.id%}
-				{%if events_dict[a[0]]["confirmed"] == True%}
-					<div class = "" style="padding-top:10px;">
-						<div class = "btn-group btn-group-2">
-							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
-								<p style = "text-align: center;"><big> {{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</big> <br> {{events_dict[a[0]]["confirmed_date"].strftime("%b")}} </p>
-							</a>
-							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
-								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by {{events_dict[a[0]]["admin"].firstname}} </p> 
-							</a>
-						</div>
+				<div class = "row" style="padding-top:10px;">
+					<div class = "col-sm-8">
+						<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" 
+						class = "btn btn-justified btn-default button_event">
+							<span class = "event_title">{{events_dict[a[0]]["event"].name}}</span>
+							<span class = "location_details">{{events_dict[a[0]]["event"].location}}</span>
+							<span class = "organiser_details">Invited by {{events_dict[a[0]]["admin"].firstname}}</span>
+							<span class = "event_date"> 
+								{%if events_dict[a[0]]["confirmed"] == True%}
+									<p align = "center">{{events_dict[a[0]]["confirmed_date"].strftime("%b")}}<br>
+									{{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</p> 
+								{%elif events_dict[a[0]]["confirmed"] == False%}
+									<span class="glyphicon glyphicon-question-sign"></span>
+								{%endif%}
+							</span>
+						</a>
 					</div>
-				{%elif events_dict[a[0]]["confirmed"] == False%}
-					<div class = "row" style="padding-top:10px;">
-						<div class = "btn-group btn-group-2 btn-group-justified">
-							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
-								<span class="glyphicon glyphicon-question-sign"></span>
-							</a>
-							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
-								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by {{events_dict[a[0]]["admin"].firstname}}</p> 
-							</a>
-						</div>
-					</div>
-				{%endif%}
+				</div>
 			{%elif events_dict[a[0]]["admin"].id == current_user.id and events_dict[a[0]]["confirmed"] == False%}
 				<div class = "row" style="padding-top:10px;">
-						<div class = "btn-group">
-							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
-								<span class="glyphicon glyphicon-question-sign"></span>
-							</a>
-							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
-								<p> {{events_dict[a[0]]["event"].name}} <br>  You are the organiser </p> 
-							</a>
-						</div>
+					<div class = "col-sm-8">
+						<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" 
+						class = "btn btn-justified btn-default button_event">
+							<span class = "event_title">{{events_dict[a[0]]["event"].name}}</span>
+							<span class = "location_details">{{events_dict[a[0]]["event"].location}}</span>
+							<span class = "organiser_details">You are the organiser</span>
+							<span class = "event_date"> 
+								{%if events_dict[a[0]]["confirmed"] == True%}
+									<p align = "center">{{events_dict[a[0]]["confirmed_date"].strftime("%b")}}<br>
+									{{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</p> 
+								{%elif events_dict[a[0]]["confirmed"] == False%}
+									<span class="glyphicon glyphicon-question-sign"></span>
+								{%endif%}
+							</span>
+						</a>
 					</div>
+				</div>
 			{%endif%}
 		{%endif%}
 	{%endfor%}
-</div>
+</div>			
+				
+<hr></hr>
 
-<div class = "container" style = "padding-top:20px; padding-bottom:20px">
-<h3> Replied </h3>
+<div class = "container" style = "padding-top:0px; padding-bottom:20px">
     {%for a in id_date_list%}
 		{%if events_dict[a[0]]["past"]==False%}
 			{%if events_dict[a[0]]["replied"] == True and events_dict[a[0]]["admin"].id != current_user.id%}
-				{%if events_dict[a[0]]["confirmed"] == True%}
-					<div class = "row" style="padding-top:10px;">
-						<div class = "btn-group">
-							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
-								<p style = "text-align: middle;"><big> {{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</big> <br> {{events_dict[a[0]]["confirmed_date"].strftime("%b")}} </p>
-							</a>
-							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
-								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by {{events_dict[a[0]]["admin"].firstname}}</p> 
-							</a>
-						</div>
+				<div class = "row" style="padding-top:10px;">
+					<div class = "col-sm-8">
+						<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" 
+						class = "btn btn-justified btn-default button_event">
+							<span class = "event_title">{{events_dict[a[0]]["event"].name}}</span>
+							<span class = "location_details">{{events_dict[a[0]]["event"].location}}</span>
+							<span class = "organiser_details">Invited by {{events_dict[a[0]]["admin"].firstname}}</span>
+							<span class = "event_date"> 
+								{%if events_dict[a[0]]["confirmed"] == True%}
+									<p align = "center">{{events_dict[a[0]]["confirmed_date"].strftime("%b")}}<br>
+									{{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</p> 
+								{%elif events_dict[a[0]]["confirmed"] == False%}
+									<span class="glyphicon glyphicon-question-sign"></span>
+								{%endif%}
+							</span>
+						</a>
 					</div>
-				{%elif events_dict[a[0]]["confirmed"] == False%}
-					<div class = "row" style="padding-top:10px;">
-						<div class = "btn-group">
-							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
-								<span class="glyphicon glyphicon-question-sign"></span>
-							</a>
-							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
-								<p> {{events_dict[a[0]]["event"].name}} <br>  Invited by {{events_dict[a[0]]["admin"].firstname}}</p> 
-							</a>
-						</div>
-					</div>
-				{%endif%}
+				</div>
 			{%elif events_dict[a[0]]["admin"].id == current_user.id and events_dict[a[0]]["confirmed"] == True%}
 				<div class = "row" style="padding-top:10px;">
-						<div class = "btn-group">
-							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-primary" style = "text-align: center;" > 
-								<p style = "text-align: middle;"><big> {{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</big> <br> {{events_dict[a[0]]["confirmed_date"].strftime("%b")}} </p>
-							</a>
-							<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class="btn btn-default"> 
-								<p> {{events_dict[a[0]]["event"].name}} <br>  You are the organiser</p> 
-							</a>
-						</div>
+					<div class = "col-sm-8">
+						<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" 
+						class = "btn btn-justified btn-default button_event">
+							<span class = "event_title">{{events_dict[a[0]]["event"].name}}</span>
+							<span class = "location_details">{{events_dict[a[0]]["event"].location}}</span>
+							<span class = "organiser_details">You are the organiser</span>
+							<span class = "event_date"> 
+								{%if events_dict[a[0]]["confirmed"] == True%}
+									<p align = "center">{{events_dict[a[0]]["confirmed_date"].strftime("%b")}}<br>
+									{{events_dict[a[0]]["confirmed_date"].strftime("%d")}}</p> 
+								{%elif events_dict[a[0]]["confirmed"] == False%}
+									<span class="glyphicon glyphicon-question-sign"></span>
+								{%endif%}
+							</span>
+						</a>
 					</div>
+				</div>
 			{%endif%}
 		{%endif%}
 	{%endfor%}
@@ -95,19 +117,7 @@
 
 
 
-<script>
-    $(document).ready(function(){
 
-    var highestBox = 0;
-        $('.btn-group .btn').each(function(){  
-                if($(this).height() > highestBox){  
-                highestBox = $(this).height();  
-        }
-    });    
-    $('.btn-group .btn').height(highestBox);
-
-});
-</script>
 {% endblock %}
 
 
