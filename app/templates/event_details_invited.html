@@ -4,32 +4,50 @@
 {%endblock%}
 
 {% block content %}
-  
-<div class = "container">
-	<div class = "row">
-		<div class = "col-sm-8">
-			<div class = "btn-group btn-group-justified">
-				<a class = "btn btn-justified btn-default button_eventdate" style = "width:70%">
-					<span class = "eventdate_title">Friday 19th February</span>
-					<span class = "location_details"> 09:30 PM </span>
-				</a>
-				<a href="" class="btn btn-default btn-sm" style = "width:15%">
-					<span class="glyphicon glyphicon-ok"></span>
-				<a href="" class="btn btn-default btn-sm" style = "width:15%">
-					<span class="glyphicon glyphicon-remove"></span>
-				</a>
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
+ 
+ 
 
   <div class = "container">
 	<div class = "row">
 		<div class = "col-sm-12">
-			<h2> {{ event.name }} </h2>
-			<h4> {{event.location}} </h4>
-			<p> Invited by {{ admin.firstname}} {{ admin.surname}} </p>
+			<h2 style = "text-align: center"> {{ event.name }} </h2>
+			<h4 style = "text-align: center"> at </h4>
+			<h4 style = "text-align: center"> {{event.location}} </h4>
+			<p style = "text-align: center"> Invited by {{ admin.firstname}} {{ admin.surname}} </p>
+		</div>
+	</div>
+
+
+
+
+	<div class = "row">
+		<div class = "col-xs-12">
+			<div class = "btn-group btn-group-justified">
+				<a class = "btn btn-justified btn-default button_eventdate" style = "width:60%">
+					<span class = "eventdate_title">Friday 19th February</span>
+					<span class = "location_details"> 09:30 PM </span>
+				</a>
+				<a href="" class="btn btn-default button_tick_cross" style = "width:15%">
+					<span class="glyphicon glyphicon-ok"></span>
+				<a href="" class="btn btn-default button_tick_cross" style = "width:15%">
+					<span class="glyphicon glyphicon-remove"></span>
+				</a>
+				<a href="" class="btn btn-default dropdown-toggle btn-justified button_tick_cross" type="button" data-toggle="dropdown" style = "width:10%">
+					<span class="glyphicon glyphicon-user"></span>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li class="dropdown-header">Attending</li>
+					<li class = "disabled drop-down-item">Tiny Tim</li>
+					<li class = "disabled drop-down-item">Bob Cratchet</li>
+					<li class="divider"></li>
+					<li class="dropdown-header">Not Attending</li>
+					<li class = "disabled drop-down-item">Polly Pocket</li>
+					<li class = "disabled drop-down-item">Polly Pooface</li>
+					<li class="divider"></li>
+					<li class="dropdown-header">Not replied</li>
+					<li class = "disabled drop-down-item">Shaking Stevens</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 
