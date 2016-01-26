@@ -172,9 +172,20 @@ def event_details(event_id):
 	eventdates = EventDate.query.filter_by(event_id = event_id).all()
 	eventdates.sort(key = lambda r: r.date)
 	invitees = EventInvite.query.join(EventDate).filter_by(event_id = event_id).all()
+	attendance_dict = {}
+	for eventdate in eventdates:
+		attendance_dict[eventdate.id] = {"attending":0,"cant_make_it":0,"not_replied":0}
+		for invitee in invitees:
+			if invitee.eventdate.id == eventdate.id:
+				if invitee.status == 1:
+					attendance_dict[eventdate.id]["attending"] = attendance_dict[eventdate.id]["attending"] + 1
+				elif invitee.status == -1:
+					attendance_dict[eventdate.id]["cant_make_it"] = attendance_dict[eventdate.id]["cant_make_it"] + 1
+				elif invitee.status == 0:
+					attendance_dict[eventdate.id]["not_replied"] = attendance_dict[eventdate.id]["not_replied"] + 1
 	admin = User.query.filter_by(id = event.admin_id).first()
 	if event.admin_id == current_user.id:
-		return render_template("event_details_admin.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin)
+		return render_template("event_details_admin.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin, attendance_dict=attendance_dict)
 	elif current_user.id in [invitee.invited_id for invitee in invitees]:
 		return render_template("event_details_invited.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin)
 	else:

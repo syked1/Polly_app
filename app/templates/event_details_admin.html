@@ -1,27 +1,142 @@
-{% extends "base.html" %}
+{% extends "base_test.html" %}
+{%block head%}
+<link rel="stylesheet" href="{{url_for("static", filename = "event_details_invited.css")}}" /> 
+{%endblock%}
+
 {% block content %}
-    <h1> {{ event.name }} </h1> 
-	<li> <a href= "{{url_for("delete_event", event_id = event.id)}}">  Delete Event </a>  </li>	
-	<h2> Event Dates </h2>
+ 
+ 
+<div class = "container">
+	<div class = "row">
+		<div class = "col-sm-12">
+			<h2 style = "text-align: center"> {{ event.name }} </h2>
+			<h4 style = "text-align: center"> at </h4>
+			<h4 style = "text-align: center"> {{event.location}} </h4>
+			<p style = "text-align: center"> You are the organiser</p>
+		</div>
+	</div>
+	<h4> Date Options </h4>
 	{%for eventdate in eventdates%}
-	
-	<p> {{eventdate.date}}  {{eventdate.location}} {%if eventdate.confirmed == True%}  Confirmed {%endif%}    </p> 
-	<li> <a href= "{{url_for("confirm_date", eventdate_id = eventdate.id)}}">  Confirm Date </a>  </li>	
-	
-	{%for invitee in invitees%}
-	
-	{%if invitee.eventdate.id == eventdate.id%} 
-	
-	<p> {{invitee.user.firstname}} {{invitee.user.surname}}  {{invitee.status}}  </p>  
-	
-	{%endif%}
+	<div class = "row eventdate-row">
+		<div class = "col-xs-12">
+			<div class = "btn-group">
+				<button type = "button" class = "btn btn-default button_eventdate_admin" >
+					<span class = "eventdate_title">{{eventdate.date.strftime("%a %d %b")}}</span>
+					<span class = "time_details">{{eventdate.date.strftime("%I:%M %p")}}</span>
+				</button>
+				<div class = "btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross attending" data-toggle="dropdown" >
+						{{attendance_dict[eventdate.id]["attending"]}}
+					</button>
+					<ul class="dropdown-menu">
+						{%for invitee in invitees%}
+							{%if invitee.eventdate.id == eventdate.id and invitee.status == 1%}
+								<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+							{%endif%}
+						{%endfor%}
+					</ul>
+				</div>
+				<div class = "btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross cant-make-it" data-toggle="dropdown" >
+						{{attendance_dict[eventdate.id]["cant_make_it"]}}
+					</button>
+					<ul class="dropdown-menu">
+						{%for invitee in invitees%}
+							{%if invitee.eventdate.id == eventdate.id and invitee.status == -1%}
+								<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+							{%endif%}
+						{%endfor%}
+					</ul>
+				</div>
+				<div class = "btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross not-replied" data-toggle="dropdown" >
+						{{attendance_dict[eventdate.id]["not_replied"]}}
+					</button>
+					<ul class="dropdown-menu">
+						{%for invitee in invitees%}
+							{%if invitee.eventdate.id == eventdate.id and invitee.status == 0%}
+								<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+							{%endif%}
+						{%endfor%}
+					</ul>
+				</div>
+				<a type = "button" class = "btn btn-default button_tick_cross" href="{{url_for("confirm_date", eventdate_id = eventdate.id)}}" >
+					Confirm
+				</a>
+			</div>
+		</div>
+	</div>
 	{%endfor%}
 	
-	{%endfor%}
+	<div class = "eventdate-row">
+		<div class = "col-xs-12">
+			<a type = "button" class = "btn btn-danger" href="{{url_for("delete_event", event_id = event.id)}}" >
+					Delete Event
+			</a>
+		</div>
+	</div>
+</div>
+	
+	
 	
 
-	
-	
-	<li> <a href="/logout">Logout</a> </li>
+		
+
+
 
 {% endblock %}
+
+ <!-- SAMPLE EVENTDATE OPTION
+<div class = "row">
+			<div class = "col-xs-12">
+			<div class = "btn-group" style = "width:100%">
+				
+				<button type = "button" class = "btn btn-default button_eventdate_admin" >
+					<span class = "eventdate_title">Fri 19 Feb</span>
+					<span class = "time_details"> 09:30 PM </span>
+				</button>
+				<div class = "btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross attending" data-toggle="dropdown" >
+						<span>8</span>
+					</button>
+					<ul class="dropdown-menu">
+						<li class = "disabled drop-down-item">Bob Cratchet</li>
+					</ul>
+				</div>
+				<div class = "btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross cant-make-it" data-toggle="dropdown" >
+						<span>8</span>
+					</button>
+					<ul class="dropdown-menu dropdown">
+						<li class = "disabled drop-down-item">Tiny Tim</li>
+					</ul>
+				</div>
+				<div class = "btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross not-replied" data-toggle="dropdown" >
+						<span>8</span>
+					</button>
+					<ul class="dropdown-menu dropdown">
+						<li class = "disabled drop-down-item">Tiny Tim</li>
+					</ul>
+				</div>
+				<button type = "button" class = "btn btn-default button_tick_cross" >
+					Confirm
+				</button>
+			</div>
+		</div>
+		</div>
+		
+
+-->
+
+
+
+
+
+
+
+
+
+
+
+

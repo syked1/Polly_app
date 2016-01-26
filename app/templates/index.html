@@ -21,6 +21,7 @@
 </div> -->
 
 <div class = "container" style = "padding-top:0px; padding-bottom:20px">
+	<h4> New Events </h4>
 	{%for a in id_date_list%}
 		{%if events_dict[a[0]]["past"]==False%}
 			{%if events_dict[a[0]]["replied"] == False and events_dict[a[0]]["admin"].id != current_user.id%}
@@ -69,6 +70,7 @@
 <hr></hr>
 
 <div class = "container" style = "padding-top:0px; padding-bottom:20px">
+	<h4> Upcoming Events </h4>
     {%for a in id_date_list%}
 		{%if events_dict[a[0]]["past"]==False%}
 			{%if events_dict[a[0]]["replied"] == True and events_dict[a[0]]["admin"].id != current_user.id%}
