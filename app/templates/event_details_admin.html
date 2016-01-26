@@ -1,10 +1,16 @@
 {% extends "base_test.html" %}
 {%block head%}
 <link rel="stylesheet" href="{{url_for("static", filename = "event_details_invited.css")}}" /> 
+
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+
 {%endblock%}
 
 {% block content %}
  
+
  
 <div class = "container">
 	<div class = "row">
@@ -15,6 +21,58 @@
 			<p style = "text-align: center"> You are the organiser</p>
 		</div>
 	</div>
+	{%if event.confirmed%}
+	<h4> Date Confirmed </h4>
+	{%for eventdate in eventdates%}
+		{%if eventdate.confirmed%}
+	<div class = "row eventdate-row">
+		<div class = "col-xs-12">
+			<div class = "btn-group">
+				<button type = "button" class = "btn btn-default button_eventdate_admin" >
+					<span class = "eventdate_title">{{eventdate.date.strftime("%a %d %b")}}</span>
+					<span class = "time_details">{{eventdate.date.strftime("%I:%M %p")}}</span>
+				</button>
+				<div class = "btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross attending" data-toggle="dropdown" >
+						{{attendance_dict[eventdate.id]["attending"]}}
+					</button>
+					<ul class="dropdown-menu">
+						{%for invitee in invitees%}
+							{%if invitee.eventdate.id == eventdate.id and invitee.status == 1%}
+								<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+							{%endif%}
+						{%endfor%}
+					</ul>
+				</div>
+				<div class = "btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross cant-make-it" data-toggle="dropdown" >
+						{{attendance_dict[eventdate.id]["cant_make_it"]}}
+					</button>
+					<ul class="dropdown-menu">
+						{%for invitee in invitees%}
+							{%if invitee.eventdate.id == eventdate.id and invitee.status == -1%}
+								<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+							{%endif%}
+						{%endfor%}
+					</ul>
+				</div>
+				<div class = "btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross not-replied" data-toggle="dropdown" >
+						{{attendance_dict[eventdate.id]["not_replied"]}}
+					</button>
+					<ul class="dropdown-menu">
+						{%for invitee in invitees%}
+							{%if invitee.eventdate.id == eventdate.id and invitee.status == 0%}
+								<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+							{%endif%}
+						{%endfor%}
+					</ul>
+				</div>
+			</div>
+		</div>
+		{%endif%}
+		{%endfor%}
+	{%elif event.confirmed ==False%}
 	<h4> Date Options </h4>
 	{%for eventdate in eventdates%}
 	<div class = "row eventdate-row">
@@ -60,25 +118,50 @@
 						{%endfor%}
 					</ul>
 				</div>
-				<a type = "button" class = "btn btn-default button_tick_cross" href="{{url_for("confirm_date", eventdate_id = eventdate.id)}}" >
+				<a type = "button" class = "btn btn-default button_tick_cross confirm-date" id = "{{eventdate.id}}" >
 					Confirm
 				</a>
 			</div>
 		</div>
 	</div>
 	{%endfor%}
+	{%endif%}
+	
+	<script type="text/javascript">
+	var chosen_event_id;
+	var $inputs = $(".confirm-date");
+	$inputs.click(function () {
+    $inputs.not(this).css('color', '#333');
+	$inputs.not(this).css('background-color', '#FFFFFF');
+    $(this).css('background-color', "#5F9EA0");
+	$(this).css('color', "#FFFFFF");
+	var chosen_event_id = $(this).attr("id");
+	$.getJSON($SCRIPT_ROOT + "/confirm_date/" + chosen_event_id)
+	})
+
+	</script>
+	
+	
+	
 	
 	<div class = "eventdate-row">
 		<div class = "col-xs-12">
-			<a type = "button" class = "btn btn-danger" href="{{url_for("delete_event", event_id = event.id)}}" >
+			<a type = "button" class = "btn btn-danger btn-block" href="{{url_for("delete_event", event_id = event.id)}}" >
 					Delete Event
 			</a>
 		</div>
 	</div>
+	
+	{%if event.confirmed == False%}
+	<div class = "eventdate-row">
+		<div class = "col-xs-12">
+			<a type = "button" class = "btn btn-success btn-block" href="{{url_for("confirm_event", event_id = event.id)}}" >
+					Confirm Date Choice
+			</a>
+		</div>
+	</div>
+	{%endif%}
 </div>
-	
-	
-	
 
 		
 

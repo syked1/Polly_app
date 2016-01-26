@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, session, url_for,request
+from flask import render_template, flash, redirect, session, url_for,request, jsonify
 from app import app, db
 from .forms import LoginForm, EventForm, EventDateForm, InvitesForm
 from .models import User, Event, EventInvite, EventDate
@@ -229,7 +229,19 @@ def confirm_date(eventdate_id):
 				ed.confirmed = False
 				db.session.add(ed)
 		db.session.commit()
-		return redirect(url_for("event_details", event_id = chosen_eventdate.event_id))
+		return jsonify()
+	else:
+		return "you are not the admin for this event"
+
+@app.route('/confirm_event/<int:event_id>', methods=['GET', 'POST'])
+@login_required
+def confirm_event(event_id):
+	chosen_event = Event.query.filter_by(id = event_id).first()
+	if current_user.id == chosen_event.admin_id:
+		chosen_event.confirmed = True
+		db.session.add(chosen_event)
+		db.session.commit()
+		return redirect(url_for("event_details", event_id = chosen_event.id))
 	else:
 		return "you are not the admin for this event"
 
