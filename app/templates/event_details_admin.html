@@ -10,7 +10,66 @@
 
 {% block content %}
  
-
+<div class = "container container-eventdate">
+	<div class = "row">
+		<div class = "col-xs-8 eventdate-box">
+			<div class = "col-xs-6">
+				<div class = "col-xs-12 eventdate-date">
+					Sat 30 Jan
+				</div>
+				<div class = "col-xs-12 eventdate-time">
+					<span class="glyphicon glyphicon-time"></span> <span> 09:30 PM </span>
+				</div>
+			</div>
+			<div class = "col-xs-2 attendance-button-box">
+				<button type="button" class="btn btn-default dropdown-toggle attendance-button" data-toggle="dropdown" >
+					<div class = "col-xs-12">
+						<span class="glyphicon glyphicon-ok"></span>
+					</div>
+					<div class = "col-xs-12">
+						0
+					</div>
+				</button>
+					<ul class="dropdown-menu">
+						<li class = "disabled drop-down-item">Me</li>
+					</ul>
+			</div>
+			<div class = "col-xs-2 attendance-button-box">
+				<button type="button" class="btn btn-default dropdown-toggle attendance-button" data-toggle="dropdown" >
+					<div class = "col-xs-12">
+						<span class="glyphicon glyphicon-remove"></span>
+					</div>
+					<div class = "col-xs-12">
+						0
+					</div>
+				</button>
+					<ul class="dropdown-menu">
+						<li class = "disabled drop-down-item">Me</li>
+					</ul>
+			</div>
+			<div class = "col-xs-2 attendance-button-box">
+				<button type="button" class="btn btn-default dropdown-toggle attendance-button" data-toggle="dropdown" >
+					<div class = "col-xs-12">
+						<span> <strong>?</strong> </span>
+					</div>
+					<div class = "col-xs-12">
+						0
+					</div>
+				</button>
+					<ul class="dropdown-menu">
+						<li class = "disabled drop-down-item">Me</li>
+					</ul>
+			</div>
+		</div>
+		<div class = "col-xs-4 select-box">
+			<a type = "button" class = "btn btn-select-date" id = "id_number" >
+					Select
+				</a>
+		</div>
+	</div>
+</div>
+ 
+ 
  
 <div class = "container">
 	<div class = "row">
@@ -70,6 +129,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 		{%endif%}
 		{%endfor%}
 	{%elif event.confirmed ==False%}
@@ -144,7 +204,7 @@
 	
 	
 	
-	<div class = "eventdate-row">
+	<div class = "row eventdate-row">
 		<div class = "col-xs-12">
 			<a type = "button" class = "btn btn-danger btn-block" href="{{url_for("delete_event", event_id = event.id)}}" >
 					Delete Event
@@ -153,7 +213,7 @@
 	</div>
 	
 	{%if event.confirmed == False%}
-	<div class = "eventdate-row">
+	<div class = "row eventdate-row">
 		<div class = "col-xs-12">
 			<a type = "button" class = "btn btn-success btn-block" href="{{url_for("confirm_event", event_id = event.id)}}" >
 					Confirm Date Choice
@@ -161,6 +221,13 @@
 		</div>
 	</div>
 	{%endif%}
+	<div class = "row eventdate-row">
+		<div class = "col-xs-12">
+			<a type = "button" class = "btn btn-default btn-block" href="{{url_for("index")}}" >
+					Back to my events
+			</a>
+		</div>
+	</div>
 </div>
 
 		

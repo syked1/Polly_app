@@ -2,6 +2,78 @@ body {
   background-color: #f2f2f2;
 }
 
+.container-eventdate{
+	padding-left:10px;
+	padding-right:10px;
+}
+.eventdate-box{
+	padding-right:1px;
+	background-color: #3CBC8D;
+	height:40px;
+	color:white;
+	background-clip: content-box;
+}
+
+.eventdate-date{
+	font-size: 1em;
+	font-weight: bold;
+	padding: 0px
+}
+
+.eventdate-time{
+	font-size: 0.75em;
+	padding:0px;
+}
+
+.attendance-button-box{
+	padding:0px;
+	text-align: center;
+	background-color: #3CBC8D;
+}
+
+.attendance-button{
+	background-color: #3CBC8D;
+	height:40px;
+	color:white;
+	border-style:none;
+	text-align: center;
+	padding:0px
+}
+
+
+.btn-select-date{
+	background-color: #3CBC8D;
+	height:40px;
+	color:white;
+	background-clip: content-box;
+	text-align:center;
+	font-weight:bold;
+	padding-top:10px;
+}
+
+.select-box{
+	background-color: #3CBC8D;
+	height:40px;
+	color:white;
+	background-clip: content-box;
+	padding-left:1px;
+	text-align:center;
+	font-weight:bold;
+}
+
+.tester-select{
+	text-align: center;
+	padding-top: 10px;
+}
+
+
+
+
+.drop-down-item{
+	color:black;
+}
+
+
 .eventdate-row{
 	padding-top:10px
 }
