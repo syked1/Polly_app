@@ -154,6 +154,9 @@ def invites(event_id):
 				event_invite = EventInvite(eventdate_id = eventdate_id , invited_id=invitee, status = 0)
 				db.session.add(event_invite)
 		event.invites_sent = True
+		if len(eventdates) <= 1:
+			event.confirmed = True
+			eventdates[0].confirmed = True
 		db.session.add(event)
 		db.session.commit()
 		return redirect(url_for('index'))
