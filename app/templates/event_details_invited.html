@@ -1,10 +1,16 @@
 {% extends "base_test.html" %}
 {%block head%}
 <link rel="stylesheet" href="{{url_for("static", filename = "event_details_invited.css")}}" /> 
+
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+
 {%endblock%}
 
 {% block content %}
  
+
  
 <div class = "container">
 	<div class = "row">
@@ -15,40 +21,55 @@
 			<p style = "text-align: center"> Invited by {{ admin.firstname}} {{ admin.surname}} </p>
 		</div>
 	</div>
-			
-{%if event.confirmed%}
-	{%for eventdate in eventdates%}
-		{%if eventdate.confirmed%}
-	<div class = "row eventdate-row">
-		<div class = "col-xs-12">
-			<div class = "btn-group btn-group-justified">
-				<a class = "btn btn-justified btn-default button_eventdate" style = "width:60%">
-					<span class = "eventdate_title">{{eventdate.date.strftime("%a %d %b")}}</span>
-					<span class = "time_details"> {{eventdate.date.strftime("%I:%M %p")}} </span>
-				</a>
-				{%for invitee in invitees%}
-				{%if invitee.eventdate.id == eventdate.id and invitee.invited_id == current_user.id %} 	
-					{%if invitee.status == 1%}
-				<a href="{{url_for("confirm_attending", eventinvite_id = invitee.id)}}" class="btn btn-primary button_tick_cross" style = "width:15%">
-					{%elif invitee.status != 1%}
-				<a href="{{url_for("confirm_attending", eventinvite_id = invitee.id)}}" class="btn btn-default button_tick_cross" style = "width:15%">
-					{%endif%}	
-						<span class="glyphicon glyphicon-ok"></span>
-				</a>
-					{%if invitee.status == -1%}
-				<a href="{{url_for("cant_make_it", eventinvite_id = invitee.id)}}" class="btn btn-primary button_tick_cross" style = "width:15%">
-					{%elif invitee.status != -1%}
-				<a href="{{url_for("cant_make_it", eventinvite_id = invitee.id)}}" class="btn btn-default button_tick_cross" style = "width:15%">
-					{%endif%}
-						<span class="glyphicon glyphicon-remove"></span
-				</a>
-				{%endif%}
-				{%endfor%}
-				<a href="" class="btn btn-default dropdown-toggle btn-justified button_tick_cross" type="button" data-toggle="dropdown" style = "width:10%">
-					<span class="glyphicon glyphicon-user"></span>
-				</a>
-				<ul class="dropdown-menu dropdown-menu-right">
-					<li class="dropdown-header">Attending</li>
+	
+
+{%for eventdate in eventdates%}
+	<div class = "container container-eventdate">
+		<div class = "row">
+			<div class = "col-xs-6 eventdate-box">
+				<div class = "col-xs-4">
+					<div class = "col-xs-12 eventdate-date">
+						{{eventdate.date.strftime("%a %d %b")}}
+					</div>
+					<div class = "col-xs-12 eventdate-time">
+						<span class="glyphicon glyphicon-time"></span> <span>{{eventdate.date.strftime("%I:%M %p")}}</span>
+					</div>
+				</div>
+			</div>
+				
+			<div class = "col-xs-6 attend-cant-make-it-box">
+				<div class = "col-xs-4 col-attend-cant-make-it">
+					{%for invitee in invitees%}
+						{%if invitee.eventdate.id == eventdate.id and invitee.invited_id == current_user.id%}
+							{%if invitee.status == 1%}
+							<a type = "button" id = "{{invitee.id}}" class = "btn btn-attend btn-selected">
+							{%else%}
+							<a type = "button" id = "{{invitee.id}}" class = "btn btn-attend">
+							{%endif%}
+						{%endif%}
+					{%endfor%}
+						<span class="glyphicon glyphicon-center glyphicon-ok"></span> 
+					</a>
+				</div>
+				<div class = "col-xs-4 col-attend-cant-make-it">
+					{%for invitee in invitees%}
+						{%if invitee.eventdate.id == eventdate.id and invitee.invited_id == current_user.id%}
+							{%if invitee.status == -1%}
+							<a type = "button" id = "{{invitee.id}}" class = "btn btn-cant-make-it btn-selected">
+							{%else%}
+							<a type = "button" id = "{{invitee.id}}" class = "btn btn-cant-make-it">
+							{%endif%}
+						{%endif%}
+					{%endfor%}
+						<span class="glyphicon glyphicon-center glyphicon-remove"></span> 
+					</a>
+				</div>
+				<div class = "col-xs-4 col-attend-cant-make-it">
+					<button type="button" class="btn btn-who-can-come dropdown-toggle" data-toggle="dropdown" >
+						<span class="glyphicon glyphicon-user"></span> 
+					</button>
+					<ul class="dropdown-menu">			
+						<li class="dropdown-header">Attending</li>
 					{%for invitee in invitees%}
 							{%if invitee.eventdate.id == eventdate.id%} 	
 								{%if invitee.status ==1%}
@@ -79,7 +100,7 @@
 						{%endfor%}
 					<li class="divider"></li>
 					<li class="dropdown-header">Not replied</li>
-					{%for invitee in invitees%}
+						{%for invitee in invitees%}
 							{%if invitee.eventdate.id == eventdate.id%} 	
 								{%if invitee.status ==0%}
 									<li class = "disabled drop-down-item">
@@ -92,147 +113,47 @@
 								{%endif%}
 							{%endif%}
 						{%endfor%}
-				</ul>
-			</div>
-		</div>
-	</div>
-	{%endif%}
-	{%endfor%}
-	
-	
-
-
-	{%elif event.confirmed == False%}
-	{%for eventdate in eventdates%}
-	<div class = "row eventdate-row">
-		<div class = "col-xs-12">
-			<div class = "btn-group btn-group-justified">
-				<a class = "btn btn-justified btn-default button_eventdate" style = "width:60%">
-					<span class = "eventdate_title">{{eventdate.date.strftime("%a %d %b")}}</span>
-					<span class = "time_details"> {{eventdate.date.strftime("%I:%M %p")}} </span>
-				</a>
-				{%for invitee in invitees%}
-				{%if invitee.eventdate.id == eventdate.id and invitee.invited_id == current_user.id %} 	
-					{%if invitee.status == 1%}
-				<a href="{{url_for("confirm_attending", eventinvite_id = invitee.id)}}" class="btn btn-primary button_tick_cross" style = "width:15%">
-					{%elif invitee.status != 1%}
-				<a href="{{url_for("confirm_attending", eventinvite_id = invitee.id)}}" class="btn btn-default button_tick_cross" style = "width:15%">
-					{%endif%}	
-						<span class="glyphicon glyphicon-ok"></span>
-				</a>
-					{%if invitee.status == -1%}
-				<a href="{{url_for("cant_make_it", eventinvite_id = invitee.id)}}" class="btn btn-primary button_tick_cross" style = "width:15%">
-					{%elif invitee.status != -1%}
-				<a href="{{url_for("cant_make_it", eventinvite_id = invitee.id)}}" class="btn btn-default button_tick_cross" style = "width:15%">
-					{%endif%}
-						<span class="glyphicon glyphicon-remove"></span
-				</a>
-				{%endif%}
-				{%endfor%}
-				<a href="" class="btn btn-default dropdown-toggle btn-justified button_tick_cross" type="button" data-toggle="dropdown" style = "width:10%">
-					<span class="glyphicon glyphicon-user"></span>
-				</a>
-				<ul class="dropdown-menu dropdown-menu-right">
-					<li class="dropdown-header">Attending</li>
-					{%for invitee in invitees%}
-							{%if invitee.eventdate.id == eventdate.id%} 	
-								{%if invitee.status ==1%}
-									<li class = "disabled drop-down-item">
-									{%if invitee.invited_id == current_user.id%}
-										You
-									{%else%}
-										{{invitee.user.firstname}} {{invitee.user.surname}}
-									{%endif%}
-									</li>
-								{%endif%}
-							{%endif%}
-						{%endfor%}
-					<li class="divider"></li>
-					<li class="dropdown-header">Not Attending</li>
-					{%for invitee in invitees%}
-							{%if invitee.eventdate.id == eventdate.id%} 	
-								{%if invitee.status ==-1%}
-									<li class = "disabled drop-down-item">
-									{%if invitee.invited_id == current_user.id%}
-										You
-									{%else%}
-										{{invitee.user.firstname}} {{invitee.user.surname}}
-									{%endif%}
-									</li>
-								{%endif%}
-							{%endif%}
-						{%endfor%}
-					<li class="divider"></li>
-					<li class="dropdown-header">Not replied</li>
-					{%for invitee in invitees%}
-							{%if invitee.eventdate.id == eventdate.id%} 	
-								{%if invitee.status ==0%}
-									<li class = "disabled drop-down-item">
-									{%if invitee.invited_id == current_user.id%}
-										You
-									{%else%}
-										{{invitee.user.firstname}} {{invitee.user.surname}}
-									{%endif%}
-									</li>
-								{%endif%}
-							{%endif%}
-						{%endfor%}
-				</ul>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
 	{%endfor%}
 
-	{%endif%}
-	<div class = "row eventdate-row">
-		<div class = "col-xs-12">
-			<a type = "button" class = "btn btn-success btn-block" href="{{url_for("index")}}">
-					Save my Responses
-			</a>
+	<div class = "container container-eventdate">
+		<div class = "row eventdate-row">
+			<div class = "col-xs-12">
+				<a type = "button" class = "btn btn-default btn-block" href="{{url_for("index")}}">
+					Save and return to my Events
+				</a>
+			</div>
 		</div>
 	</div>
-	<div class = " row eventdate-row">
-		<div class = "col-xs-12">
-			<a type = "button" class = "btn btn-default btn-block" href="{{url_for("index")}}" >
-					Back to my events
-			</a>
-		</div>
 </div>
+		
+		
+<script type="text/javascript">
+	var eventinvite_id;
+	var $inputs = $(".btn-attend, .btn-cant-make-it");
+	$inputs.click(function () {
+		var eventinvite_id = $(this).attr("id");
+		var $inputs_id = $("#" + eventinvite_id);
+		$inputs_id.not(this).css("border-style", "none");
+		$(this).css("border-style", "solid");
+		$(this).css("border-color", "white");
+		if ($(this).hasClass("btn-attend")){
+			$.getJSON($SCRIPT_ROOT + "/confirm_attending/" + eventinvite_id)
+		}
+		else if ($(this).hasClass("btn-cant-make-it")){
+			$.getJSON($SCRIPT_ROOT + "/cant_make_it/" + eventinvite_id)
+			}
+		
+	})
 
+</script>
+		
+	
 	
 
 {% endblock %}
 
- <!-- SAMPLE EVENTDATE OPTION
-
-	<div class = "row">
-		<div class = "col-xs-12">
-			<div class = "btn-group btn-group-justified">
-				<a class = "btn btn-justified btn-default button_eventdate" style = "width:60%">
-					<span class = "eventdate_title">Friday 19th February</span>
-					<span class = "time_details"> 09:30 PM </span>
-				</a>
-				<a href="" class="btn btn-default button_tick_cross" style = "width:15%">
-					<span class="glyphicon glyphicon-ok"></span>
-				<a href="" class="btn btn-default button_tick_cross" style = "width:15%">
-					<span class="glyphicon glyphicon-remove"></span>
-				</a>
-				<a href="" class="btn btn-default dropdown-toggle btn-justified button_tick_cross" type="button" data-toggle="dropdown" style = "width:10%">
-					<span class="glyphicon glyphicon-user"></span>
-				</a>
-				<ul class="dropdown-menu dropdown-menu-right">
-					<li class="dropdown-header">Attending</li>
-					<li class = "disabled drop-down-item">Tiny Tim</li>
-					<li class = "disabled drop-down-item">Bob Cratchet</li>
-					<li class="divider"></li>
-					<li class="dropdown-header">Not Attending</li>
-					<li class = "disabled drop-down-item">Polly Pocket</li>
-					<li class = "disabled drop-down-item">Polly Pooface</li>
-					<li class="divider"></li>
-					<li class="dropdown-header">Not replied</li>
-					<li class = "disabled drop-down-item">Shaking Stevens</li>
-				</ul>
-			</div>
-		</div>
-	</div>
--->

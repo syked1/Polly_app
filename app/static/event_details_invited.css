@@ -5,9 +5,10 @@ body {
 .container-eventdate{
 	padding-left:10px;
 	padding-right:10px;
+	padding-top:10px;
 }
 .eventdate-box{
-	padding-right:1px;
+	padding-right:0px;
 	background-color: #3CBC8D;
 	height:40px;
 	color:white;
@@ -43,14 +44,89 @@ body {
 
 .btn-select-date{
 	background-color: #3CBC8D;
+	height:30px;
+	margin-top:5px;
+	margin-bottom:5px;
+	vertical-align:middle;
+	color:white;
+	background-clip: content-box;
+	text-align:center;
+	font-weight:bold;
+	border-radius:5px;
+	border-color:white;
+	border-style:none;
+}
+
+.btn-attend{
+	background-color: #3CBC8D;
+	height:30px;
+	margin-top:5px;
+	margin-bottom:5px;
+	width:30px;
+	border-radius:15px;
+	padding:0px;
+	color:white;
+	background-clip: content-box;
+	text-align:center;
+	font-weight:bold;
+	border-color:white;
+	border-style:none;
+}
+
+.btn-cant-make-it{
+	background-color: #3CBC8D;
+	height:30px;
+	margin-top:5px;
+	margin-bottom:5px;
+	width:30px;
+	border-radius:15px;
+	padding:0px;
+	color:white;
+	background-clip: content-box;
+	text-align:center;
+	font-weight:bold;
+	border-color:white;
+	border-style:none;
+}
+
+.btn-selected{
+	border-style:solid;
+}
+
+.glyphicon-center{
+	text-align: center;
+	vertical-align: middle;
+}
+
+.btn-who-can-come{
+	background-color: #3CBC8D;
 	height:40px;
 	color:white;
 	background-clip: content-box;
 	text-align:center;
 	font-weight:bold;
 	padding-top:10px;
+
 }
 
+.attend-cant-make-it-box{
+	background-color: #3CBC8D;
+	height:40px;
+	color:white;
+	background-clip: content-box;
+	padding-left:0px;
+	text-align:center;
+	font-weight:bold;
+	text-align:center;
+}
+
+.col-attend-cant-make-it{
+	border-left-color:white;
+	border-left-style:solid;
+	border-left-width: 1px;
+	border-radius:0;
+	text-align:center;
+}
 .select-box{
 	background-color: #3CBC8D;
 	height:40px;
@@ -59,6 +135,7 @@ body {
 	padding-left:1px;
 	text-align:center;
 	font-weight:bold;
+	vertical-align:middle;
 }
 
 .tester-select{

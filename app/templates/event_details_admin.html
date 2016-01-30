@@ -10,67 +10,6 @@
 
 {% block content %}
  
-<div class = "container container-eventdate">
-	<div class = "row">
-		<div class = "col-xs-8 eventdate-box">
-			<div class = "col-xs-6">
-				<div class = "col-xs-12 eventdate-date">
-					Sat 30 Jan
-				</div>
-				<div class = "col-xs-12 eventdate-time">
-					<span class="glyphicon glyphicon-time"></span> <span> 09:30 PM </span>
-				</div>
-			</div>
-			<div class = "col-xs-2 attendance-button-box">
-				<button type="button" class="btn btn-default dropdown-toggle attendance-button" data-toggle="dropdown" >
-					<div class = "col-xs-12">
-						<span class="glyphicon glyphicon-ok"></span>
-					</div>
-					<div class = "col-xs-12">
-						0
-					</div>
-				</button>
-					<ul class="dropdown-menu">
-						<li class = "disabled drop-down-item">Me</li>
-					</ul>
-			</div>
-			<div class = "col-xs-2 attendance-button-box">
-				<button type="button" class="btn btn-default dropdown-toggle attendance-button" data-toggle="dropdown" >
-					<div class = "col-xs-12">
-						<span class="glyphicon glyphicon-remove"></span>
-					</div>
-					<div class = "col-xs-12">
-						0
-					</div>
-				</button>
-					<ul class="dropdown-menu">
-						<li class = "disabled drop-down-item">Me</li>
-					</ul>
-			</div>
-			<div class = "col-xs-2 attendance-button-box">
-				<button type="button" class="btn btn-default dropdown-toggle attendance-button" data-toggle="dropdown" >
-					<div class = "col-xs-12">
-						<span> <strong>?</strong> </span>
-					</div>
-					<div class = "col-xs-12">
-						0
-					</div>
-				</button>
-					<ul class="dropdown-menu">
-						<li class = "disabled drop-down-item">Me</li>
-					</ul>
-			</div>
-		</div>
-		<div class = "col-xs-4 select-box">
-			<a type = "button" class = "btn btn-select-date" id = "id_number" >
-					Select
-				</a>
-		</div>
-	</div>
-</div>
- 
- 
- 
 <div class = "container">
 	<div class = "row">
 		<div class = "col-sm-12">
@@ -80,213 +19,128 @@
 			<p style = "text-align: center"> You are the organiser</p>
 		</div>
 	</div>
-	{%if event.confirmed%}
-	<h4> Date Confirmed </h4>
-	{%for eventdate in eventdates%}
-		{%if eventdate.confirmed%}
-	<div class = "row eventdate-row">
-		<div class = "col-xs-12">
-			<div class = "btn-group">
-				<button type = "button" class = "btn btn-default button_eventdate_admin" >
-					<span class = "eventdate_title">{{eventdate.date.strftime("%a %d %b")}}</span>
-					<span class = "time_details">{{eventdate.date.strftime("%I:%M %p")}}</span>
-				</button>
-				<div class = "btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross attending" data-toggle="dropdown" >
-						{{attendance_dict[eventdate.id]["attending"]}}
-					</button>
-					<ul class="dropdown-menu">
-						{%for invitee in invitees%}
-							{%if invitee.eventdate.id == eventdate.id and invitee.status == 1%}
-								<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
-							{%endif%}
-						{%endfor%}
-					</ul>
-				</div>
-				<div class = "btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross cant-make-it" data-toggle="dropdown" >
-						{{attendance_dict[eventdate.id]["cant_make_it"]}}
-					</button>
-					<ul class="dropdown-menu">
-						{%for invitee in invitees%}
-							{%if invitee.eventdate.id == eventdate.id and invitee.status == -1%}
-								<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
-							{%endif%}
-						{%endfor%}
-					</ul>
-				</div>
-				<div class = "btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross not-replied" data-toggle="dropdown" >
-						{{attendance_dict[eventdate.id]["not_replied"]}}
-					</button>
-					<ul class="dropdown-menu">
-						{%for invitee in invitees%}
-							{%if invitee.eventdate.id == eventdate.id and invitee.status == 0%}
-								<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
-							{%endif%}
-						{%endfor%}
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-		{%endif%}
-		{%endfor%}
-	{%elif event.confirmed ==False%}
+
+	
 	<h4> Date Options </h4>
 	{%for eventdate in eventdates%}
-	<div class = "row eventdate-row">
-		<div class = "col-xs-12">
-			<div class = "btn-group">
-				<button type = "button" class = "btn btn-default button_eventdate_admin" >
-					<span class = "eventdate_title">{{eventdate.date.strftime("%a %d %b")}}</span>
-					<span class = "time_details">{{eventdate.date.strftime("%I:%M %p")}}</span>
-				</button>
-				<div class = "btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross attending" data-toggle="dropdown" >
-						{{attendance_dict[eventdate.id]["attending"]}}
-					</button>
-					<ul class="dropdown-menu">
-						{%for invitee in invitees%}
-							{%if invitee.eventdate.id == eventdate.id and invitee.status == 1%}
-								<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
-							{%endif%}
-						{%endfor%}
-					</ul>
+	<div class = "container container-eventdate">
+		<div class = "row">
+			<div class = "col-xs-8 eventdate-box">
+				<div class = "col-xs-6">
+					<div class = "col-xs-12 eventdate-date">
+						{{eventdate.date.strftime("%a %d %b")}}
+					</div>
+					<div class = "col-xs-12 eventdate-time">
+						<span class="glyphicon glyphicon-time"></span> <span>{{eventdate.date.strftime("%I:%M %p")}}</span>
+					</div>
 				</div>
-				<div class = "btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross cant-make-it" data-toggle="dropdown" >
-						{{attendance_dict[eventdate.id]["cant_make_it"]}}
+				<div class = "col-xs-2 attendance-button-box">
+					<button type="button" class="btn btn-default dropdown-toggle attendance-button" data-toggle="dropdown" >
+						<div class = "col-xs-12">
+							<span class="glyphicon glyphicon-ok"></span>
+						</div>
+						<div class = "col-xs-12">
+							{{attendance_dict[eventdate.id]["attending"]}}
+						</div>
 					</button>
-					<ul class="dropdown-menu">
-						{%for invitee in invitees%}
-							{%if invitee.eventdate.id == eventdate.id and invitee.status == -1%}
-								<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
-							{%endif%}
-						{%endfor%}
-					</ul>
+						<ul class="dropdown-menu">
+							{%for invitee in invitees%}
+								{%if invitee.eventdate.id == eventdate.id and invitee.status == 1%}
+									<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+								{%endif%}
+							{%endfor%}
+						</ul>
 				</div>
-				<div class = "btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross not-replied" data-toggle="dropdown" >
-						{{attendance_dict[eventdate.id]["not_replied"]}}
+				<div class = "col-xs-2 attendance-button-box">
+					<button type="button" class="btn btn-default dropdown-toggle attendance-button" data-toggle="dropdown" >
+						<div class = "col-xs-12">
+							<span class="glyphicon glyphicon-remove"></span>
+						</div>
+						<div class = "col-xs-12">
+							{{attendance_dict[eventdate.id]["cant_make_it"]}}
+						</div>
 					</button>
-					<ul class="dropdown-menu">
-						{%for invitee in invitees%}
-							{%if invitee.eventdate.id == eventdate.id and invitee.status == 0%}
-								<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
-							{%endif%}
-						{%endfor%}
-					</ul>
+						<ul class="dropdown-menu">
+							{%for invitee in invitees%}
+								{%if invitee.eventdate.id == eventdate.id and invitee.status == -1%}
+									<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+								{%endif%}
+							{%endfor%}
+						</ul>
 				</div>
-				<a type = "button" class = "btn btn-default button_tick_cross confirm-date" id = "{{eventdate.id}}" >
-					Confirm
+				<div class = "col-xs-2 attendance-button-box">
+					<button type="button" class="btn btn-default dropdown-toggle attendance-button" data-toggle="dropdown" >
+						<div class = "col-xs-12">
+							<span> <strong>?</strong> </span>
+						</div>
+						<div class = "col-xs-12">
+							{{attendance_dict[eventdate.id]["not_replied"]}}
+						</div>
+					</button>
+						<ul class="dropdown-menu">
+							{%for invitee in invitees%}
+								{%if invitee.eventdate.id == eventdate.id and invitee.status == 0%}
+									<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+								{%endif%}
+							{%endfor%}
+						</ul>
+				</div>
+			</div>
+			<div class = "col-xs-4 select-box">
+				<a type = "button" class = "btn btn-select-date" id = "{{eventdate.id}}">
+					Select
 				</a>
 			</div>
 		</div>
 	</div>
-	{%endfor%}
-	{%endif%}
-	
-	<script type="text/javascript">
-	var chosen_event_id;
-	var $inputs = $(".confirm-date");
-	$inputs.click(function () {
-    $inputs.not(this).css('color', '#333');
-	$inputs.not(this).css('background-color', '#FFFFFF');
-    $(this).css('background-color', "#5F9EA0");
-	$(this).css('color', "#FFFFFF");
-	var chosen_event_id = $(this).attr("id");
-	$.getJSON($SCRIPT_ROOT + "/confirm_date/" + chosen_event_id)
-	})
+		{%endfor%}
 
-	</script>
 	
-	
-	
-	
-	<div class = "row eventdate-row">
-		<div class = "col-xs-12">
-			<a type = "button" class = "btn btn-danger btn-block" href="{{url_for("delete_event", event_id = event.id)}}" >
+	<div class = "container container-eventdate">
+		<div class = "row eventdate-row">
+			<div class = "col-xs-12">
+				<a type = "button" class = "btn btn-danger btn-block" href="{{url_for("delete_event", event_id = event.id)}}" >
 					Delete Event
-			</a>
+				</a>
+			</div>
 		</div>
-	</div>
 	
-	{%if event.confirmed == False%}
-	<div class = "row eventdate-row">
-		<div class = "col-xs-12">
-			<a type = "button" class = "btn btn-success btn-block" href="{{url_for("confirm_event", event_id = event.id)}}" >
-					Confirm Date Choice
-			</a>
+		<div class = "row eventdate-row">
+			<div class = "col-xs-12">
+				<a type = "button" class = "btn btn-default btn-block" href="{{url_for("confirm_event", event_id = event.id)}}" >
+					Confirm Selected Date
+				</a>
+			</div>
 		</div>
-	</div>
-	{%endif%}
-	<div class = "row eventdate-row">
-		<div class = "col-xs-12">
-			<a type = "button" class = "btn btn-default btn-block" href="{{url_for("index")}}" >
+
+		<div class = "row eventdate-row">
+			<div class = "col-xs-12">
+				<a type = "button" class = "btn btn-default btn-block" href="{{url_for("index")}}" >
 					Back to my events
-			</a>
+				</a>
+			</div>
 		</div>
 	</div>
 </div>
 
 		
 
+	
+	<script type="text/javascript">
+	var chosen_eventdate_id;
+	var $inputs = $(".btn-select-date");
+	$inputs.click(function () {
+    $inputs.not(this).css("border-style", "none");
+	$inputs.not(this).text("Select");
+    $(this).css('border-style', "solid");
+	$(this).text("Selected");
+	var chosen_eventdate_id = $(this).attr("id");
+	$.getJSON($SCRIPT_ROOT + "/confirm_date/" + chosen_eventdate_id)
+	})
 
+	</script>
 
 {% endblock %}
 
- <!-- SAMPLE EVENTDATE OPTION
-<div class = "row">
-			<div class = "col-xs-12">
-			<div class = "btn-group" style = "width:100%">
-				
-				<button type = "button" class = "btn btn-default button_eventdate_admin" >
-					<span class = "eventdate_title">Fri 19 Feb</span>
-					<span class = "time_details"> 09:30 PM </span>
-				</button>
-				<div class = "btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross attending" data-toggle="dropdown" >
-						<span>8</span>
-					</button>
-					<ul class="dropdown-menu">
-						<li class = "disabled drop-down-item">Bob Cratchet</li>
-					</ul>
-				</div>
-				<div class = "btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross cant-make-it" data-toggle="dropdown" >
-						<span>8</span>
-					</button>
-					<ul class="dropdown-menu dropdown">
-						<li class = "disabled drop-down-item">Tiny Tim</li>
-					</ul>
-				</div>
-				<div class = "btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle button_tick_cross not-replied" data-toggle="dropdown" >
-						<span>8</span>
-					</button>
-					<ul class="dropdown-menu dropdown">
-						<li class = "disabled drop-down-item">Tiny Tim</li>
-					</ul>
-				</div>
-				<button type = "button" class = "btn btn-default button_tick_cross" >
-					Confirm
-				</button>
-			</div>
-		</div>
-		</div>
-		
-
--->
-
-
-
-
-
-
-
-
-
-
-
+ 
 
