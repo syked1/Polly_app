@@ -1,5 +1,5 @@
 WTF_CSRF_ENABLED = True
-SECRET_KEY = 'shn150LYR'
+SECRET_KEY = 'freedom_st'
 
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))

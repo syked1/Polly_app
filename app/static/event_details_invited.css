@@ -10,7 +10,7 @@ body {
 .eventdate-box{
 	padding-right:0px;
 	background-color: #3CBC8D;
-	height:40px;
+	height:60px;
 	color:white;
 	background-clip: content-box;
 }
@@ -41,6 +41,14 @@ body {
 	padding:0px
 }
 
+.btn-event-details{
+	background-color: #3CBC8D;
+	height:60px;
+	color: white;
+	text-align:left;
+	padding:0px;
+	padding-left:10px;
+}
 
 .btn-select-date{
 	background-color: #3CBC8D;

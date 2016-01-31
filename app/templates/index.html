@@ -3,22 +3,11 @@
 {% block title %} Polly App {% endblock %}
 {%block head%}
 <link rel="stylesheet" href="{{url_for("static", filename = "index.css")}}" /> 
+<link rel="stylesheet" href="{{url_for("static", filename = "event_details_invited.css")}}" /> 
 {%endblock%}
 {% block content %}
 
- <!-- SAMPLE EVENT BUTTON
- <div class = "container">
-	<div class = "row">
-		<div class = "col-sm-8">
-			<a class = "btn btn-justified btn-default button_event">
-				<span class = "event_title"> Party in my pants </span>
-				<span class = "location_details"> Location </span>
-				<span class = "organiser_details"> You are the organiser </span>
-				<span class = "event_date"> <p align = "center">Mar<br>21</p>  </span>
-			</a>
-		</div>
-	</div>
-</div> -->
+
 
 <div class = "container" style = "padding-top:0px; padding-bottom:20px">
 	<h4> New Events </h4>
@@ -117,7 +106,29 @@
 </div>
 
 
+<!--
 
+<div class = "container container-eventdate">
+		<div class = "row">
+			<div class = "col-xs-12 eventdate-box">
+				<a type = "button" class = "btn btn-block btn-event-details" >
+					<div class = "col-xs-12 eventdate-date">
+						Test Event
+					</div>
+					<div class = "col-xs-12 eventdate-time">
+						<span> The Latchmere Battersea </span>
+					</div>
+					<div class = "col-xs-12 eventdate-time">
+						<span> Tues 21 Jan, Mon 29 Feb, Wed 29 Feb </span>
+					</div>
+				</a>
+			</div>
+		</div>
+</div>
+-->
+
+			
+		
 
 
 {% endblock %}
