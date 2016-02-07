@@ -25,56 +25,52 @@ def index():
 		if admin_event.deleted == False and admin_event.invites_sent:
 			admin_eventdates = EventDate.query.filter_by(event_id = admin_event.id).all()
 			admin_eventdates.sort(key= lambda r: r.date)
-			events_dict[admin_event.id] = {"event":admin_event,"eventdates":admin_eventdates, "confirmed":False, "confirmed_date":None, "admin":current_user , "replied":True, "attending":True, "past":False}
-			#Check if it's been confirmed
-			for eventdate in admin_eventdates:
-				if eventdate.confirmed:
-					events_dict[admin_event.id]["confirmed"] = True
-					events_dict[admin_event.id]["confirmed_date"] = eventdate.date
-			#Check if it's in the past
-			if events_dict[admin_event.id]["confirmed"] == True:
-				if events_dict[admin_event.id]["confirmed_date"] < datetime.datetime.now():
-					events_dict[admin_event.id]["past"] = True
-			elif events_dict[admin_event.id]["confirmed"] == False:
-				print "Eventdates list...",[a.date for a in admin_eventdates]
+			admin = current_user
+			events_dict[admin_event.id] = {"event":admin_event,"eventdates":admin_eventdates, "admin":current_user,  "confirmed_date":None, "replied":True, "attending":True, "past":False}
+			#Check if it's been confirmed and if it is in the past or not
+			if admin_event.confirmed:
+				for eventdate in admin_eventdates:
+					if eventdate.confirmed:
+						events_dict[admin_event.id]["confirmed_date"] = eventdate.date
+						if events_dict[admin_event.id]["confirmed_date"] < datetime.datetime.now():
+							events_dict[admin_event.id]["past"] = True
+			elif admin_event.confirmed == False:
 				if max([a.date for a in admin_eventdates]) <  datetime.datetime.now():
 					events_dict[admin_event.id]["past"] = True
 	#Add non-admin events				
 	for invited_event in invited_events:
 		#Check it's not been deleted
 		if invited_event.deleted == False:
-			admin = User.query.filter_by(id = invited_event.admin_id).first()
 			invited_eventdates = EventDate.query.filter_by(event_id = invited_event.id).all()
 			invited_eventdates.sort(key= lambda r: r.date)
-			events_dict[invited_event.id] = {"event":invited_event,"eventdates":invited_eventdates, "confirmed":False, "confirmed_date":None, "admin":admin , "replied":False, "attending":False, "past":False}
-			for eventdate in invited_eventdates:
-				eventinvites = EventInvite.query.filter_by(eventdate_id = eventdate.id, invited_id = current_user.id)
-				#Check if confirmed
-				if eventdate.confirmed:
-					events_dict[invited_event.id]["confirmed"] = True
-					events_dict[invited_event.id]["confirmed_date"] = eventdate.date
+			admin = User.query.filter_by(id = invited_event.admin_id).first()
+			events_dict[invited_event.id] = {"event":invited_event,"eventdates":invited_eventdates, "admin":admin, "confirmed_date":None, "replied":False, "attending":False, "past":False}
+			#check if confirmed
+			if invited_event.confirmed:
+				for eventdate in invited_eventdates:
+					if eventdate.confirmed:
+						events_dict[invited_event.id]["confirmed_date"] = eventdate.date
 				#Check if replied and whether you can make the confirmed date
-				for invite in eventinvites:
-					if invite.status == 1:
-						events_dict[invited_event.id]["replied"] = True
-						if eventdate.confirmed:
-							events_dict[invited_event.id]["attending"] = True
-					if invite.status == -1:
-						events_dict[invited_event.id]["replied"] = True
-						if eventdate.confirmed:
-							events_dict[invited_event.id]["attending"] = False
-			#Check if it's in the past
-			if events_dict[invited_event.id]["confirmed"] == True:
+					eventinvites = EventInvite.query.filter_by(eventdate_id = eventdate.id, invited_id = current_user.id)
+					for invite in eventinvites:
+						if invite.status == 1:
+							events_dict[invited_event.id]["replied"] = True
+							if eventdate.confirmed:
+								events_dict[invited_event.id]["attending"] = True
+						if invite.status == -1:
+							events_dict[invited_event.id]["replied"] = True
+							if eventdate.confirmed:
+								events_dict[invited_event.id]["attending"] = False
+			#Check if in the past
 				if events_dict[invited_event.id]["confirmed_date"] < datetime.datetime.now():
 					events_dict[invited_event.id]["past"] = True
-			elif events_dict[invited_event.id]["confirmed"] == False:
+			elif invited_event.confirmed == False:
 				if max([a.date for a in invited_eventdates]) <  datetime.datetime.now():
 					events_dict[invited_event.id]["past"] = True		
-	
 	#return list of event_id and date and sort by date
 	id_date_list = []
 	for key in events_dict:
-		if events_dict[key]["confirmed"]:
+		if events_dict[key]["event"].confirmed:
 			id_date_list.append((key,events_dict[key]["confirmed_date"]))
 		else:
 			event_dates = events_dict[key]["eventdates"]

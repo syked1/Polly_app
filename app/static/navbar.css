@@ -1,0 +1,15 @@
+.navbar-custom{
+	background-color: #8BC5A8;
+	margin-bottom:0px;
+	border-color: #8BC5A8;
+	
+
+}
+
+.navbar-item{
+	color:white;
+}
+
+.navbar-toggle{
+	border-style:none;
+}

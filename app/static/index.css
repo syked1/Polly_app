@@ -2,6 +2,97 @@ body {
   background-color: #f2f2f2;
 }
 
+
+.container-all-events{
+	padding-top:0px;
+	padding-bottom:0px;
+	margin:0px;
+}
+
+.eventsheader-row{
+
+}
+
+.eventsheader{
+	background-color: #A5D7BE;
+	color:#707070;
+	height: 30px;
+}
+
+.eventrow{
+	padding:0px;
+}
+
+.btn-event{
+	background-color: white;
+	color: black;
+	padding:0px;
+	padding-top:2px;
+	padding-bottom:2px;
+	height:60px;
+	border-radius:0px;
+	box-shadow: inset 3px 0px 0px #97CBB1;
+	border-top-style: none;
+	border-bottom: solid 1px #D1D1D1;
+	border-left: 0px;
+	border-right:0px;
+}
+
+.date-box{
+	padding:0px;
+	border-right: solid 1px #f8f8f8;
+
+
+}
+
+.date-box-dayname{
+	font-size: 0.9em;
+	font-weight: bold;
+	text-align:center;
+}
+
+.date-box-daynumber{
+	font-size: 1.1em;
+	font-weight: bold;
+	text-align:center;
+}
+
+.date-box-month{
+	font-size: 0.9em;
+	font-weight: bold;
+	text-align:center;
+}
+
+.details-box{
+	text-align:left;
+	height: 60px;
+	padding-left:10px;
+}
+
+.details-box-name{
+	text-align:left;
+	padding-left:0px;
+	font-size: 1.0em;
+	font-weight:bold;
+}
+
+.details-box-location{
+	text-align:left;
+	padding-left:0px;
+	font-size: 0.9em;
+	color: gray;
+}
+
+.details-box-admin{
+	text-align:left;
+	padding-left:0px;
+	font-size: 0.9em;
+	color: gray;
+}
+
+
+
+
 .button_event {
   height:4.5em;
   display: block;

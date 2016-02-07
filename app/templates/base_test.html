@@ -8,7 +8,8 @@
  
 	<link rel="stylesheet" href="{{url_for("static", filename = "bower_components/bootstrap/dist/css/bootstrap.min.css")}}" /> 
 	<link rel="stylesheet" href="{{url_for("static", filename = "bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css")}}" />
-
+	<link rel="stylesheet" href="{{url_for("static", filename = "navbar.css")}}" /> 
+	
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    
    {%block head%}
@@ -17,7 +18,7 @@
   
 </html>
 
-<div class = "navbar navbar-inverse" role = "navigation">
+<div class = "navbar navbar-inverse navbar-custom" role = "navigation">
 	<div class = "container">
 		<div class = "navbar-header">
 			<button type = "button" class="navbar-toggle" data-toggle="collapse" data-target = ".navbar-collapse">
@@ -26,10 +27,10 @@
 				<span class = "icon-bar"></span>
 				<span class = "icon-bar"></span>
 			</button>
-		<a class = "navbar-brand" href = "{{url_for("index")}}"> Polly App </a>
+		<a class = "navbar-brand navbar-item" href = "{{url_for("index")}}"> Polly App </a>
 		</div>
 		<div class = "navbar-collapse collapse">
-			<ul class = "nav navbar-nav">
+			<ul class = "nav navbar-nav navbar-item">
 				<li><a href = "{{url_for("index")}}"> My Events </a></li>
 				<li><a href = "{{url_for("new_event")}}"> New Event </a></li>
 				<li><a href = "{{url_for("logout")}}"> Logout </a></li>
