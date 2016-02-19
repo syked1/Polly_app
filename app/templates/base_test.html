@@ -18,26 +18,19 @@
   
 </html>
 
-<div class = "navbar navbar-inverse navbar-custom" role = "navigation">
+<div class = "navbar navbar-custom" role = "navigation">
 	<div class = "container">
 		<div class = "navbar-header">
-			<button type = "button" class="navbar-toggle" data-toggle="collapse" data-target = ".navbar-collapse">
-				<span class = "sr-only"> Toggle navigation</span>
-				<span class = "icon-bar"></span>
-				<span class = "icon-bar"></span>
-				<span class = "icon-bar"></span>
-			</button>
-		<a class = "navbar-brand navbar-item" href = "{{url_for("index")}}"> Polly App </a>
-		</div>
-		<div class = "navbar-collapse collapse">
-			<ul class = "nav navbar-nav navbar-item">
-				<li><a href = "{{url_for("index")}}"> My Events </a></li>
-				<li><a href = "{{url_for("new_event")}}"> New Event </a></li>
-				<li><a href = "{{url_for("logout")}}"> Logout </a></li>
-			</ul>
+			<a class = "navbar-brand navbar-item app-name" href = "{{url_for("index")}}"> PICKLE </a>
+			<a class = "navbar-brand navbar-item btn-add-event" href = "{{url_for("new_event")}}">
+				<span class = "glyphicon glyphicon-plus"> </span>
+			</a>
 		</div>
 	</div>
 </div>
+
+
+
 
 
 <body>

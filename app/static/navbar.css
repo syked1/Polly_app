@@ -1,15 +1,36 @@
 .navbar-custom{
-	background-color: #8BC5A8;
+	background-color: #274D6D;
 	margin-bottom:0px;
-	border-color: #8BC5A8;
+	border-color: #274D6D;
 	
 
 }
 
+.navbar-inverse{
+	color:white;
+}
 .navbar-item{
 	color:white;
 }
 
+.navbar-brand{
+	color:white;
+}
+
+.app-name{
+	color:white;
+	height:50px;
+	padding-top:12.5px;
+	font-size:1.25em;
+	
+}
+
 .navbar-toggle{
 	border-style:none;
+}
+
+.btn-add-event{
+	position:relative;
+	float:right;
+	color:white;
 }

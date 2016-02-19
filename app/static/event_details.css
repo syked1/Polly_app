@@ -3,12 +3,13 @@ body {
 }
 
 .event-details-header{
-	background-color: #3CBC8D;
+	background-color: #497294;
+	color:white;
 }
 
 .date-option-col{
 	padding:0px;
-	box-shadow: inset 3px 0px 0px #97CBB1;
+	box-shadow: inset 5px 0px 0px #FFEA00;
 	border-bottom: solid 1px #D1D1D1;
 	border-right: solid 1px #D1D1D1;
 }
@@ -59,6 +60,16 @@ body {
 	color:#333;
 	width:100%;
 	background-color:white;
+}
+
+.row-attending-header{
+	font-size: 1.25em;
+	text-align: center;
+	font-weight:bold;
+}
+
+.row-attending-names{
+	text-align:center;
 }
 
 .btn-people-cant-make-it{

@@ -93,31 +93,32 @@
 		</div>
 	</div>
 	{%endfor%}
-
+</div>
 	
 	
-	
-	<div class = "row eventdate-row">
-		<div class = "col-xs-12">
-			<a type = "button" class = "btn btn-danger btn-block" href="{{url_for("delete_event", event_id = event.id)}}" >
-				Delete Event
-			</a>
+	<div class = "container container-eventdate">
+		<div class = "row eventdate-row">
+			<div class = "col-xs-12">
+				<a type = "button" class = "btn btn-danger btn-block" href="{{url_for("delete_event", event_id = event.id)}}" >
+					Delete Event
+				</a>
+			</div>
 		</div>
-	</div>
 	
-	<div class = "row eventdate-row">
-		<div class = "col-xs-12">
-			<a type = "button" id = "confirm-event" class = "btn btn-default btn-block"  disabled href="{{url_for("confirm_event", event_id = event.id)}}" >
-				Confirm Selected Date
-			</a>
+		<div class = "row eventdate-row">
+			<div class = "col-xs-12">
+				<a type = "button" id = "confirm-event" class = "btn btn-default btn-block"  disabled href="{{url_for("confirm_event", event_id = event.id)}}" >
+					Confirm Selected Date
+				</a>
+			</div>
 		</div>
-	</div>
 
-	<div class = "row eventdate-row">
-		<div class = "col-xs-12">
-			<a type = "button" class = "btn btn-default btn-block" href="{{url_for("index")}}" >
-				Back to my events
-			</a>
+		<div class = "row eventdate-row">
+			<div class = "col-xs-12">
+				<a type = "button" class = "btn btn-default btn-block" href="{{url_for("index")}}" >
+					Back to my events
+				</a>
+			</div>
 		</div>
 	</div>
 </div>
@@ -130,7 +131,7 @@
 	var $inputs = $(".btn-date-option");
 	$inputs.click(function () {
     $inputs.not(this).css("color", "black");
-    $(this).css('color', "green");
+    $(this).css('color', "#36A37B");
 	var chosen_eventdate_id = $(this).attr("id");
 	$.getJSON($SCRIPT_ROOT + "/confirm_date/" + chosen_eventdate_id)
 	$("#confirm-event").removeAttr("disabled")

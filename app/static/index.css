@@ -14,9 +14,10 @@ body {
 }
 
 .eventsheader{
-	background-color: #A5D7BE;
-	color:#707070;
+	background-color: #497294;
+	color:white;
 	height: 30px;
+	padding-top: 2px;
 }
 
 .eventrow{
@@ -31,7 +32,7 @@ body {
 	padding-bottom:2px;
 	height:60px;
 	border-radius:0px;
-	box-shadow: inset 3px 0px 0px #97CBB1;
+	box-shadow: inset 5px 0px 0px #FFEA00;
 	border-top-style: none;
 	border-bottom: solid 1px #D1D1D1;
 	border-left: 0px;
