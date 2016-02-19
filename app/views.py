@@ -184,12 +184,17 @@ def event_details(event_id):
 					attendance_dict[eventdate.id]["not_replied"] = attendance_dict[eventdate.id]["not_replied"] + 1
 	admin = User.query.filter_by(id = event.admin_id).first()
 	if event.confirmed:
-		return render_template("event_details_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin, attendance_dict=attendance_dict)
+		if event.admin_id == current_user.id:
+			return render_template("event_details_admin_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin, attendance_dict=attendance_dict)
+		elif current_user.id in [invitee.invited_id for invitee in invitees]:
+			return render_template("event_details_invited_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin, attendance_dict=attendance_dict)
+		else:
+			return "You are not admin or invited to " + event.name
 	elif event.confirmed == False:
 		if event.admin_id == current_user.id:
-			return render_template("event_details_admin.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin, attendance_dict=attendance_dict)
+			return render_template("event_details_admin_not_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin, attendance_dict=attendance_dict)
 		elif current_user.id in [invitee.invited_id for invitee in invitees]:
-			return render_template("event_details_invited.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin)
+			return render_template("event_details_invited_not_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin)
 		else:
 			return "You are not admin or invited to " + event.name
 

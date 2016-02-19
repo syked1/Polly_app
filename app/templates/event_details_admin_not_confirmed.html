@@ -1,0 +1,144 @@
+{% extends "base_test.html" %}
+{%block head%}
+<link rel="stylesheet" href="{{url_for("static", filename = "event_details.css")}}" /> 
+
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+
+{%endblock%}
+
+{% block content %}
+ 
+ 
+ 
+ 
+<div class = "container event-details-header">
+	<div class = "row">
+		<div class = "col-sm-12">
+			<h2 style = "text-align: center"> {{ event.name }} </h2>
+			<h4 style = "text-align: center"> {{event.location}} </h4>
+			<p style = "text-align: center"> Invited by {{ admin.firstname}} {{ admin.surname}} </p>
+		</div>
+	</div>
+</div>
+
+
+	
+<div class="container eventdate-choices">
+	{%for eventdate in eventdates%}
+	<div class="row date-option-row">
+		<div class="col-xs-12 date-option-col">
+			<div class="col-xs-6 date-option-datetime-box">
+				<a type="button" id="{{eventdate.id}}" class="btn btn-block btn-date-option">
+					<div class="col-xs-12 date-option-date-box">
+						{{eventdate.date.strftime("%a %d %b")}}
+					</div>
+					<div class="col-xs-12 date-option-time-box">
+						<span class="glyphicon glyphicon-time"></span> {{eventdate.date.strftime("%I:%M %p")}}
+					</div>
+				</a>
+			</div>
+			<div class="col-xs-2 tick-cross-box">	
+				<button type="button" class="btn dropdown-toggle btn-people-attending" data-toggle="dropdown" >
+					<div class = "col-xs-12">
+						<span class="glyphicon glyphicon-ok"></span>
+					</div>
+					<div class = "col-xs-12">
+						{{attendance_dict[eventdate.id]["attending"]}}
+					</div>
+				</button>
+				<ul class="dropdown-menu">
+					{%for invitee in invitees%}
+						{%if invitee.eventdate.id == eventdate.id and invitee.status == 1%}
+					<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+						{%endif%}
+					{%endfor%}
+				</ul>
+			</div>
+			<div class="col-xs-2 tick-cross-box">	
+				<button type="button" class="btn dropdown-toggle btn-people-cant-make-it" data-toggle="dropdown" >
+					<div class = "col-xs-12">
+						<span class="glyphicon glyphicon-remove"></span>
+					</div>
+					<div class = "col-xs-12">
+						{{attendance_dict[eventdate.id]["cant_make_it"]}}
+					</div>
+				</button>
+				<ul class="dropdown-menu">
+					{%for invitee in invitees%}
+						{%if invitee.eventdate.id == eventdate.id and invitee.status == -1%}
+					<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+						{%endif%}
+					{%endfor%}
+				</ul>
+			</div>
+			<div class="col-xs-2 tick-cross-box">	
+				<button type="button" class="btn dropdown-toggle btn-people-not-replied" data-toggle="dropdown" >
+					<div class = "col-xs-12">
+						<strong> ? </strong>
+					</div>
+					<div class = "col-xs-12">
+						{{attendance_dict[eventdate.id]["not_replied"]}}
+					</div>
+				</button>
+				<ul class="dropdown-menu">
+					{%for invitee in invitees%}
+						{%if invitee.eventdate.id == eventdate.id and invitee.status == 0%}
+					<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+						{%endif%}
+					{%endfor%}
+				</ul>
+			</div>
+		</div>
+	</div>
+	{%endfor%}
+
+	
+	
+	
+	<div class = "row eventdate-row">
+		<div class = "col-xs-12">
+			<a type = "button" class = "btn btn-danger btn-block" href="{{url_for("delete_event", event_id = event.id)}}" >
+				Delete Event
+			</a>
+		</div>
+	</div>
+	
+	<div class = "row eventdate-row">
+		<div class = "col-xs-12">
+			<a type = "button" id = "confirm-event" class = "btn btn-default btn-block"  disabled href="{{url_for("confirm_event", event_id = event.id)}}" >
+				Confirm Selected Date
+			</a>
+		</div>
+	</div>
+
+	<div class = "row eventdate-row">
+		<div class = "col-xs-12">
+			<a type = "button" class = "btn btn-default btn-block" href="{{url_for("index")}}" >
+				Back to my events
+			</a>
+		</div>
+	</div>
+</div>
+
+		
+
+	
+	<script type="text/javascript">
+	var chosen_eventdate_id;
+	var $inputs = $(".btn-date-option");
+	$inputs.click(function () {
+    $inputs.not(this).css("color", "black");
+    $(this).css('color', "green");
+	var chosen_eventdate_id = $(this).attr("id");
+	$.getJSON($SCRIPT_ROOT + "/confirm_date/" + chosen_eventdate_id)
+	$("#confirm-event").removeAttr("disabled")
+	})
+
+	</script>
+
+{% endblock %}
+
+ 
+
