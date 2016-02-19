@@ -41,6 +41,7 @@ class Event(db.Model):
 	location = db.Column(db.String(120), unique=False)
 	admin_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 	deleted = db.Column(db.Boolean, unique=False, default = False)
+	notes = db.Column(db.String(200), unique=False)
 	invites_sent = db.Column(db.Boolean, unique=False, default = False)
 	confirmed = db.Column(db.Boolean, unique=False, default = False)
 	eventdates = db.relationship('EventDate', backref=db.backref('event', lazy='select'))  #RELATIONSHIP DECLARATION

@@ -12,11 +12,13 @@ class LoginForm(Form):
 class EventForm(Form):
 	name = StringField("Event Name", validators=[Required()])
 	location = StringField('Location', validators = [Required()] )
+	notes = StringField('Notes')
 	submit = SubmitField("Pick Dates")
 
 class EventDateForm(Form):
-	date = StringField("Event Date", validators=[Required()])
-	submit = SubmitField("Save Date Option")
+	dates = StringField("Event Date", validators=[Required()])
+	time = StringField("Time", validators=[Required()])
+	submit = SubmitField("Invite People")
 	
 class InvitesForm(Form):
 	invites = SelectMultipleField("Invites", coerce = int)

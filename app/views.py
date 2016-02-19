@@ -100,7 +100,7 @@ def logout():
 def new_event():
 	form = EventForm()
 	if form.validate_on_submit():
-		event = Event(name=form.name.data, admin_id=current_user.id, location = form.location.data)
+		event = Event(name=form.name.data, admin_id=current_user.id, location = form.location.data, notes = form.notes.data)
 		db.session.add(event)
 		db.session.commit()
 		return redirect(url_for('new_event_date', event_id=event.id))
@@ -110,21 +110,24 @@ def new_event():
 @login_required
 def new_event_date(event_id):
 	form = EventDateForm()
-	if form.validate_on_submit():
-		date = datetime.datetime.strptime(form.date.data, '%m/%d/%Y %I:%M %p')
-		eventdate = EventDate(event_id = event_id, date = date)
-		db.session.add(eventdate)
-		db.session.commit()
-		return redirect(url_for('new_event_date', event_id=event_id))
-	eventdates = EventDate.query.filter_by(event_id = event_id).all()
-	eventdates.sort(key=lambda r: r.date)
 	event = Event.query.filter_by(id = event_id).first()
-	invites_check = EventInvite.query.join(EventDate).filter_by(event_id = event_id).all()
+	if form.validate_on_submit():
+		dates = form.dates.data
+		time = form.time.data
+		dates_list = dates.split(",")
+		print dates_list, time
+		for date in dates_list:
+			datetime_string = date + time
+			datetime_object = datetime.datetime.strptime(datetime_string, '%d/%m/%Y%I:%M %p')
+			eventdate = EventDate(event_id = event_id, date = datetime_object)
+			db.session.add(eventdate)
+		db.session.commit()
+		return redirect(url_for('invites', event_id=event_id))
 	if current_user.id == event.admin_id:
 		if event.invites_sent:
 			return "This event has already has invites sent"		
 		else:
-			return render_template("new_event_date.html", title="New Event Date", form = form, event = event , eventdates = eventdates)
+			return render_template("date_picker.html", title="New Event Date", form = form, event = event)
 	else:
 		return "You are not admin for this event"
 
