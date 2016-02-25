@@ -47,8 +47,22 @@ $('.datepicker').datepicker({
 	multidateSeparator: ",",
 	format: "dd/mm/yyyy",
 });
+$('.datepicker').on('focus',function()
+    {
+        $(this).trigger('blur');
+    });
 </script>
 
+<script type="text/javascript">
+$('blabla').datepicker(
+    {
+        /* options */
+    })
+    .on('focus',function()
+    {
+        $(this).trigger('blur');
+    });
+</script>
 
 
 {% endblock %}
