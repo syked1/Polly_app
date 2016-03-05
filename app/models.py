@@ -1,12 +1,13 @@
 from app import db
-from flask.ext.login import UserMixin
+#from flask.ext.login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import login_manager
+#from . import login_manager
 
-@login_manager.user_loader
-def load_user(user_id):
-	return User.query.get(int(user_id))
+#@login_manager.user_loader
+#def load_user(user_id):
+#	return User.query.get(int(user_id))
 
+'''
 class User(UserMixin, db.Model):
 	__tablename__ = "users"
 	id = db.Column(db.Integer, primary_key=True)
@@ -32,6 +33,8 @@ class User(UserMixin, db.Model):
 
 	def __repr__(self):
 		return '<User %r>' % (self.firstname)
+
+'''
 		
 
 class Event(db.Model):
@@ -39,7 +42,7 @@ class Event(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(120), unique=False)
 	location = db.Column(db.String(120), unique=False)
-	admin_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+	admin_email = db.Column(db.String(120), index=True, unique=True)
 	deleted = db.Column(db.Boolean, unique=False, default = False)
 	notes = db.Column(db.String(200), unique=False)
 	invites_sent = db.Column(db.Boolean, unique=False, default = False)
@@ -62,7 +65,7 @@ class EventInvite(db.Model):
 	__tablename__ = "eventinvites"
 	id = db.Column(db.Integer, primary_key=True)
 	eventdate_id = db.Column(db.Integer, db.ForeignKey("eventdates.id"))
-	invited_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+	invited_email = db.Column(db.String(120), index=True, unique=True)
 	status =  db.Column(db.Integer, unique=False) #1 is attending, 0 is not replied, -1 is not attending
 	
 	def __repr__(self):

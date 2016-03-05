@@ -1,16 +1,33 @@
 from flask import render_template, flash, redirect, session, url_for,request, jsonify
-from app import app, db
+from app import app, db, stormpath_manager
 from .forms import LoginForm, EventForm, EventDateForm, InvitesForm
-from .models import User, Event, EventInvite, EventDate
-from flask.ext.login import login_required, login_user, logout_user, current_user
+from flask.ext.stormpath import login_required, user
+from .models import Event, EventInvite, EventDate
+#from flask.ext.login import login_required, login_user, logout_user, current_user
 import datetime
+
+
 
 @app.route('/')
 @app.route('/index')
 @login_required
 def index():
-	invites = EventInvite.query.filter_by(invited_id = current_user.id).all()
-	admin_events = Event.query.filter_by(admin_id = current_user.id).all()
+	application = stormpath_manager.application
+	accounts = application.accounts #.search('David').order('given_name')[0:50]
+	a = "Accounts..."
+	for acc in accounts:
+		a = a + acc.given_name + acc.surname
+	return a
+	
+'''
+
+
+@app.route('/')
+@app.route('/index')
+@login_required
+def index():
+	invites = EventInvite.query.filter_by(invited_email = user.email).all()
+	admin_events = Event.query.filter_by(admin_email = user.email).all()
 	invited_events = []
 	#Make a unique list of events invited to
 	for invite in invites:
@@ -25,8 +42,8 @@ def index():
 		if admin_event.deleted == False and admin_event.invites_sent:
 			admin_eventdates = EventDate.query.filter_by(event_id = admin_event.id).all()
 			admin_eventdates.sort(key= lambda r: r.date)
-			admin = current_user
-			events_dict[admin_event.id] = {"event":admin_event,"eventdates":admin_eventdates, "admin":current_user,  "confirmed_date":None, "replied":True, "attending":True, "past":False}
+			admin = user
+			events_dict[admin_event.id] = {"event":admin_event,"eventdates":admin_eventdates, "admin":user,  "confirmed_date":None, "replied":True, "attending":True, "past":False}
 			#Check if it's been confirmed and if it is in the past or not
 			if admin_event.confirmed:
 				for eventdate in admin_eventdates:
@@ -43,6 +60,10 @@ def index():
 		if invited_event.deleted == False:
 			invited_eventdates = EventDate.query.filter_by(event_id = invited_event.id).all()
 			invited_eventdates.sort(key= lambda r: r.date)
+			
+			
+			###GOT TO HERE
+			
 			admin = User.query.filter_by(id = invited_event.admin_id).first()
 			events_dict[invited_event.id] = {"event":invited_event,"eventdates":invited_eventdates, "admin":admin, "confirmed_date":None, "replied":False, "attending":False, "past":False}
 			#check if confirmed
@@ -281,3 +302,5 @@ def delete_eventdate(eventdate_id):
 			return redirect(url_for("new_event_date", event_id=eventdate_to_delete.event.id))
 	else:
 		return "you are not the admin for this event"
+		
+'''
