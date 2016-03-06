@@ -6,6 +6,15 @@
 
 }
 
+.navbar-header-custom{
+	width:100%;
+	margin:0px;
+}
+
+.navbar-container{
+	margin:0px;
+	padding:0px;
+}
 .navbar-inverse{
 	color:white;
 }

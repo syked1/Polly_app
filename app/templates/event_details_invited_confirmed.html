@@ -96,9 +96,9 @@
 				{%for invitee in invitees_list%}
 						{%if invitee[0].eventdate.id == eventdate.id and invitee[0].invited_email == user.email%}
 							{%if invitee[0].status == 1%}
-				<a type = "button" name = "{{invitee[1].email}}"  class = "btn btn-attend {{invitee[1].email}}" style = "color:green">
+				<a type = "button" name = "{{invitee[0].id}}"  class = "btn btn-attend {{invitee[0].id}}" style = "color:green">
 							{%else%}
-				<a type = "button" name = "{{invitee[1].email}}"  class = "btn btn-attend {{invitee[1].email}}">
+				<a type = "button" name = "{{invitee[0].id}}"  class = "btn btn-attend {{invitee[0].id}}">
 							{%endif%}
 						{%endif%}
 					{%endfor%}
@@ -110,9 +110,9 @@
 				{%for invitee in invitees_list%}
 						{%if invitee[0].eventdate.id == eventdate.id and invitee[0].invited_email == user.email%}
 							{%if invitee[0].status == -1%}
-				<a type = "button" name = "{{invitee[1].email}}"  class = "btn btn-cant-make-it {{invitee[1].email}}" style = "color:green">
+				<a type = "button" name = "{{invitee[0].id}}"  class = "btn btn-cant-make-it {{invitee[0].id}}" style = "color:green">
 							{%else%}
-				<a type = "button"  name = "{{invitee[1].email}}" class = "btn btn-cant-make-it {{invitee[1].email}}">
+				<a type = "button"  name = "{{invitee[0].id}}" class = "btn btn-cant-make-it {{invitee[0].id}}">
 							{%endif%}
 						{%endif%}
 					{%endfor%}

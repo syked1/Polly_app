@@ -39,6 +39,7 @@ def index():
 @app.route('/index')
 @login_required
 def index():
+	application = stormpath_manager.application
 	invites = EventInvite.query.filter_by(invited_email = user.email).all()
 	admin_events = Event.query.filter_by(admin_email = user.email).all()
 	invited_events = []
@@ -148,11 +149,12 @@ def new_event_date(event_id):
 	if form.validate_on_submit():
 		dates = form.dates.data
 		time = form.time.data
+		print "Time" , time
 		dates_list = dates.split(",")
 		print dates_list, time
 		for date in dates_list:
 			datetime_string = date + time
-			datetime_object = datetime.datetime.strptime(datetime_string, '%d/%m/%Y%I:%M %p')
+			datetime_object = datetime.datetime.strptime(datetime_string, '%d/%m/%Y%H:%M')
 			eventdate = EventDate(event_id = event_id, date = datetime_object)
 			db.session.add(eventdate)
 		db.session.commit()
@@ -177,16 +179,12 @@ def invites(event_id):
 		accounts = group.accounts
 		for acc in accounts:
 			if acc.email != user.email:
-				print acc.email, "  Fine"
 				invitable_users.append(acc)
-			else:
-				print acc.email, "Not Fine"
 	for u in invitable_users:
 		name = "%s %s" % (u.given_name, u.surname)
 		name_tuple = (u.email, name)
 		possible_invites.append(name_tuple)
 	form.invites.choices = possible_invites
-	print possible_invites
 	eventdates = EventDate.query.filter_by(event_id = event_id).all()
 	event = Event.query.filter_by(id = event_id).first()
 	if form.validate_on_submit():
@@ -240,14 +238,14 @@ def event_details(event_id):
 	if event.confirmed:
 		if event.admin_email == user.email:
 			return render_template("event_details_admin_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees_list = invitees_list, admin = admin, attendance_dict=attendance_dict)
-		elif current_user.id in [invitee.invited_id for invitee in invitees]:
+		elif user.email in [invitee.invited_email for invitee in invitees]:
 			return render_template("event_details_invited_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees_list = invitees_list, admin = admin, attendance_dict=attendance_dict)
 		else:
 			return "You are not admin or invited to " + event.name
 	elif event.confirmed == False:
 		if event.admin_email == user.email:
 			return render_template("event_details_admin_not_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees_list = invitees_list, admin = admin, attendance_dict=attendance_dict)
-		elif current_user.id in [invitee.invited_id for invitee in invitees]:
+		elif user.email in [invitee.invited_email for invitee in invitees]:
 			return render_template("event_details_invited_not_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees_list = invitees_list, admin = admin)
 		else:
 			return "You are not admin or invited to " + event.name
