@@ -38,10 +38,10 @@
 	<div class = "row row-attending-names">
 	{%for eventdate in eventdates%}
 		{%if eventdate.confirmed%}
-			{%for invitee in invitees%}
-				{%if invitee.eventdate.id == eventdate.id and invitee.status == 1%}
+			{%for invitee in invitees_list%}
+				{%if invitee[0].eventdate.id == eventdate.id and invitee[0].status == 1%}
 		<div class = "col-xs-12">
-		{{invitee.user.firstname}} {{invitee.user.surname}}
+		{{invitee[1].given_name}} {{invitee[1].surname}}
 		</div>
 				{%endif%}
 			{%endfor%}
@@ -59,10 +59,10 @@
 	<div class = "row row-attending-names">
 	{%for eventdate in eventdates%}
 		{%if eventdate.confirmed%}
-			{%for invitee in invitees%}
-				{%if invitee.eventdate.id == eventdate.id and invitee.status == -1%}
+			{%for invitee in invitees_list%}
+				{%if invitee[0].eventdate.id == eventdate.id and invitee[0].status == -1%}
 		<div class = "col-xs-12">
-		{{invitee.user.firstname}} {{invitee.user.surname}}
+		{{invitee[1].given_name}} {{invitee[1].surname}}
 		</div>
 				{%endif%}
 			{%endfor%}
@@ -80,10 +80,10 @@
 	<div class = "row row-attending-names">
 	{%for eventdate in eventdates%}
 		{%if eventdate.confirmed%}
-			{%for invitee in invitees%}
-				{%if invitee.eventdate.id == eventdate.id and invitee.status == 0%}
+			{%for invitee in invitees_list%}
+				{%if invitee[0].eventdate.id == eventdate.id and invitee[0].status == 0%}
 		<div class = "col-xs-12">
-		{{invitee.user.firstname}} {{invitee.user.surname}}
+		{{invitee[1].given_name}} {{invitee[1].surname}}
 		</div>
 				{%endif%}
 			{%endfor%}

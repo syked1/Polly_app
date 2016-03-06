@@ -6,6 +6,12 @@ from .models import Event, EventInvite, EventDate
 #from flask.ext.login import login_required, login_user, logout_user, current_user
 import datetime
 
+'''
+accounts.search.({'given_name': 'Joe',
+                'middle_name': '*aul',
+                'surname': '*mit*',
+                'email': 'joePaul*',
+                'status': 'disabled'})
 
 
 @app.route('/')
@@ -13,11 +19,18 @@ import datetime
 @login_required
 def index():
 	application = stormpath_manager.application
-	accounts = application.accounts #.search('David').order('given_name')[0:50]
+	accounts = application.accounts.search({"email":'david.sykes70@gmail.com'})
+	print accounts
 	a = "Accounts..."
 	for acc in accounts:
 		a = a + acc.given_name + acc.surname
-	return a
+	groups = user.groups
+	b = "Groups"
+	for group in groups:
+		b = b + group.name
+	#directory = stormpath_manager.application.default_account_store_mapping.account_store
+	#accounts = directory.groups
+	return a + b
 	
 '''
 
@@ -59,12 +72,10 @@ def index():
 		#Check it's not been deleted
 		if invited_event.deleted == False:
 			invited_eventdates = EventDate.query.filter_by(event_id = invited_event.id).all()
-			invited_eventdates.sort(key= lambda r: r.date)
-			
-			
-			###GOT TO HERE
-			
-			admin = User.query.filter_by(id = invited_event.admin_id).first()
+			invited_eventdates.sort(key= lambda r: r.date)	
+			accounts = application.accounts.search({"email":invited_event.admin_email})	#new line
+			admin = accounts[0]															#new line
+			#admin = User.query.filter_by(id = invited_event.admin_id).first()
 			events_dict[invited_event.id] = {"event":invited_event,"eventdates":invited_eventdates, "admin":admin, "confirmed_date":None, "replied":False, "attending":False, "past":False}
 			#check if confirmed
 			if invited_event.confirmed:
@@ -72,7 +83,7 @@ def index():
 					if eventdate.confirmed:
 						events_dict[invited_event.id]["confirmed_date"] = eventdate.date
 				#Check if replied and whether you can make the confirmed date
-					eventinvites = EventInvite.query.filter_by(eventdate_id = eventdate.id, invited_id = current_user.id)
+					eventinvites = EventInvite.query.filter_by(eventdate_id = eventdate.id, invited_email = user.email)
 					for invite in eventinvites:
 						if invite.status == 1:
 							events_dict[invited_event.id]["replied"] = True
@@ -98,9 +109,10 @@ def index():
 			id_date_list.append((key,min([a.date for a in event_dates])))
 	id_date_list.sort(key= lambda r: r[1])
 	for key in events_dict:
-		print events_dict[key]["event"].name, "\t", events_dict[key]["admin"].firstname, events_dict[key]["admin"].id
-	return render_template("index.html",user = current_user, events_dict = events_dict, id_date_list = id_date_list)
+		print events_dict[key]["event"].name, "\t", events_dict[key]["admin"].given_name, events_dict[key]["admin"].email
+	return render_template("index.html",user = user, events_dict = events_dict, id_date_list = id_date_list)
 
+'''
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	form = LoginForm()
@@ -115,13 +127,14 @@ def login():
 def logout():
 	logout_user()
 	return redirect(url_for('login'))
+'''
 						   
 @app.route('/new_event', methods=['GET', 'POST'])
 @login_required
 def new_event():
 	form = EventForm()
 	if form.validate_on_submit():
-		event = Event(name=form.name.data, admin_id=current_user.id, location = form.location.data, notes = form.notes.data)
+		event = Event(name=form.name.data, admin_email = user.email, location = form.location.data, notes = form.notes.data)
 		db.session.add(event)
 		db.session.commit()
 		return redirect(url_for('new_event_date', event_id=event.id))
@@ -144,7 +157,7 @@ def new_event_date(event_id):
 			db.session.add(eventdate)
 		db.session.commit()
 		return redirect(url_for('invites', event_id=event_id))
-	if current_user.id == event.admin_id:
+	if user.email == event.admin_email:
 		if event.invites_sent:
 			return "This event has already has invites sent"		
 		else:
@@ -157,12 +170,23 @@ def new_event_date(event_id):
 def invites(event_id):
 	form = InvitesForm()
 	possible_invites = []
-	for user in User.query.filter_by(group = current_user.group).all():
-		if user != current_user:
-			name = "%s %s" % (user.firstname, user.surname)
-			name_tuple = (user.id, name)
-			possible_invites.append(name_tuple)
+	groups = user.groups
+	print groups
+	invitable_users = []
+	for group in groups:
+		accounts = group.accounts
+		for acc in accounts:
+			if acc.email != user.email:
+				print acc.email, "  Fine"
+				invitable_users.append(acc)
+			else:
+				print acc.email, "Not Fine"
+	for u in invitable_users:
+		name = "%s %s" % (u.given_name, u.surname)
+		name_tuple = (u.email, name)
+		possible_invites.append(name_tuple)
 	form.invites.choices = possible_invites
+	print possible_invites
 	eventdates = EventDate.query.filter_by(event_id = event_id).all()
 	event = Event.query.filter_by(id = event_id).first()
 	if form.validate_on_submit():
@@ -171,7 +195,7 @@ def invites(event_id):
 		for eventdate in eventdates:
 			eventdate_id = eventdate.id
 			for invitee in invitees:
-				event_invite = EventInvite(eventdate_id = eventdate_id , invited_id=invitee, status = 0)
+				event_invite = EventInvite(eventdate_id = eventdate_id , invited_email=invitee, status = 0)
 				db.session.add(event_invite)
 		event.invites_sent = True
 		if len(eventdates) <= 1:
@@ -180,7 +204,7 @@ def invites(event_id):
 		db.session.add(event)
 		db.session.commit()
 		return redirect(url_for('index'))
-	if current_user.id == event.admin_id:
+	if user.email == event.admin_email:
 		if event.invites_sent:
 			return "This event has already has invites set"		
 		else:
@@ -195,6 +219,11 @@ def event_details(event_id):
 	eventdates = EventDate.query.filter_by(event_id = event_id).all()
 	eventdates.sort(key = lambda r: r.date)
 	invitees = EventInvite.query.join(EventDate).filter_by(event_id = event_id).all()
+	invitees_list = []
+	application = stormpath_manager.application
+	for invitee in invitees:
+		invitee_account = application.accounts.search({"email":invitee.invited_email})[0]
+		invitees_list.append((invitee,invitee_account))
 	attendance_dict = {}
 	for eventdate in eventdates:
 		attendance_dict[eventdate.id] = {"attending":0,"cant_make_it":0,"not_replied":0}
@@ -206,19 +235,20 @@ def event_details(event_id):
 					attendance_dict[eventdate.id]["cant_make_it"] = attendance_dict[eventdate.id]["cant_make_it"] + 1
 				elif invitee.status == 0:
 					attendance_dict[eventdate.id]["not_replied"] = attendance_dict[eventdate.id]["not_replied"] + 1
-	admin = User.query.filter_by(id = event.admin_id).first()
+	admin_accounts = application.accounts.search({"email":event.admin_email})
+	admin = admin_accounts[0]
 	if event.confirmed:
-		if event.admin_id == current_user.id:
-			return render_template("event_details_admin_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin, attendance_dict=attendance_dict)
+		if event.admin_email == user.email:
+			return render_template("event_details_admin_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees_list = invitees_list, admin = admin, attendance_dict=attendance_dict)
 		elif current_user.id in [invitee.invited_id for invitee in invitees]:
-			return render_template("event_details_invited_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin, attendance_dict=attendance_dict)
+			return render_template("event_details_invited_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees_list = invitees_list, admin = admin, attendance_dict=attendance_dict)
 		else:
 			return "You are not admin or invited to " + event.name
 	elif event.confirmed == False:
-		if event.admin_id == current_user.id:
-			return render_template("event_details_admin_not_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin, attendance_dict=attendance_dict)
+		if event.admin_email == user.email:
+			return render_template("event_details_admin_not_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees_list = invitees_list, admin = admin, attendance_dict=attendance_dict)
 		elif current_user.id in [invitee.invited_id for invitee in invitees]:
-			return render_template("event_details_invited_not_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees = invitees, admin = admin)
+			return render_template("event_details_invited_not_confirmed.html", title="Event_details", event = event , eventdates = eventdates, invitees_list = invitees_list, admin = admin)
 		else:
 			return "You are not admin or invited to " + event.name
 
@@ -226,7 +256,7 @@ def event_details(event_id):
 @login_required
 def confirm_attending(eventinvite_id):
 	event_invite = EventInvite.query.filter_by(id = eventinvite_id).first()
-	if current_user.id == event_invite.invited_id:
+	if user.email == event_invite.invited_email:
 		event_invite.status = 1
 		db.session.add(event_invite)
 		db.session.commit()
@@ -238,7 +268,7 @@ def confirm_attending(eventinvite_id):
 @login_required
 def cant_make_it(eventinvite_id):
 	event_invite = EventInvite.query.filter_by(id = eventinvite_id).first()
-	if current_user.id == event_invite.invited_id:
+	if user.email == event_invite.invited_email:
 		event_invite.status = -1
 		db.session.add(event_invite)
 		db.session.commit()
@@ -251,7 +281,7 @@ def cant_make_it(eventinvite_id):
 def confirm_date(eventdate_id):
 	chosen_eventdate = EventDate.query.filter_by(id = eventdate_id).first()
 	eventdates = EventDate.query.filter_by(event_id = chosen_eventdate.event_id)
-	if current_user.id == chosen_eventdate.event.admin_id:
+	if user.email == chosen_eventdate.event.admin_email:
 		for ed in eventdates:
 			if ed == chosen_eventdate:
 				ed.confirmed = True
@@ -268,7 +298,7 @@ def confirm_date(eventdate_id):
 @login_required
 def confirm_event(event_id):
 	chosen_event = Event.query.filter_by(id = event_id).first()
-	if current_user.id == chosen_event.admin_id:
+	if user.email == chosen_event.admin_email:
 		chosen_event.confirmed = True
 		db.session.add(chosen_event)
 		db.session.commit()
@@ -280,7 +310,7 @@ def confirm_event(event_id):
 @login_required
 def delete_event(event_id):
 	event_to_delete = Event.query.filter_by(id = event_id).first()
-	if current_user.id == event_to_delete.admin_id:
+	if user.email == event_to_delete.admin_email:
 		event_to_delete.deleted = True
 		db.session.add(event_to_delete)
 		db.session.commit()
@@ -293,7 +323,7 @@ def delete_event(event_id):
 def delete_eventdate(eventdate_id):
 	eventdate_to_delete = EventDate.query.filter_by(id = eventdate_id).first()
 	print eventdate_to_delete
-	if current_user.id == eventdate_to_delete.event.admin_id:
+	if user.email == eventdate_to_delete.event.admin_email:
 		if eventdate_to_delete.event.invites_sent:
 			return "Cannot delete eventdate as invites already sent"
 		else:
@@ -303,4 +333,3 @@ def delete_eventdate(eventdate_id):
 	else:
 		return "you are not the admin for this event"
 		
-'''

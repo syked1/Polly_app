@@ -25,7 +25,7 @@
 <div class = "container eventdate-choices">
 
 {%for eventdate in eventdates%}
-
+	
 	<div class = "row date-option-row">
 		<div class = "col-xs-12 date-option-col">
 			<div class = "col-xs-6 date-option-datetime-box">
@@ -43,62 +43,62 @@
 					<ul class="dropdown-menu">			
 						<li class="dropdown-header">Attending</li>
 							<li class = "disabled drop-down-item">
-								{%for invitee in invitees%}
-								{%if invitee.eventdate.id == eventdate.id%} 	
-								{%if invitee.status ==1%}
+								{%for invitee in invitees_list%}
+								{%if invitee[0].eventdate.id == eventdate.id%} 	
+								{%if invitee[0].status ==1%}
 									<li class = "disabled drop-down-item">
-									{%if invitee.invited_id == current_user.id%}
+									{%if invitee[0].invited_email == user.email%}
 										You
 									{%else%}
-										{{invitee.user.firstname}} {{invitee.user.surname}}
+										{{invitee[1].given_name}} {{invitee[1].surname}}
 									{%endif%}
 									</li>
 								{%endif%}
 							{%endif%}
 						{%endfor%}
 							</li>
-					<li class="divider"></li>
-					<li class="dropdown-header">Not Attending</li>
-						{%for invitee in invitees%}
-							{%if invitee.eventdate.id == eventdate.id%} 	
-								{%if invitee.status ==-1%}
+						<li class="divider"></li>
+						<li class="dropdown-header">Not Attending</li>
+							{%for invitee in invitees_list%}
+								{%if invitee[0].eventdate.id == eventdate.id%} 	
+								{%if invitee[0].status ==-1%}
 									<li class = "disabled drop-down-item">
-									{%if invitee.invited_id == current_user.id%}
+									{%if invitee[0].invited_email == user.email%}
 										You
 									{%else%}
-										{{invitee.user.firstname}} {{invitee.user.surname}}
+										{{invitee[1].given_name}} {{invitee[1].surname}}
 									{%endif%}
-									</li>
+										</li>
+									{%endif%}
 								{%endif%}
-							{%endif%}
-						{%endfor%}
-					<li class="divider"></li>
-					<li class="dropdown-header">Not replied</li>
-						<li class = "disabled drop-down-item">
-							{%for invitee in invitees%}
-							{%if invitee.eventdate.id == eventdate.id%} 	
-								{%if invitee.status ==0%}
+							{%endfor%}
+						<li class="divider"></li>
+						<li class="dropdown-header">Not replied</li>
+							<li class = "disabled drop-down-item">
+								{%for invitee in invitees_list%}
+								{%if invitee[0].eventdate.id == eventdate.id%} 	
+								{%if invitee[0].status ==0%}
 									<li class = "disabled drop-down-item">
-									{%if invitee.invited_id == current_user.id%}
+									{%if invitee[0].invited_email == user.email%}
 										You
 									{%else%}
-										{{invitee.user.firstname}} {{invitee.user.surname}}
+										{{invitee[1].given_name}} {{invitee[1].surname}}
 									{%endif%}
-									</li>
+										</li>
+									{%endif%}
 								{%endif%}
-							{%endif%}
-						{%endfor%}
-						</li>
+							{%endfor%}
+							</li>
 
 					</ul>
 			</div>
 			<div class = "col-xs-2 tick-cross-box">
-				{%for invitee in invitees%}
-						{%if invitee.eventdate.id == eventdate.id and invitee.invited_id == current_user.id%}
-							{%if invitee.status == 1%}
-				<a type = "button" name = "{{invitee.id}}"  class = "btn btn-attend {{invitee.id}}" style = "color:green">
+				{%for invitee in invitees_list%}
+						{%if invitee[0].eventdate.id == eventdate.id and invitee[0].invited_email == user.email%}
+							{%if invitee[0].status == 1%}
+				<a type = "button" name = "{{invitee[1].email}}"  class = "btn btn-attend {{invitee[1].email}}" style = "color:green">
 							{%else%}
-				<a type = "button" name = "{{invitee.id}}"  class = "btn btn-attend {{invitee.id}}">
+				<a type = "button" name = "{{invitee[1].email}}"  class = "btn btn-attend {{invitee[1].email}}">
 							{%endif%}
 						{%endif%}
 					{%endfor%}
@@ -107,12 +107,12 @@
 				</a>
 			</div>
 			<div class = "col-xs-2 tick-cross-box">
-				{%for invitee in invitees%}
-						{%if invitee.eventdate.id == eventdate.id and invitee.invited_id == current_user.id%}
-							{%if invitee.status == -1%}
-				<a type = "button" name = "{{invitee.id}}"  class = "btn btn-cant-make-it" style = "color:green">
+				{%for invitee in invitees_list%}
+						{%if invitee[0].eventdate.id == eventdate.id and invitee[0].invited_email == user.email%}
+							{%if invitee[0].status == -1%}
+				<a type = "button" name = "{{invitee[1].email}}"  class = "btn btn-cant-make-it {{invitee[1].email}}" style = "color:green">
 							{%else%}
-				<a type = "button"  name = "{{invitee.id}}" class = "btn btn-cant-make-it {{invitee.id}}">
+				<a type = "button"  name = "{{invitee[1].email}}" class = "btn btn-cant-make-it {{invitee[1].email}}">
 							{%endif%}
 						{%endif%}
 					{%endfor%}
@@ -121,7 +121,7 @@
 			</div>
 		</div>
 	</div>
-
+</div>
 
 {%endfor%}
 

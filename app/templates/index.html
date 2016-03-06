@@ -15,7 +15,7 @@
 	</div>
 	{%for a in id_date_list%}
 		{%if events_dict[a[0]]["past"]==False%}
-			{%if events_dict[a[0]]["admin"].id == current_user.id and events_dict[a[0]]["event"].confirmed == False %}
+			{%if events_dict[a[0]]["admin"].email == user.email and events_dict[a[0]]["event"].confirmed == False %}
 	<div class = "row event-row">
 		<div class = "col-xs-12 eventrow">
 			<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class = "btn btn-block btn-event">
@@ -36,7 +36,7 @@
 			</a>
 		</div>
 	</div>
-			{%elif events_dict[a[0]]["admin"].id != current_user.id and events_dict[a[0]]["event"].confirmed == False%}
+			{%elif events_dict[a[0]]["admin"].email != user.email and events_dict[a[0]]["event"].confirmed == False%}
 	<div class = "row event-row">
 		<div class = "col-xs-12 eventrow">
 			<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}"
@@ -52,13 +52,13 @@
 						{{events_dict[a[0]]["event"].location}} @ tbc
 					</div>
 					<div class = "col-xs-12 details-box-admin">
-						Invited by {{events_dict[a[0]]["admin"].firstname}}
+						Invited by {{events_dict[a[0]]["admin"].given_name}}
 					</div>
 				</div>
 			</a>
 		</div>
 	</div>
-			{%elif events_dict[a[0]]["admin"].id != current_user.id and events_dict[a[0]]["replied"] == False and events_dict[a[0]]["event"].confirmed == True%}
+			{%elif events_dict[a[0]]["admin"].email != user.email and events_dict[a[0]]["replied"] == False and events_dict[a[0]]["event"].confirmed == True%}
 	<div class = "row event-row">
 		<div class = "col-xs-12 eventrow">
 			<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}"
@@ -83,7 +83,7 @@
 						{{events_dict[a[0]]["event"].location}} @ {{events_dict[a[0]]["confirmed_date"].strftime("%I %p")}}
 					</div>
 					<div class = "col-xs-12 details-box-admin">
-						Invited by {{events_dict[a[0]]["admin"].firstname}}
+						Invited by {{events_dict[a[0]]["admin"].given_name}}
 					</div>
 				</div>
 			</a>
@@ -100,7 +100,7 @@
 	</div>
 	{%for a in id_date_list%}
 		{%if events_dict[a[0]]["past"]==False%}
-			{%if events_dict[a[0]]["admin"].id == current_user.id and events_dict[a[0]]["event"].confirmed == True %}
+			{%if events_dict[a[0]]["admin"].email == user.email and events_dict[a[0]]["event"].confirmed == True %}
 	<div class = "row event-row">
 		<div class = "col-xs-12 eventrow">
 			<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}"
@@ -131,7 +131,7 @@
 			</a>
 		</div>
 	</div>
-			{%elif events_dict[a[0]]["admin"].id != current_user.id and events_dict[a[0]]["replied"] == True and events_dict[a[0]]["event"].confirmed == True and events_dict[a[0]]["attending"]==True%}
+			{%elif events_dict[a[0]]["admin"].email != user.email and events_dict[a[0]]["replied"] == True and events_dict[a[0]]["event"].confirmed == True and events_dict[a[0]]["attending"]==True%}
 	<div class = "row event-row">
 		<div class = "col-xs-12 eventrow">
 			<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}"
@@ -156,7 +156,7 @@
 						{{events_dict[a[0]]["event"].location}} @ {{events_dict[a[0]]["confirmed_date"].strftime("%I %p")}}
 					</div>
 					<div class = "col-xs-12 details-box-admin">
-						Invited by {{events_dict[a[0]]["admin"].firstname}}
+						Invited by {{events_dict[a[0]]["admin"].given_name}}
 					</div>
 				</div>
 			</a>
@@ -173,7 +173,7 @@
 	</div>		
 	{%for a in id_date_list%}
 		{%if events_dict[a[0]]["past"]==False%}
-			{%if events_dict[a[0]]["admin"].id != current_user.id and events_dict[a[0]]["replied"] == True and events_dict[a[0]]["event"].confirmed == True and events_dict[a[0]]["attending"]==False%}
+			{%if events_dict[a[0]]["admin"].email != user.email and events_dict[a[0]]["replied"] == True and events_dict[a[0]]["event"].confirmed == True and events_dict[a[0]]["attending"]==False%}
 	<div class = "row event-row">
 		<div class = "col-xs-12 eventrow">
 			<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}"
@@ -198,7 +198,7 @@
 						{{events_dict[a[0]]["event"].location}} @ {{events_dict[a[0]]["confirmed_date"].strftime("%I %p")}}
 					</div>
 					<div class = "col-xs-12 details-box-admin">
-						Invited by {{events_dict[a[0]]["admin"].firstname}}
+						Invited by {{events_dict[a[0]]["admin"].given_name}}
 					</div>
 				</div>
 			</a>

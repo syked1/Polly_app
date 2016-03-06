@@ -50,9 +50,9 @@
 					</div>
 				</button>
 				<ul class="dropdown-menu">
-					{%for invitee in invitees%}
-						{%if invitee.eventdate.id == eventdate.id and invitee.status == 1%}
-					<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+					{%for invitee in invitees_list%}
+						{%if invitee[0].eventdate.id == eventdate.id and invitee[0].status == 1%}
+					<li class = "disabled drop-down-item">{{invitee[1].given_name}} {{invitee[1].surname}}</li>
 						{%endif%}
 					{%endfor%}
 				</ul>
@@ -67,9 +67,9 @@
 					</div>
 				</button>
 				<ul class="dropdown-menu">
-					{%for invitee in invitees%}
-						{%if invitee.eventdate.id == eventdate.id and invitee.status == -1%}
-					<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+					{%for invitee in invitees_list%}
+						{%if invitee[0].eventdate.id == eventdate.id and invitee[0].status == -1%}
+					<li class = "disabled drop-down-item">{{invitee[1].given_name}} {{invitee[1].surname}}</li>
 						{%endif%}
 					{%endfor%}
 				</ul>
@@ -84,9 +84,9 @@
 					</div>
 				</button>
 				<ul class="dropdown-menu">
-					{%for invitee in invitees%}
-						{%if invitee.eventdate.id == eventdate.id and invitee.status == 0%}
-					<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+					{%for invitee in invitees_list%}
+						{%if invitee[0].eventdate.id == eventdate.id and invitee[0].status == 0%}
+					<li class = "disabled drop-down-item">{{invitee[1].given_name}} {{invitee[1].surname}}</li>
 						{%endif%}
 					{%endfor%}
 				</ul>

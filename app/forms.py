@@ -21,5 +21,5 @@ class EventDateForm(Form):
 	submit = SubmitField("Invite People")
 	
 class InvitesForm(Form):
-	invites = SelectMultipleField("Invites", coerce = int)
+	invites = SelectMultipleField("Invites")
 	submit = SubmitField("Send Invites")

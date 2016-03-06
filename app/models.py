@@ -42,7 +42,7 @@ class Event(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(120), unique=False)
 	location = db.Column(db.String(120), unique=False)
-	admin_email = db.Column(db.String(120), index=True, unique=True)
+	admin_email = db.Column(db.String(120), index=True, unique=False)
 	deleted = db.Column(db.Boolean, unique=False, default = False)
 	notes = db.Column(db.String(200), unique=False)
 	invites_sent = db.Column(db.Boolean, unique=False, default = False)
@@ -65,7 +65,7 @@ class EventInvite(db.Model):
 	__tablename__ = "eventinvites"
 	id = db.Column(db.Integer, primary_key=True)
 	eventdate_id = db.Column(db.Integer, db.ForeignKey("eventdates.id"))
-	invited_email = db.Column(db.String(120), index=True, unique=True)
+	invited_email = db.Column(db.String(120), index=True, unique=False)
 	status =  db.Column(db.Integer, unique=False) #1 is attending, 0 is not replied, -1 is not attending
 	
 	def __repr__(self):
