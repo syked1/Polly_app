@@ -1,0 +1,156 @@
+body {
+  background-color: #f2f2f2;
+}
+
+
+.container-all-events{
+	padding-top:0px;
+	padding-bottom:0px;
+	margin:0px;
+}
+
+.eventsheader-row{
+
+}
+
+.eventsheader{
+	background-color: #497294;
+	color:white;
+	height: 30px;
+	padding-top: 2px;
+}
+
+.eventrow{
+	padding:0px;
+}
+
+.btn-event{
+	background-color: white;
+	color: black;
+	padding:0px;
+	padding-top:2px;
+	padding-bottom:2px;
+	height:60px;
+	border-radius:0px;
+	box-shadow: inset 5px 0px 0px #FFEA00;
+	border-top-style: none;
+	border-bottom: solid 1px #D1D1D1;
+	border-left: 0px;
+	border-right:0px;
+}
+
+.date-box{
+	padding:0px;
+	border-right: solid 1px #f8f8f8;
+
+
+}
+
+.date-box-dayname{
+	font-size: 0.9em;
+	font-weight: bold;
+	text-align:center;
+}
+
+.date-box-daynumber{
+	font-size: 1.1em;
+	font-weight: bold;
+	text-align:center;
+}
+
+.date-box-month{
+	font-size: 0.9em;
+	font-weight: bold;
+	text-align:center;
+}
+
+.details-box{
+	text-align:left;
+	height: 60px;
+	padding-left:10px;
+}
+
+.details-box-name{
+	text-align:left;
+	padding-left:0px;
+	font-size: 1.0em;
+	font-weight:bold;
+}
+
+.details-box-location{
+	text-align:left;
+	padding-left:0px;
+	font-size: 0.9em;
+	color: gray;
+}
+
+.details-box-admin{
+	text-align:left;
+	padding-left:0px;
+	font-size: 0.9em;
+	color: gray;
+}
+
+
+
+
+.button_event {
+  height:4.5em;
+  display: block;
+  position: relative;
+  padding: .5em 5em .75em 1em;
+  border-radius: .25em;
+  margin-bottom: .5em;
+  background: #fff;
+  box-shadow:
+	/* first number is position of horizontal shadow second is position of vertical shadow 3rd is blur*/
+   /* regular bottom */
+    0 .0625em .125em rgba(0, 0, 0, .125),
+    /* inset bottom */
+    inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
+    /* category color (left) */
+    inset 1em 0 0 -.7em #5F9EA0,
+    /* date background (right) */
+    inset -5em 0 0 -.3em rgba(0, 0, 0, .05);
+}
+
+.event_title {
+  text-align: left;
+  font-weight: bold;
+  color: #000;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.event_title:after {
+  content: '';
+  display: block;
+  height: 0;
+  width: 100%;
+}
+.organiser_details {
+  display: block;
+  white-space: nowrap;
+  font-size: 0.75em;
+  color: grey;
+  text-align: left;
+}
+
+.location_details {
+  display: block;
+  white-space: nowrap;
+  font-size: 0.75em;
+  color: grey;
+  text-align: left;
+}
+
+.event_date {
+  font-weight: bold;
+  text-align:center;
+  display: block;
+  position: absolute;
+  right:1.5em;
+  top: 0.25em;
+ 
+}

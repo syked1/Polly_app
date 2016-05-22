@@ -1,0 +1,121 @@
+{% extends "base_test.html" %}
+{%block head%}
+<link rel="stylesheet" href="{{url_for("static", filename = "event_details.css")}}" /> 
+
+
+{%endblock%}
+
+{% block content %}
+ 
+ 
+ <div class = "container event-details-header">
+	<div class = "row">
+		<div class = "col-sm-12">
+			<h2 style = "text-align: center"> {{ event.name }} </h2>
+			<h4 style = "text-align: center"> {{event.location}} </h4>
+			<h4 style = "text-align: center">
+			{%for eventdate in eventdates%}
+				{%if eventdate.confirmed%}
+				{{eventdate.date.strftime("%A %d %B")}}
+				{%endif%}
+			{%endfor%}
+			</h4>
+			<p style = "text-align: center"> You are the Organiser </p>
+			<p style = "text-align: center"> {{event.notes}} </p>
+		</div>
+	</div>
+</div>
+
+
+
+<div class = "container container-attendance">
+	<hr>
+	<div class = "row row-attending-header">
+		<div class = "col-xs-12">
+			Attending
+		</div>
+	</div>
+	<div class = "row row-attending-names">
+	{%for eventdate in eventdates%}
+		{%if eventdate.confirmed%}
+			{%for invitee in invitees_list%}
+				{%if invitee[0].eventdate.id == eventdate.id and invitee[0].status == 1%}
+		<div class = "col-xs-12">
+		{{invitee[1].given_name}} {{invitee[1].surname}}
+		</div>
+				{%endif%}
+			{%endfor%}
+		{%endif%}
+	{%endfor%}
+	</div>
+	
+	<hr>
+	
+	<div class = "row row-attending-header">
+		<div class = "col-xs-12">
+			Can't Make It
+		</div>
+	</div>
+	<div class = "row row-attending-names">
+	{%for eventdate in eventdates%}
+		{%if eventdate.confirmed%}
+			{%for invitee in invitees_list%}
+				{%if invitee[0].eventdate.id == eventdate.id and invitee[0].status == -1%}
+		<div class = "col-xs-12">
+		{{invitee[1].given_name}} {{invitee[1].surname}}
+		</div>
+				{%endif%}
+			{%endfor%}
+		{%endif%}
+	{%endfor%}
+	</div>
+	
+	<hr>
+	
+	<div class = "row row-attending-header">
+		<div class = "col-xs-12">
+			Not Replied
+		</div>
+	</div>
+	<div class = "row row-attending-names">
+	{%for eventdate in eventdates%}
+		{%if eventdate.confirmed%}
+			{%for invitee in invitees_list%}
+				{%if invitee[0].eventdate.id == eventdate.id and invitee[0].status == 0%}
+		<div class = "col-xs-12">
+		{{invitee[1].given_name}} {{invitee[1].surname}}
+		</div>
+				{%endif%}
+			{%endfor%}
+		{%endif%}
+	{%endfor%}
+	</div>
+
+	<hr>
+	
+	<div class = "row eventdate-row">
+		<div class = "col-xs-12">
+			<a type = "button" class = "btn btn-danger btn-block" href="{{url_for("delete_event", event_id = event.id)}}" >
+				Delete Event
+			</a>
+		</div>
+	</div>
+
+	
+
+	<div class = "row eventdate-row">
+		<div class = "col-xs-12">
+			<a type = "button" class = "btn btn-default btn-block" href="{{url_for("index")}}" >
+				Back to my events
+			</a>
+		</div>
+	</div>
+</div>
+
+		
+
+
+{% endblock %}
+
+ 
+

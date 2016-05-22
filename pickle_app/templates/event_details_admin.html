@@ -1,0 +1,147 @@
+{% extends "base_test.html" %}
+{%block head%}
+<link rel="stylesheet" href="{{url_for("static", filename = "event_details_invited.css")}}" /> 
+
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+
+{%endblock%}
+
+{% block content %}
+ 
+<div class = "container">
+	<div class = "row">
+		<div class = "col-sm-12">
+			<h2 style = "text-align: center"> {{ event.name }} </h2>
+			<h4 style = "text-align: center"> at </h4>
+			<h4 style = "text-align: center"> {{event.location}} </h4>
+			<p style = "text-align: center"> You are the organiser</p>
+		</div>
+	</div>
+
+	
+	<h4> Date Options </h4>
+	{%for eventdate in eventdates%}
+	<div class = "container container-eventdate">
+		<div class = "row">
+			<div class = "col-xs-8 eventdate-box">
+				<div class = "col-xs-6">
+					<div class = "col-xs-12 eventdate-date">
+						{{eventdate.date.strftime("%a %d %b")}}
+					</div>
+					<div class = "col-xs-12 eventdate-time">
+						<span class="glyphicon glyphicon-time"></span> <span>{{eventdate.date.strftime("%I:%M %p")}}</span>
+					</div>
+				</div>
+				<div class = "col-xs-2 attendance-button-box">
+					<button type="button" class="btn btn-default dropdown-toggle attendance-button" data-toggle="dropdown" >
+						<div class = "col-xs-12">
+							<span class="glyphicon glyphicon-ok"></span>
+						</div>
+						<div class = "col-xs-12">
+							{{attendance_dict[eventdate.id]["attending"]}}
+						</div>
+					</button>
+						<ul class="dropdown-menu">
+							{%for invitee in invitees%}
+								{%if invitee.eventdate.id == eventdate.id and invitee.status == 1%}
+									<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+								{%endif%}
+							{%endfor%}
+						</ul>
+				</div>
+				<div class = "col-xs-2 attendance-button-box">
+					<button type="button" class="btn btn-default dropdown-toggle attendance-button" data-toggle="dropdown" >
+						<div class = "col-xs-12">
+							<span class="glyphicon glyphicon-remove"></span>
+						</div>
+						<div class = "col-xs-12">
+							{{attendance_dict[eventdate.id]["cant_make_it"]}}
+						</div>
+					</button>
+						<ul class="dropdown-menu">
+							{%for invitee in invitees%}
+								{%if invitee.eventdate.id == eventdate.id and invitee.status == -1%}
+									<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+								{%endif%}
+							{%endfor%}
+						</ul>
+				</div>
+				<div class = "col-xs-2 attendance-button-box">
+					<button type="button" class="btn btn-default dropdown-toggle attendance-button" data-toggle="dropdown" >
+						<div class = "col-xs-12">
+							<span> <strong>?</strong> </span>
+						</div>
+						<div class = "col-xs-12">
+							{{attendance_dict[eventdate.id]["not_replied"]}}
+						</div>
+					</button>
+						<ul class="dropdown-menu">
+							{%for invitee in invitees%}
+								{%if invitee.eventdate.id == eventdate.id and invitee.status == 0%}
+									<li class = "disabled drop-down-item">{{invitee.user.firstname}} {{invitee.user.surname}}</li>
+								{%endif%}
+							{%endfor%}
+						</ul>
+				</div>
+			</div>
+			<div class = "col-xs-4 select-box">
+				<a type = "button" class = "btn btn-select-date" id = "{{eventdate.id}}">
+					Select
+				</a>
+			</div>
+		</div>
+	</div>
+		{%endfor%}
+
+	
+	<div class = "container container-eventdate">
+		<div class = "row eventdate-row">
+			<div class = "col-xs-12">
+				<a type = "button" class = "btn btn-danger btn-block" href="{{url_for("delete_event", event_id = event.id)}}" >
+					Delete Event
+				</a>
+			</div>
+		</div>
+	
+		<div class = "row eventdate-row">
+			<div class = "col-xs-12">
+				<a type = "button" id = "confirm-event" class = "btn btn-default btn-block"  disabled href="{{url_for("confirm_event", event_id = event.id)}}" >
+					Confirm Selected Date
+				</a>
+			</div>
+		</div>
+
+		<div class = "row eventdate-row">
+			<div class = "col-xs-12">
+				<a type = "button" class = "btn btn-default btn-block" href="{{url_for("index")}}" >
+					Back to my events
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+		
+
+	
+	<script type="text/javascript">
+	var chosen_eventdate_id;
+	var $inputs = $(".btn-select-date");
+	$inputs.click(function () {
+    $inputs.not(this).css("border-style", "none");
+	$inputs.not(this).text("Select");
+    $(this).css('border-style', "solid");
+	$(this).text("Selected");
+	var chosen_eventdate_id = $(this).attr("id");
+	$.getJSON($SCRIPT_ROOT + "/confirm_date/" + chosen_eventdate_id)
+	$("#confirm-event").removeAttr("disabled")
+	})
+
+	</script>
+
+{% endblock %}
+
+ 
+

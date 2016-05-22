@@ -1,0 +1,165 @@
+{% extends "base_test.html" %}
+{%block head%}
+<link rel="stylesheet" href="{{url_for("static", filename = "event_details.css")}}" /> 
+
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+
+{%endblock%}
+
+{% block content %}
+ 
+  
+  <div class = "container event-details-header">
+	<div class = "row">
+		<div class = "col-sm-12">
+			<h2 style = "text-align: center"> {{ event.name }} </h2>
+			<h4 style = "text-align: center"> {{event.location}} </h4>
+			<p style = "text-align: center"> Invited by {{ admin.give_name}} {{ admin.surname}} </p>
+			<p style = "text-align: center"> {{event.notes}} </p>
+		</div>
+	</div>
+</div>
+ 
+<div class = "container eventdate-choices">
+
+{%for eventdate in eventdates%}
+	{%if eventdate.confirmed%}
+	<div class = "row date-option-row">
+		<div class = "col-xs-12 date-option-col">
+			<div class = "col-xs-6 date-option-datetime-box">
+				<div class = "col-xs-12 date-option-date-box">
+					{{eventdate.date.strftime("%a %d %b")}}
+				</div>
+				<div class = "col-xs-12 date-option-time-box">
+					<span class = "glyphicon glyphicon-time"></span> {{eventdate.date.strftime("%I:%M %p")}}
+				</div>
+			</div>
+			<div class = "col-xs-2 invited-man-box">
+					<button type="button" class="btn btn-who-can-come dropdown-toggle" data-toggle="dropdown" >
+						<span class="glyphicon glyphicon-user"></span> 
+					</button>
+					<ul class="dropdown-menu">			
+						<li class="dropdown-header">Attending</li>
+							<li class = "disabled drop-down-item">
+								{%for invitee in invitees_list%}
+								{%if invitee[0].eventdate.id == eventdate.id%} 	
+								{%if invitee[0].status ==1%}
+									<li class = "disabled drop-down-item">
+									{%if invitee[0].invited_email == user.email%}
+										You
+									{%else%}
+										{{invitee[1].given_name}} {{invitee[1].surname}}
+									{%endif%}
+									</li>
+								{%endif%}
+							{%endif%}
+						{%endfor%}
+							</li>
+						<li class="divider"></li>
+						<li class="dropdown-header">Not Attending</li>
+							{%for invitee in invitees_list%}
+								{%if invitee[0].eventdate.id == eventdate.id%} 	
+								{%if invitee[0].status ==-1%}
+									<li class = "disabled drop-down-item">
+									{%if invitee[0].invited_email == user.email%}
+										You
+									{%else%}
+										{{invitee[1].given_name}} {{invitee[1].surname}}
+									{%endif%}
+										</li>
+									{%endif%}
+								{%endif%}
+							{%endfor%}
+						<li class="divider"></li>
+						<li class="dropdown-header">Not replied</li>
+							<li class = "disabled drop-down-item">
+								{%for invitee in invitees_list%}
+								{%if invitee[0].eventdate.id == eventdate.id%} 	
+								{%if invitee[0].status ==0%}
+									<li class = "disabled drop-down-item">
+									{%if invitee[0].invited_email == user.email%}
+										You
+									{%else%}
+										{{invitee[1].given_name}} {{invitee[1].surname}}
+									{%endif%}
+										</li>
+									{%endif%}
+								{%endif%}
+							{%endfor%}
+							</li>
+
+					</ul>
+			</div>
+			<div class = "col-xs-2 tick-cross-box">
+				{%for invitee in invitees_list%}
+						{%if invitee[0].eventdate.id == eventdate.id and invitee[0].invited_email == user.email%}
+							{%if invitee[0].status == 1%}
+				<a type = "button" name = "{{invitee[0].id}}"  class = "btn btn-attend {{invitee[0].id}}" style = "color:green">
+							{%else%}
+				<a type = "button" name = "{{invitee[0].id}}"  class = "btn btn-attend {{invitee[0].id}}">
+							{%endif%}
+						{%endif%}
+					{%endfor%}
+
+					<span class = "glyphicon glyphicon-ok"></span> 
+				</a>
+			</div>
+			<div class = "col-xs-2 tick-cross-box">
+				{%for invitee in invitees_list%}
+						{%if invitee[0].eventdate.id == eventdate.id and invitee[0].invited_email == user.email%}
+							{%if invitee[0].status == -1%}
+				<a type = "button" name = "{{invitee[0].id}}"  class = "btn btn-cant-make-it {{invitee[0].id}}" style = "color:green">
+							{%else%}
+				<a type = "button"  name = "{{invitee[0].id}}" class = "btn btn-cant-make-it {{invitee[0].id}}">
+							{%endif%}
+						{%endif%}
+					{%endfor%}
+					<span class = "glyphicon glyphicon-remove"></span> 
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+{%endif%}
+{%endfor%}
+
+
+
+	<div class = "container container-eventdate">
+		<div class = "row eventdate-row">
+			<div class = "col-xs-12">
+				<a type = "button" class = "btn btn-default btn-block" href="{{url_for("index")}}">
+					Save and return to my Events
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+		
+		
+<script type="text/javascript">
+	var eventinvite_id;
+	var $inputs = $('.btn-cant-make-it, .btn-attend');
+	$inputs.click(function () {
+		var item_name =  $(this).attr('name')
+		var $inputs_id = $("[name = "+item_name+"]");
+		$inputs_id.not(this).css("color", "#333");
+		$(this).css("color", "green");
+		if ($(this).hasClass("btn-attend")){
+			$.getJSON($SCRIPT_ROOT + "/confirm_attending/" + $(this).attr('name'))
+		}
+		else if ($(this).hasClass("btn-cant-make-it")){
+			$.getJSON($SCRIPT_ROOT + "/cant_make_it/" + $(this).attr('name'))
+			}
+		
+	})
+
+</script>
+		
+	
+	
+
+{% endblock %}
+

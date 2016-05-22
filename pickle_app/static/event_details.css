@@ -1,0 +1,344 @@
+body {
+ 
+}
+
+.event-details-header{
+	background-color: #497294;
+	color:white;
+}
+
+.date-option-col{
+	padding:0px;
+	box-shadow: inset 5px 0px 0px #FFEA00;
+	border-bottom: solid 1px #D1D1D1;
+	border-right: solid 1px #D1D1D1;
+}
+
+.btn-date-option{
+	text-align: left;
+    height: 40px;
+    padding: 0px;
+    color: black;
+}
+
+.date-option-datetime-box{
+	padding:0px;
+}
+
+.date-option-date-box{
+	font-weight:bold;
+}
+
+.date-option-time-box{
+	font-size: 0.8em;
+}
+
+.tick-cross-box{
+	padding-left: 0px;
+    padding-right: 0px;
+    text-align: center;
+	border-left: solid 1px #e5e5e5;
+}
+
+.invited-man-box{
+	padding-left: 0px;
+    padding-right: 0px;
+    text-align: center;
+}
+
+.btn-who-can-come{
+	height:40px;
+	padding-top:10px;
+	background-color:white;
+	width:100%;
+
+}
+
+.btn-people-attending{
+	height:40px;
+	padding:0px;
+	color:#333;
+	width:100%;
+	background-color:white;
+}
+
+.row-attending-header{
+	font-size: 1.25em;
+	text-align: center;
+	font-weight:bold;
+}
+
+.row-attending-names{
+	text-align:center;
+}
+
+.btn-people-cant-make-it{
+	height:40px;
+	padding:0px;
+	color:#333;
+	width:100%;
+	background-color:white;
+}
+
+.btn-people-not-replied{
+	height:40px;
+	padding:0px;
+	color:#333;
+	width:100%;
+	background-color:white;
+}
+
+.btn-attend{
+	height:40px;
+	padding-top:10px;
+	color:#333;
+	width:100%;
+}
+
+.btn-cant-make-it{
+	height:40px;
+	padding-top:10px;
+	color:#333;
+	width:100%;
+}
+
+.btn-selected{
+	background-color:blue;
+}
+
+
+.container-eventdate{
+	padding-left:10px;
+	padding-right:10px;
+	padding-top:10px;
+}
+.eventdate-box{
+	padding-right:0px;
+	background-color: #3CBC8D;
+	height:60px;
+	color:white;
+	background-clip: content-box;
+}
+
+.eventdate-date{
+	font-size: 1em;
+	font-weight: bold;
+	padding: 0px
+}
+
+.eventdate-time{
+	font-size: 0.75em;
+	padding:0px;
+}
+
+.attendance-button-box{
+	padding:0px;
+	text-align: center;
+	background-color: #3CBC8D;
+}
+
+.attendance-button{
+	background-color: #3CBC8D;
+	height:40px;
+	color:white;
+	border-style:none;
+	text-align: center;
+	padding:0px
+}
+
+.btn-event-details{
+	background-color: #3CBC8D;
+	height:60px;
+	color: white;
+	text-align:left;
+	padding:0px;
+	padding-left:10px;
+}
+
+.btn-select-date{
+	background-color: #3CBC8D;
+	height:30px;
+	margin-top:5px;
+	margin-bottom:5px;
+	vertical-align:middle;
+	color:white;
+	background-clip: content-box;
+	text-align:center;
+	font-weight:bold;
+	border-radius:5px;
+	border-color:white;
+	border-style:none;
+}
+
+
+
+.glyphicon-center{
+	text-align: center;
+	vertical-align: middle;
+}
+
+
+
+.attend-cant-make-it-box{
+	background-color: #3CBC8D;
+	height:40px;
+	color:white;
+	background-clip: content-box;
+	padding-left:0px;
+	text-align:center;
+	font-weight:bold;
+	text-align:center;
+}
+
+.col-attend-cant-make-it{
+	border-left-color:white;
+	border-left-style:solid;
+	border-left-width: 1px;
+	border-radius:0;
+	text-align:center;
+}
+.select-box{
+	background-color: #3CBC8D;
+	height:40px;
+	color:white;
+	background-clip: content-box;
+	padding-left:1px;
+	text-align:center;
+	font-weight:bold;
+	vertical-align:middle;
+}
+
+.tester-select{
+	text-align: center;
+	padding-top: 10px;
+}
+
+
+
+
+.drop-down-item{
+	color:black;
+}
+
+
+.eventdate-row{
+	padding-top:10px
+}
+
+.button_eventdate {
+  height:3em;
+  display: block;
+  position: relative;
+  padding: .25em 1em .75em 1em;
+  border-radius: .25em;
+  margin-bottom: .5em;
+  background: #fff;
+  box-shadow:
+	/* first number is position of horizontal shadow second is position of vertical shadow 3rd is blur*/
+   /* regular bottom */
+    0 .0625em .125em rgba(0, 0, 0, .125),
+    /* inset bottom */
+    inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
+    /* category color (left) */
+    inset 1em 0 0 -.7em #5F9EA0,
+    /* date background (right) */
+    /*inset -5em 0 0 -.3em rgba(0, 0, 0, .05);*/
+}
+
+.button_eventdate_admin {
+  height:3em;
+  width:110px;
+  display: block;
+  position: relative;
+  padding: .25em 1em .75em 1em;
+  border-radius: .25em;
+  margin-bottom: .5em;
+  background: #fff;
+  box-shadow:
+	/* first number is position of horizontal shadow second is position of vertical shadow 3rd is blur*/
+   /* regular bottom */
+    0 .0625em .125em rgba(0, 0, 0, .125),
+    /* inset bottom */
+    inset 0 -.25em 0 -.125em rgba(0, 0, 0, .125),
+    /* category color (left) */
+    inset 1em 0 0 -.7em #5F9EA0,
+    /* date background (right) */
+    /*inset -5em 0 0 -.3em rgba(0, 0, 0, .05);*/
+}
+
+.button_tick_cross{
+	height:3em;
+	box-shadow:  inset 0 -0.25em 0 -0.125em rgba(0, 0, 0, .125)
+}
+
+.attending{
+	height:3em;
+	width: 35px;
+	box-shadow:  inset 0 -0.25em 0 -0.125em #7fb37f
+}
+
+.not-replied{
+	height:3em;
+	width: 35px;
+	box-shadow:  inset 0 -0.25em 0 -0.125em #ffff66
+}
+
+
+.cant-make-it{
+	height:3em;
+	width: 35px;
+	box-shadow:  inset 0 -0.25em 0 -0.125em #F08080
+}
+
+.confirm-date{
+	height:3em;
+	width: 75px;
+	box-shadow:  inset 0 -0.25em 0 -0.125em rgba(0, 0, 0, .125)
+}
+
+
+.eventdate_title {
+  text-align: left;
+  font-weight: bold;
+  color: #000;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.eventdate_title:after {
+  content: '';
+  display: block;
+  height: 0;
+  width: 100%;
+}
+.organiser_details {
+  display: block;
+  white-space: nowrap;
+  font-size: 0.75em;
+  color: grey;
+  text-align: left;
+}
+
+.time_details {
+  display: block;
+  white-space: nowrap;
+  font-size: 0.75em;
+  color: grey;
+  text-align: left;
+}
+
+.event_date {
+  font-weight: bold;
+  text-align:center;
+  display: block;
+  position: absolute;
+  right:1.5em;
+  top: 0.25em;
+ 
+}
+
+.drop-down-item{
+	padding-left:20px
+}
+
