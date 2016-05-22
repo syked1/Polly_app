@@ -1,4 +1,4 @@
-from app import  db , models
+from pickle_app import  db , models
 import datetime
 
 def clear_db():
@@ -18,7 +18,7 @@ def add_user(firstname,surname,email,phone,group, password):
     db.session.commit()
     print "added user..." +firstname + " " + surname
 
-	
+
 def add_pol_dave():
 	add_user("Polly","Benton","pollybenton@gmail.com","07678765382",1,"smeg")
 	add_user("David","Sykes","david.sykes70@gmail.com","07678765332",1,"smeg")
