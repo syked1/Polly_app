@@ -1,38 +1,11 @@
 from flask import render_template, flash, redirect, session, url_for,request, jsonify
-from app import app, db, stormpath_manager
+from pickle_app import app, db, stormpath_manager
 from .forms import LoginForm, EventForm, EventDateForm, InvitesForm
-from flask.ext.stormpath import login_required, user
+from flask_stormpath import login_required, user
 from .models import Event, EventInvite, EventDate
-#from flask.ext.login import login_required, login_user, logout_user, current_user
 import datetime
 
-'''
-accounts.search.({'given_name': 'Joe',
-                'middle_name': '*aul',
-                'surname': '*mit*',
-                'email': 'joePaul*',
-                'status': 'disabled'})
 
-
-@app.route('/')
-@app.route('/index')
-@login_required
-def index():
-	application = stormpath_manager.application
-	accounts = application.accounts.search({"email":'david.sykes70@gmail.com'})
-	print accounts
-	a = "Accounts..."
-	for acc in accounts:
-		a = a + acc.given_name + acc.surname
-	groups = user.groups
-	b = "Groups"
-	for group in groups:
-		b = b + group.name
-	#directory = stormpath_manager.application.default_account_store_mapping.account_store
-	#accounts = directory.groups
-	return a + b
-	
-'''
 
 
 @app.route('/')
@@ -68,12 +41,12 @@ def index():
 			elif admin_event.confirmed == False:
 				if max([a.date for a in admin_eventdates]) <  datetime.datetime.now():
 					events_dict[admin_event.id]["past"] = True
-	#Add non-admin events				
+	#Add non-admin events
 	for invited_event in invited_events:
 		#Check it's not been deleted
 		if invited_event.deleted == False:
 			invited_eventdates = EventDate.query.filter_by(event_id = invited_event.id).all()
-			invited_eventdates.sort(key= lambda r: r.date)	
+			invited_eventdates.sort(key= lambda r: r.date)
 			accounts = application.accounts.search({"email":invited_event.admin_email})	#new line
 			admin = accounts[0]															#new line
 			#admin = User.query.filter_by(id = invited_event.admin_id).first()
@@ -99,7 +72,7 @@ def index():
 					events_dict[invited_event.id]["past"] = True
 			elif invited_event.confirmed == False:
 				if max([a.date for a in invited_eventdates]) <  datetime.datetime.now():
-					events_dict[invited_event.id]["past"] = True		
+					events_dict[invited_event.id]["past"] = True
 	#return list of event_id and date and sort by date
 	id_date_list = []
 	for key in events_dict:
@@ -113,23 +86,8 @@ def index():
 		print events_dict[key]["event"].name, "\t", events_dict[key]["admin"].given_name, events_dict[key]["admin"].email
 	return render_template("index.html",user = user, events_dict = events_dict, id_date_list = id_date_list)
 
-'''
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-	form = LoginForm()
-	if form.validate_on_submit():
-		user = User.query.filter_by(email=form.email_address.data).first()
-		if user is not None and user.verify_password(form.password.data):
-			login_user(user)
-			return redirect(request.args.get("next") or url_for("index"))
-	return render_template('login.html', title='Sign In',form=form)
-	
-@app.route('/logout')
-def logout():
-	logout_user()
-	return redirect(url_for('login'))
-'''
-						   
+
+
 @app.route('/new_event', methods=['GET', 'POST'])
 @login_required
 def new_event():
@@ -161,7 +119,7 @@ def new_event_date(event_id):
 		return redirect(url_for('invites', event_id=event_id))
 	if user.email == event.admin_email:
 		if event.invites_sent:
-			return "This event has already has invites sent"		
+			return "This event has already has invites sent"
 		else:
 			return render_template("date_picker.html", title="New Event Date", form = form, event = event)
 	else:
@@ -204,7 +162,7 @@ def invites(event_id):
 		return redirect(url_for('index'))
 	if user.email == event.admin_email:
 		if event.invites_sent:
-			return "This event has already has invites set"		
+			return "This event has already has invites set"
 		else:
 			return render_template("invites_test.html", title="Invites", event = event , form = form, eventdates = eventdates, possible_invites = possible_invites)
 	else:
@@ -315,7 +273,7 @@ def delete_event(event_id):
 		return redirect(url_for("index"))
 	else:
 		return "you are not the admin for this event"
-		
+
 @app.route('/delete_eventdate/<int:eventdate_id>', methods=['GET', 'POST'])
 @login_required
 def delete_eventdate(eventdate_id):
@@ -330,4 +288,4 @@ def delete_eventdate(eventdate_id):
 			return redirect(url_for("new_event_date", event_id=eventdate_to_delete.event.id))
 	else:
 		return "you are not the admin for this event"
-		
+
