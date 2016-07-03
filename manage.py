@@ -23,7 +23,3 @@ def clear_db():
 def create_db():
     db.create_all()
     print "Created Database"
-
-
-
-
