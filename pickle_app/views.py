@@ -4,7 +4,9 @@ from .forms import LoginForm, EventForm, EventDateForm, InvitesForm
 from flask_stormpath import login_required, user
 from .models import Event, EventInvite, EventDate
 import datetime
-
+import twilio.twiml
+from twilio.rest import TwilioRestClient
+import config
 
 
 
@@ -83,6 +85,7 @@ def index():
 			id_date_list.append((key,min([a.date for a in event_dates])))
 	id_date_list.sort(key= lambda r: r[1])
 	for key in events_dict:
+# list of events
 		print events_dict[key]["event"].name, "\t", events_dict[key]["admin"].given_name, events_dict[key]["admin"].email
 	return render_template("index.html",user = user, events_dict = events_dict, id_date_list = id_date_list)
 
@@ -125,6 +128,45 @@ def new_event_date(event_id):
 	else:
 		return "You are not admin for this event"
 
+@app.route('/send_invite/<int:event_id>', methods=['GET', 'POST'])
+@login_required
+def send_invite(event_id):
+    admin_events = Event.query.filter_by(admin_email = user.email).all()
+    event_name = admin_events[(event_id-1)].name
+    organiser_name = user.given_name
+    print admin_events[(event_id-1)].name
+    print event_id
+    twilio_account_sid = config.TWILIO_ACCOUNT_SID
+    twilio_auth_token  = config.TWILIO_SECRET_KEY
+    client = TwilioRestClient(twilio_account_sid, twilio_auth_token)
+    numbers = ["+447772043288"]
+    for number in numbers:
+        message = client.messages.create(
+            body=("{organiser_name} has invited you to {event_name}. Tap the link to let {organiser_name} know which dates you can make pickleapp.pythonanywhere.com/event_details/{event_id}".format(organiser_name=organiser_name, event_name=event_name, event_id=event_id)),
+            to=number,
+            from_="+441277420372"
+        )
+    return redirect(url_for('index'))
+
+@app.route('/confirm_date/<int:event_id>', methods=['GET', 'POST'])
+@login_required
+def send_confirmation(event_id):
+    admin_events = Event.query.filter_by(admin_email = user.email).all()
+    event_name = admin_events[(event_id-1)].name
+    admin_eventdates = EventDate.query.filter_by(event_id = event_id).all()
+    event_date = admin_eventdates[(event_id-1)].date
+    twilio_account_sid = config.TWILIO_ACCOUNT_SID
+    twilio_auth_token  = config.TWILIO_SECRET_KEY
+    client = TwilioRestClient(twilio_account_sid, twilio_auth_token)
+    numbers = ["+447772043288"]
+    for number in numbers:
+        message = client.messages.create(
+            body=("{event_name} is confirmed! See you on {event_date}".format(event_name=event_name, event_date=event_date)),
+            to=number,
+            from_="+441277420372"
+        )
+    return redirect(url_for('index'))
+
 @app.route('/invites/<int:event_id>', methods=['GET', 'POST'])
 @login_required
 def invites(event_id):
@@ -159,7 +201,8 @@ def invites(event_id):
 			eventdates[0].confirmed = True
 		db.session.add(event)
 		db.session.commit()
-		return redirect(url_for('index'))
+        # send_invite path invokes twilio text function
+		return redirect(url_for('send_invite', event_id=event_id))
 	if user.email == event.admin_email:
 		if event.invites_sent:
 			return "This event has already has invites set"
@@ -288,4 +331,3 @@ def delete_eventdate(eventdate_id):
 			return redirect(url_for("new_event_date", event_id=eventdate_to_delete.event.id))
 	else:
 		return "you are not the admin for this event"
-

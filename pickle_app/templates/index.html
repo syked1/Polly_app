@@ -2,8 +2,8 @@
 
 {% block title %} Polly App {% endblock %}
 {%block head%}
-<link rel="stylesheet" href="{{url_for("static", filename = "index.css")}}" /> 
-<link rel="stylesheet" href="{{url_for("static", filename = "event_details_invited.css")}}" /> 
+<link rel="stylesheet" href="{{url_for("static", filename = "index.css")}}" />
+<link rel="stylesheet" href="{{url_for("static", filename = "event_details_invited.css")}}" />
 {%endblock%}
 {% block content %}
 
@@ -92,7 +92,7 @@
 	{%endif%}
 	{%endif%}
 	{%endfor%}
-	
+
 	<div class = "row eventsheader-row">
 		<div class = "col-xs-12 eventsheader">
 			UPCOMING EVENTS: ATTENDING
@@ -165,12 +165,12 @@
 		{%endif%}
 		{%endif%}
 		{%endfor%}
-			
+
 	<div class = "row eventsheader-row">
 		<div class = "col-xs-12 eventsheader">
 			UPCOMING EVENTS: NOT ATTENDING
 		</div>
-	</div>		
+	</div>
 	{%for a in id_date_list%}
 		{%if events_dict[a[0]]["past"]==False%}
 			{%if events_dict[a[0]]["admin"].email != user.email and events_dict[a[0]]["replied"] == True and events_dict[a[0]]["event"].confirmed == True and events_dict[a[0]]["attending"]==False%}
@@ -207,10 +207,8 @@
 		{%endif%}
 		{%endif%}
 		{%endfor%}
-			
-		
+
+
 
 
 {% endblock %}
-
-
