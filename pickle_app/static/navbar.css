@@ -1,8 +1,8 @@
 .navbar-custom{
-	background-color: #274D6D;
+	background-color: white;
 	margin-bottom:0px;
-	border-color: #274D6D;
-	
+	border-color: white;
+
 
 }
 
@@ -26,12 +26,17 @@
 	color:white;
 }
 
+.navbar-brand-logo{
+	height: 30px;
+	padding-left:10px;
+}
+
 .app-name{
 	color:white;
 	height:50px;
 	padding-top:12.5px;
 	font-size:1.25em;
-	
+
 }
 
 .navbar-toggle{
@@ -41,5 +46,5 @@
 .btn-add-event{
 	position:relative;
 	float:right;
-	color:white;
+	color:#FF0053;
 }

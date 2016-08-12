@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-	
+
 
 	<script type="text/javascript" src="{{url_for("static", filename = 'bower_components/jquery/dist/jquery.min.js')}}"></script>
 	<script type="text/javascript" src="{{url_for("static", filename = "bower_components/moment/min/moment.min.js")}}"></script>
 	<script type="text/javascript" src="{{url_for("static", filename = "bower_components/bootstrap/dist/js/bootstrap.min.js")}}"></script>
-	<link rel="stylesheet" href="{{url_for("static", filename = "bower_components/bootstrap/dist/css/bootstrap.min.css")}}" /> 
-	<link rel="stylesheet" href="{{url_for("static", filename = "navbar.css")}}" /> 
+	<link rel="stylesheet" href="{{url_for("static", filename = "bower_components/bootstrap/dist/css/bootstrap.min.css")}}" />
+	<link rel="stylesheet" href="{{url_for("static", filename = "navbar.css")}}" />
 
-	
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
+
    {%block head%}
    {%endblock%}
   </head>
-  
+
 </html>
 
 <div class = "navbar navbar-custom" role = "navigation">
 	<div class = "container navbar-container">
 		<div class = "navbar-header-custom navbar-header-custom">
-			<a class = "navbar-brand navbar-item app-name" href = "{{url_for("index")}}"> PICKLE </a>
-			<a class = "navbar-brand navbar-item btn-add-event" href = "{{url_for("new_event")}}">
+			<a class = "navbar-brand navbar-item app-name" href = "{{url_for("index")}}">
+        <img class="navbar-brand-logo" src="../static/pickle-nav-logo.png" alt="pickle-logo"/>
+      </a>
+      <a class = "navbar-brand navbar-item btn-add-event" href = "{{url_for("new_event")}}">
 				<span class = "glyphicon glyphicon-plus"> </span>
 			</a>
 		</div>
