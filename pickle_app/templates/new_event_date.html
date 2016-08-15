@@ -3,18 +3,15 @@
 
 {%block content%}
 
-
-
-
 <div class = "container">
-	
+
 	<form action="" method="post">
 		{{ form.hidden_tag() }}
 				<div class="form-group">
 					<label for="date">Pick Date and Time:</label>
 					<div class='input-group date' id='datetimepicker1'>
 						{{ form.date(class ="form-control") }}
-						<span class="input-group-addon">	
+						<span class="input-group-addon">
 							<span class="glyphicon glyphicon-calendar"></span>
 						</span>
 					</div>
@@ -52,7 +49,7 @@
 
 
 
-	
+
 
 
 {% endblock %}

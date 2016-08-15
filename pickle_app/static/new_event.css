@@ -1,0 +1,22 @@
+#location{
+  border: 0;
+  box-shadow: none;
+}
+
+#name{
+  border: 0;
+  box-shadow: none;
+}
+
+#notes{
+  border: 0;
+  box-shadow: none;
+}
+
+
+.control-label{
+  font-family: Avenir-Medium;
+  font-weight: lighter;
+  color: gray;
+  font-size: 10px;
+}

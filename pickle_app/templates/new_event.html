@@ -1,4 +1,7 @@
 <!-- extend base layout -->
+<link rel="stylesheet" href="{{url_for("static", filename = "bower_components/bootstrap/dist/css/bootstrap.min.css")}}" />
+<link rel="stylesheet" href="{{url_for("static", filename = "new_event.css")}}" />
+
 {% extends "base_test.html" %}
 {%import "bootstrap/wtf.html" as wtf%}
 
@@ -8,15 +11,15 @@
 	<form action="" method="post" class="form" role="form">
 		{{ form.hidden_tag() }}
 		<div class="form-group  required">
-			<label class="control-label" for="name">Event Name</label>
+			<label class="control-label" for="name">TITLE</label>
 			<input class="form-control" id="name" name="name" required="" type="text" value="">
 		</div>
 		<div class="form-group  required">
-			<label class="control-label" for="location">Location</label>
+			<label class="control-label" for="location">LOCATION</label>
 			<input class="form-control" id="location" name="location" required="" type="text" value="">
 		</div>
 		<div class="form-group ">
-			<label class="control-label" for="notes">Notes</label>
+			<label class="control-label" for="notes">DESCRIPTION</label>
 			<textarea class = "form-control" id="notes" name="notes" rows = "3"></textarea>
 		</div>
 
