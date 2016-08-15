@@ -8,9 +8,9 @@
 {% block content %}
 
 <div class = "container container-all-events">
-	<div class = "row eventsheader-row">
-		<div class = "col-xs-12 eventsheader">
-			PENDING EVENTS
+	<div class = "row pending-eventsheader-row">
+		<div class = "col-xs-12 pending-eventsheader">
+			PENDING
 		</div>
 	</div>
 	{%for a in id_date_list%}
@@ -93,9 +93,9 @@
 	{%endif%}
 	{%endfor%}
 
-	<div class = "row eventsheader-row">
-		<div class = "col-xs-12 eventsheader">
-			UPCOMING EVENTS: ATTENDING
+	<div class = "row attending-eventsheader-row">
+		<div class = "col-xs-12 attending-eventsheader">
+			ATTENDING
 		</div>
 	</div>
 	{%for a in id_date_list%}
@@ -166,9 +166,9 @@
 		{%endif%}
 		{%endfor%}
 
-	<div class = "row eventsheader-row">
-		<div class = "col-xs-12 eventsheader">
-			UPCOMING EVENTS: NOT ATTENDING
+	<div class = "row declined-eventsheader-row">
+		<div class = "col-xs-12 declined-eventsheader">
+			DECLINED
 		</div>
 	</div>
 	{%for a in id_date_list%}
