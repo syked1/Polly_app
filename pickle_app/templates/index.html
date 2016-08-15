@@ -18,7 +18,7 @@
 			{%if events_dict[a[0]]["admin"].email == user.email and events_dict[a[0]]["event"].confirmed == False %}
 	<div class = "row event-row">
 		<div class = "col-xs-12 eventrow">
-			<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class = "btn btn-block btn-event">
+			<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class = "btn btn-block pending-btn-event">
 				<div class = "col-xs-2 date-box">
 					?
 				</div>
@@ -104,7 +104,7 @@
 	<div class = "row event-row">
 		<div class = "col-xs-12 eventrow">
 			<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}"
-						class = "btn btn-block btn-event">
+						class = "btn btn-block attending-btn-event">
 				<div class = "col-xs-2 date-box">
 					<div class = "col-xs-12 date-box-dayname">
 						{{events_dict[a[0]]["confirmed_date"].strftime("%a")}}
@@ -177,7 +177,7 @@
 	<div class = "row event-row">
 		<div class = "col-xs-12 eventrow">
 			<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}"
-						class = "btn btn-block btn-event">
+						class = "btn btn-block declined-btn-event">
 				<div class = "col-xs-2 date-box">
 					<div class = "col-xs-12 date-box-dayname">
 						{{events_dict[a[0]]["confirmed_date"].strftime("%a")}}

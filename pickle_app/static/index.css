@@ -27,6 +27,7 @@ body {
   vertical-align: middle;
   line-height: 30px;
   box-shadow: inset 5px 0px 0px #EFB51A;
+  font-family: Avenir-Book;
 }
 
 .attending-eventsheader{
@@ -36,6 +37,7 @@ body {
   vertical-align: middle;
   line-height: 30px;
   box-shadow: inset 5px 0px 0px #EB0047;
+  font-family: Avenir-Book;
 }
 
 .declined-eventsheader{
@@ -45,6 +47,7 @@ body {
   vertical-align: middle;
   line-height: 30px;
   box-shadow: inset 5px 0px 0px #2B6ED9;
+  font-family: Avenir-Book;
 }
 
 .eventrow{
@@ -66,10 +69,57 @@ body {
 	border-right:0px;
 }
 
+.pending-btn-event{
+	background-color: white;
+	color: black;
+	padding:0px;
+	padding-top:2px;
+	padding-bottom:2px;
+	height:60px;
+	border-radius:0px;
+	box-shadow: inset 5px 0px 0px #FECC47;
+	border-top-style: none;
+	border-bottom: solid 1px #D1D1D1;
+	border-left: 0px;
+	border-right:0px;
+}
+
+.attending-btn-event{
+	background-color: white;
+	color: black;
+	padding:0px;
+	padding-top:2px;
+	padding-bottom:2px;
+	height:60px;
+	border-radius:0px;
+	box-shadow: inset 5px 0px 0px #FD1058;
+	border-top-style: none;
+	border-bottom: solid 1px #D1D1D1;
+	border-left: 0px;
+	border-right:0px;
+}
+
+.declined-btn-event{
+	background-color: white;
+	color: black;
+	padding:0px;
+	padding-top:2px;
+	padding-bottom:2px;
+	height:60px;
+	border-radius:0px;
+	box-shadow: inset 5px 0px 0px #4D88E4;
+	border-top-style: none;
+	border-bottom: solid 1px #D1D1D1;
+	border-left: 0px;
+	border-right:0px;
+}
+
 .date-box{
 	padding:0px;
   vertical-align: middle;
   line-height: 60px;
+  font-family: Avenir-Book;
+  font-size: 20px;
 }
 
 .date-box-dayname{
@@ -94,6 +144,7 @@ body {
 	text-align:left;
 	height: 60px;
 	padding-left:0px;
+  font-family: Avenir-Book;
 }
 
 .details-box-name{
