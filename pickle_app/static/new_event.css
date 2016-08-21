@@ -1,7 +1,7 @@
 #new-event-page-content{
-  padding-top: 25px;
   padding-left: 25px;
   padding-right: 25px;
+  padding-top: 25px;
 }
 
 #location{
@@ -10,6 +10,7 @@
   border-bottom: 1px solid lightgray;
   border-radius: 0;
   -webkit-appearance: none;
+  margin-bottom: 25px;
 }
 
 #name{
@@ -18,6 +19,7 @@
   border-bottom: 1px solid lightgray;
   border-radius: 0;
   -webkit-appearance: none;
+  margin-bottom: 25px;
 }
 
 #notes{
@@ -26,6 +28,7 @@
   border-bottom: 1px solid lightgray;
   border-radius: 0;
   -webkit-appearance: none;
+  margin-bottom: 25px;
 }
 
 #submit{
