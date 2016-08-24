@@ -142,10 +142,10 @@
 		$(this).css("border-style", "solid");
 		$(this).css("border-color", "white");
 		if ($(this).hasClass("btn-attend")){
-			$.getJSON($SCRIPT_ROOT + "/confirm_attending/" + eventinvite_id)
+			$.getJSON($SCRIPT_ROOT + "/confirm-attending/" + eventinvite_id)
 		}
 		else if ($(this).hasClass("btn-cant-make-it")){
-			$.getJSON($SCRIPT_ROOT + "/cant_make_it/" + eventinvite_id)
+			$.getJSON($SCRIPT_ROOT + "/cant-make-it/" + eventinvite_id)
 			}
 		
 	})
