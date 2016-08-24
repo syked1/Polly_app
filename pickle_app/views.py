@@ -138,6 +138,7 @@ def new_event_date(event_id):
 def send_invite(event_id):
     application = stormpath_manager.application
     event = Event.query.filter_by(id=event_id).first()
+    eventdates = EventDate.query.filter_by(event_id = event_id).all()
     if user.email != event.admin_email:
         return "You are not admin for this event"
     elif event.invites_sent:
@@ -153,9 +154,22 @@ def send_invite(event_id):
         twilio_account_sid = config.TWILIO_ACCOUNT_SID
         twilio_auth_token  = config.TWILIO_SECRET_KEY
         client = TwilioRestClient(twilio_account_sid, twilio_auth_token)
+        if len(eventdates) > 1:
+            message_body = ("{organiser_name} has invited you to {event_name}. "
+                            "Tap the link to let {organiser_name} know which dates you can "
+                             "make pickleapp.pythonanywhere.com/event-details/{event_id}")\
+                            .format(organiser_name=organiser_name, 
+                                    event_name=event.name, event_id=event_id)
+        else:
+            message_body = ("{organiser_name} has invited you to {event_name}. "
+                            "Tap the link to let {organiser_name} if you can make it "
+                             "pickleapp.pythonanywhere.com/event-details/{event_id}")\
+                            .format(organiser_name=organiser_name, 
+                                    event_name=event.name, event_id=event_id)
+
         for number in numbers:
             message = client.messages.create(
-                body=("{organiser_name} has invited you to {event_name}. Tap the link to let {organiser_name} know which dates you can make pickleapp.pythonanywhere.com/event-details/{event_id}".format(organiser_name=organiser_name, event_name=event.name, event_id=event_id)),
+                body = message_body,
                 to=number,
                 from_="+441277420372"
                 )
@@ -316,7 +330,8 @@ def confirm_event(event_id):
         client = TwilioRestClient(twilio_account_sid, twilio_auth_token)
         for number in numbers:
             message = client.messages.create(
-            body=("{event_name} is confirmed! See you on the {event_date}".format(event_name=event.name, event_date=date_string)), 
+            body=("{event_name} is confirmed! pickleapp.pythonanywhere.com/event-details/{event_id}"
+                  .format(event_name=event.name, event_id = event.id )), 
             to=number,
             from_="+441277420372")
 
