@@ -1,9 +1,10 @@
 body {
- 
+
 }
 
 .event-details-header{
-	background-color: #497294;
+	background-color: #FF0053;
+  font-family: Avenir-Medium;
 	color:white;
 }
 
@@ -64,12 +65,14 @@ body {
 
 .row-attending-header{
 	font-size: 1.25em;
+  font-family: Avenir-Medium;
 	text-align: center;
 	font-weight:bold;
 }
 
 .row-attending-names{
 	text-align:center;
+  font-family: Avenir-Medium;
 }
 
 .btn-people-cant-make-it{
@@ -335,10 +338,50 @@ body {
   position: absolute;
   right:1.5em;
   top: 0.25em;
- 
+
 }
 
 .drop-down-item{
 	padding-left:20px
 }
 
+.btn-delete-event{
+  background: lightgray;
+  font-family: Avenir-Book;
+  color: #FFFFFF;
+  letter-spacing: 0px;
+  line-height: 30px;
+  border-radius: 0;
+  -webkit-appearance: none;
+  border: 0;
+  box-shadow: none;
+}
+
+.btn-back-to-events{
+  background: #4A86E8;
+  font-family: Avenir-Book;
+  color: #FFFFFF;
+  letter-spacing: 0px;
+  line-height: 30px;
+  border-radius: 0;
+  -webkit-appearance: none;
+  border: 0;
+  box-shadow: none;
+}
+
+.btn-confirm-event{
+  background: #FECC47;
+  font-family: Avenir-Book;
+  color: #FFFFFF;
+  letter-spacing: 0px;
+  line-height: 30px;
+  border-radius: 0;
+  -webkit-appearance: none;
+  border: 0;
+  box-shadow: none;
+}
+
+.date-option-row{
+  font-family: Avenir-Book;
+  padding-top: 4px;
+}
