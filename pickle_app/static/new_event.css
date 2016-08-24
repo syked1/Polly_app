@@ -1,0 +1,52 @@
+#new-event-page-content{
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 25px;
+}
+
+#location{
+  border: 0;
+  box-shadow: none;
+  border-bottom: 1px solid lightgray;
+  border-radius: 0;
+  -webkit-appearance: none;
+  margin-bottom: 25px;
+}
+
+#name{
+  border: 0;
+  box-shadow: none;
+  border-bottom: 1px solid lightgray;
+  border-radius: 0;
+  -webkit-appearance: none;
+  margin-bottom: 25px;
+}
+
+#notes{
+  border: 0;
+  box-shadow: none;
+  border-bottom: 1px solid lightgray;
+  border-radius: 0;
+  -webkit-appearance: none;
+  margin-bottom: 25px;
+}
+
+#submit{
+  font-family: Avenir-Book;
+  color: #FFFFFF;
+  letter-spacing: 0px;
+  line-height: 30px;
+  border-radius: 0;
+  -webkit-appearance: none;
+  background: #FF0053;
+  border: 0;
+  box-shadow: none;
+}
+
+
+.control-label{
+  font-family: Avenir-Medium;
+  font-weight: lighter;
+  color: gray;
+  font-size: 10px;
+}

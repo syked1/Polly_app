@@ -1,6 +1,6 @@
 {% extends "base_test.html" %}
 {%block head%}
-<link rel="stylesheet" href="{{url_for("static", filename = "event_details.css")}}" /> 
+<link rel="stylesheet" href="{{url_for("static", filename = "event_details.css")}}" />
 
 <script type=text/javascript>
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
@@ -9,8 +9,8 @@
 {%endblock%}
 
 {% block content %}
- 
-  
+
+
 <div class = "container event-details-header">
 	<div class = "row">
 		<div class = "col-sm-12">
@@ -21,11 +21,11 @@
 		</div>
 	</div>
 </div>
- 
+
 <div class = "container eventdate-choices">
 
 {%for eventdate in eventdates%}
-	
+
 	<div class = "row date-option-row">
 		<div class = "col-xs-12 date-option-col">
 			<div class = "col-xs-6 date-option-datetime-box">
@@ -38,13 +38,13 @@
 			</div>
 			<div class = "col-xs-2 invited-man-box">
 					<button type="button" class="btn btn-who-can-come dropdown-toggle" data-toggle="dropdown" >
-						<span class="glyphicon glyphicon-user"></span> 
+						<span class="glyphicon glyphicon-user"></span>
 					</button>
-					<ul class="dropdown-menu">			
+					<ul class="dropdown-menu">
 						<li class="dropdown-header">Attending</li>
 							<li class = "disabled drop-down-item">
 								{%for invitee in invitees_list%}
-								{%if invitee[0].eventdate.id == eventdate.id%} 	
+								{%if invitee[0].eventdate.id == eventdate.id%}
 								{%if invitee[0].status ==1%}
 									<li class = "disabled drop-down-item">
 									{%if invitee[0].invited_email == user.email%}
@@ -60,7 +60,7 @@
 						<li class="divider"></li>
 						<li class="dropdown-header">Not Attending</li>
 							{%for invitee in invitees_list%}
-								{%if invitee[0].eventdate.id == eventdate.id%} 	
+								{%if invitee[0].eventdate.id == eventdate.id%}
 								{%if invitee[0].status ==-1%}
 									<li class = "disabled drop-down-item">
 									{%if invitee[0].invited_email == user.email%}
@@ -76,7 +76,7 @@
 						<li class="dropdown-header">Not replied</li>
 							<li class = "disabled drop-down-item">
 								{%for invitee in invitees_list%}
-								{%if invitee[0].eventdate.id == eventdate.id%} 	
+								{%if invitee[0].eventdate.id == eventdate.id%}
 								{%if invitee[0].status ==0%}
 									<li class = "disabled drop-down-item">
 									{%if invitee[0].invited_email == user.email%}
@@ -103,7 +103,7 @@
 						{%endif%}
 					{%endfor%}
 
-					<span class = "glyphicon glyphicon-ok"></span> 
+					<span class = "glyphicon glyphicon-ok"></span>
 				</a>
 			</div>
 			<div class = "col-xs-2 tick-cross-box">
@@ -116,7 +116,7 @@
 							{%endif%}
 						{%endif%}
 					{%endfor%}
-					<span class = "glyphicon glyphicon-remove"></span> 
+					<span class = "glyphicon glyphicon-remove"></span>
 				</a>
 			</div>
 		</div>
@@ -130,15 +130,15 @@
 	<div class = "container container-eventdate">
 		<div class = "row eventdate-row">
 			<div class = "col-xs-12">
-				<a type = "button" class = "btn btn-default btn-block" href="{{url_for("index")}}">
-					Save and return to my Events
+				<a type = "button" class = "btn btn-default btn-block btn-back-to-events" href="{{url_for("index")}}">
+					SAVE AND RETURN TO MY EVENTS
 				</a>
 			</div>
 		</div>
 	</div>
 </div>
-		
-		
+
+
 <script type="text/javascript">
 	var eventinvite_id;
 	var $inputs = $('.btn-cant-make-it, .btn-attend');
@@ -148,18 +148,17 @@
 		$inputs_id.not(this).css("color", "#333");
 		$(this).css("color", "green");
 		if ($(this).hasClass("btn-attend")){
-			$.getJSON($SCRIPT_ROOT + "/confirm_attending/" + $(this).attr('name'))
+			$.getJSON($SCRIPT_ROOT + "/confirm-attending/" + $(this).attr('name'))
 		}
 		else if ($(this).hasClass("btn-cant-make-it")){
-			$.getJSON($SCRIPT_ROOT + "/cant_make_it/" + $(this).attr('name'))
+			$.getJSON($SCRIPT_ROOT + "/cant-make-it/" + $(this).attr('name'))
 			}
-		
+
 	})
 
 </script>
-		
-	
-	
+
+
+
 
 {% endblock %}
-

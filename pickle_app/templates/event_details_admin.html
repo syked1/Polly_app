@@ -135,7 +135,7 @@
     $(this).css('border-style', "solid");
 	$(this).text("Selected");
 	var chosen_eventdate_id = $(this).attr("id");
-	$.getJSON($SCRIPT_ROOT + "/confirm_date/" + chosen_eventdate_id)
+	$.getJSON($SCRIPT_ROOT + "/confirm-date/" + chosen_eventdate_id)
 	$("#confirm-event").removeAttr("disabled")
 	})
 

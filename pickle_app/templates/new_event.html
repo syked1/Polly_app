@@ -1,26 +1,28 @@
 <!-- extend base layout -->
+<link rel="stylesheet" href="{{url_for("static", filename = "bower_components/bootstrap/dist/css/bootstrap.min.css")}}" />
+<link rel="stylesheet" href="{{url_for("static", filename = "new_event.css")}}" />
+
 {% extends "base_test.html" %}
 {%import "bootstrap/wtf.html" as wtf%}
 
 {% block content %}
-
-<div class="col-sm-4">
+<div class="col-sm-4" id="new-event-page-content">
 	<form action="" method="post" class="form" role="form">
 		{{ form.hidden_tag() }}
 		<div class="form-group  required">
-			<label class="control-label" for="name">Event Name</label>
-			<input class="form-control" id="name" name="name" required="" type="text" value="">
+			<label class="control-label" for="name">TITLE</label>
+			<input class="form-control" id="name" name="name" required="" type="text" placeholder=". . .">
 		</div>
 		<div class="form-group  required">
-			<label class="control-label" for="location">Location</label>
-			<input class="form-control" id="location" name="location" required="" type="text" value="">
+			<label class="control-label" for="location">LOCATION</label>
+			<input class="form-control" id="location" name="location" required="" type="text" placeholder=". . .">
 		</div>
 		<div class="form-group ">
-			<label class="control-label" for="notes">Notes</label>
-			<textarea class = "form-control" id="notes" name="notes" rows = "3"></textarea>
+			<label class="control-label" for="notes">DESCRIPTION</label>
+			<input class="form-control" id="notes" name="notes" required="" type="text" placeholder=". . .">
 		</div>
 
-    <input class="btn btn-default btn-block" id="submit" name="submit" type="submit" value="Pick Dates">
+    <input class="btn btn-default btn-block" id="submit" name="submit" type="submit" value="PICK DATES">
 	</form>
 </div>
 

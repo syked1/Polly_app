@@ -1,0 +1,29 @@
+#datepicker-page-content{
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+#dates{
+  border: 0;
+  box-shadow: none;
+  border-bottom: 1px solid lightgray;
+  border-radius: 0;
+  -webkit-appearance: none;
+  margin-bottom: 25px;
+}
+
+#time{
+  border: 0;
+  box-shadow: none;
+  border-bottom: 1px solid lightgray;
+  border-radius: 0;
+  -webkit-appearance: none;
+  margin-bottom: 25px;
+}
+
+.date-header{
+  font-family: Avenir-Medium;
+  font-weight: lighter;
+  color: gray;
+  font-size: 10px;
+}

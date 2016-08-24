@@ -43,8 +43,9 @@
 	border-style:none;
 }
 
-.btn-add-event{
-	position:relative;
+.navbar-new-event-icon{
+	position: absolute;
+	right: 10px;
 	float:right;
-	color:#FF0053;
+	height: 30px;
 }

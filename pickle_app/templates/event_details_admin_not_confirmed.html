@@ -100,24 +100,24 @@
 	<div class = "container container-eventdate">
 		<div class = "row eventdate-row">
 			<div class = "col-xs-12">
-				<a type = "button" class = "btn btn-danger btn-block" href="{{url_for("delete_event", event_id = event.id)}}" >
-					Delete Event
+				<a type = "button" class = "btn btn-danger btn-block btn-delete-event" href="{{url_for("delete_event", event_id = event.id)}}" >
+					DELETE EVENT
 				</a>
 			</div>
 		</div>
 
 		<div class = "row eventdate-row">
 			<div class = "col-xs-12">
-				<a type = "button" id = "confirm-event" class = "btn btn-default btn-block" disabled href="{{url_for("confirm_event", event_id = event.id)}}" >
-					Confirm Selected Date
+				<a type = "button" disabled="disabled" id = "confirm-event" class = "btn btn-default btn-block btn-confirm-event"  href="" >
+					CONFIRM SELECTED DATE
 				</a>
 			</div>
 		</div>
 
 		<div class = "row eventdate-row">
 			<div class = "col-xs-12">
-				<a type = "button" class = "btn btn-default btn-block" href="{{url_for("index")}}" >
-					Back to my events
+				<a type = "button" class = "btn btn-default btn-block btn-back-to-events" href="{{url_for("index")}}" >
+					BACK TO MY EVENTS
 				</a>
 			</div>
 		</div>
@@ -134,8 +134,9 @@
     $inputs.not(this).css("color", "black");
     $(this).css('color', "#36A37B");
 	var chosen_eventdate_id = $(this).attr("id");
-	$.getJSON($SCRIPT_ROOT + "/confirm_date/" + chosen_eventdate_id)
+	$.getJSON($SCRIPT_ROOT + "/confirm-date/" + chosen_eventdate_id)
 	$("#confirm-event").removeAttr("disabled")
+	$('#confirm-event').attr('href',"{{url_for("confirm_event", event_id = event.id)}}")
 	})
 
 	</script>
