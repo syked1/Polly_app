@@ -148,10 +148,10 @@
 		$inputs_id.not(this).css("color", "#333");
 		$(this).css("color", "green");
 		if ($(this).hasClass("btn-attend")){
-			$.getJSON($SCRIPT_ROOT + "/confirm_attending/" + $(this).attr('name'))
+			$.getJSON($SCRIPT_ROOT + "/confirm-attending/" + $(this).attr('name'))
 		}
 		else if ($(this).hasClass("btn-cant-make-it")){
-			$.getJSON($SCRIPT_ROOT + "/cant_make_it/" + $(this).attr('name'))
+			$.getJSON($SCRIPT_ROOT + "/cant-make-it/" + $(this).attr('name'))
 			}
 		
 	})

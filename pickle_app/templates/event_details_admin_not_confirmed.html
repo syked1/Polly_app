@@ -134,7 +134,7 @@
     $inputs.not(this).css("color", "black");
     $(this).css('color', "#36A37B");
 	var chosen_eventdate_id = $(this).attr("id");
-	$.getJSON($SCRIPT_ROOT + "/confirm_date/" + chosen_eventdate_id)
+	$.getJSON($SCRIPT_ROOT + "/confirm-date/" + chosen_eventdate_id)
 	$("#confirm-event").removeAttr("disabled")
 	})
 
