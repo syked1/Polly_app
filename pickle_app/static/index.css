@@ -114,7 +114,7 @@ body {
 	border-right:0px;
 }
 
-.date-box{
+.date-box-unconfirmed{
 	padding:0px;
   vertical-align: middle;
   line-height: 60px;
@@ -122,20 +122,28 @@ body {
   font-size: 20px;
 }
 
+.date-box{
+	padding:0px;
+  vertical-align: middle;
+  font-family: Avenir-Book;
+  font-size: 10px;
+}
+
 .date-box-dayname{
-	font-size: 0.9em;
+	font-size: 1.2em;
 	font-weight: bold;
 	text-align:center;
+  padding-top: 4px;
 }
 
 .date-box-daynumber{
-	font-size: 1.1em;
+	font-size: 1.2em;
 	font-weight: bold;
 	text-align:center;
 }
 
 .date-box-month{
-	font-size: 0.9em;
+	font-size: 1.2em;
 	font-weight: bold;
 	text-align:center;
 }

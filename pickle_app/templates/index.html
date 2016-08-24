@@ -19,7 +19,7 @@
 	<div class = "row event-row">
 		<div class = "col-xs-12 eventrow">
 			<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}" class = "btn btn-block pending-btn-event">
-				<div class = "col-xs-2 date-box">
+				<div class = "col-xs-2 date-box-unconfirmed">
 					?
 				</div>
 				<div class = "col-xs-8 details-box">
@@ -40,8 +40,8 @@
 	<div class = "row event-row">
 		<div class = "col-xs-12 eventrow">
 			<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}"
-						class = "btn btn-block btn-event">
-				<div class = "col-xs-2 date-box">
+						class = "btn btn-block pending-btn-event">
+				<div class = "col-xs-2 date-box-unconfirmed">
 					?
 				</div>
 				<div class = "col-xs-8 details-box">
@@ -135,7 +135,7 @@
 	<div class = "row event-row">
 		<div class = "col-xs-12 eventrow">
 			<a href = "{{url_for("event_details", event_id = events_dict[a[0]]["event"].id)}}"
-						class = "btn btn-block btn-event">
+						class = "btn btn-block btn-event attending-btn-event">
 				<div class = "col-xs-2 date-box">
 					<div class = "col-xs-12 date-box-dayname">
 						{{events_dict[a[0]]["confirmed_date"].strftime("%a")}}
