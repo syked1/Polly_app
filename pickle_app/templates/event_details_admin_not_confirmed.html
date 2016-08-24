@@ -108,7 +108,7 @@
 
 		<div class = "row eventdate-row">
 			<div class = "col-xs-12">
-				<a type = "button" id = "confirm-event" class = "btn btn-default btn-block" disabled href="{{url_for("confirm_event", event_id = event.id)}}" >
+				<a type = "button" disabled="disabled" id = "confirm-event" class = "btn btn-default btn-block"  href="" >
 					Confirm Selected Date
 				</a>
 			</div>
@@ -136,6 +136,7 @@
 	var chosen_eventdate_id = $(this).attr("id");
 	$.getJSON($SCRIPT_ROOT + "/confirm-date/" + chosen_eventdate_id)
 	$("#confirm-event").removeAttr("disabled")
+	$('#confirm-event').attr('href',"{{url_for("confirm_event", event_id = event.id)}}")
 	})
 
 	</script>
