@@ -96,7 +96,7 @@
 				{%for invitee in invitees_list%}
 						{%if invitee[0].eventdate.id == eventdate.id and invitee[0].invited_email == user.email%}
 							{%if invitee[0].status == 1%}
-				<a type = "button" name = "{{invitee[0].id}}"  class = "btn btn-attend {{invitee[0].id}}" style = "color:green">
+				<a type = "button" name = "{{invitee[0].id}}"  class = "btn btn-attend {{invitee[0].id}}" style = "color:#ffea00; background-color:#ff0053">
 							{%else%}
 				<a type = "button" name = "{{invitee[0].id}}"  class = "btn btn-attend {{invitee[0].id}}">
 							{%endif%}
@@ -110,7 +110,7 @@
 				{%for invitee in invitees_list%}
 						{%if invitee[0].eventdate.id == eventdate.id and invitee[0].invited_email == user.email%}
 							{%if invitee[0].status == -1%}
-				<a type = "button" name = "{{invitee[0].id}}"  class = "btn btn-cant-make-it {{invitee[0].id}}" style = "color:green">
+				<a type = "button" name = "{{invitee[0].id}}"  class = "btn btn-cant-make-it {{invitee[0].id}}" style = "color:#ffea00; background-color:#ff0053">
 							{%else%}
 				<a type = "button"  name = "{{invitee[0].id}}" class = "btn btn-cant-make-it {{invitee[0].id}}">
 							{%endif%}
@@ -146,7 +146,9 @@
 		var item_name =  $(this).attr('name')
 		var $inputs_id = $("[name = "+item_name+"]");
 		$inputs_id.not(this).css("color", "#333");
-		$(this).css("color", "green");
+		$inputs_id.not(this).css("background-color", "#fff");
+		$(this).css("color", "#ffea00");
+		$(this).css("background-color", "#ff0053");
 		if ($(this).hasClass("btn-attend")){
 			$.getJSON($SCRIPT_ROOT + "/confirm-attending/" + $(this).attr('name'))
 		}
